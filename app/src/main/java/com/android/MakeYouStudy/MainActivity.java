@@ -26,6 +26,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonTimeTable;
     private Button buttonDiary;
     private Button buttonProfile;
+    private Button buttonML;
 
 
     @Override
@@ -39,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonTimeTable = (Button)findViewById(R.id.buttonTimeTable);
         buttonDiary = (Button)findViewById(R.id.buttonDiary);
         buttonProfile = (Button)findViewById(R.id.buttonProfile);
+        buttonML = (Button)findViewById(R.id.buttonML);
 
         // 유저가 로그인하지 않은 상태라면 LoginActivity 실행
         firebaseAuth = FirebaseAuth.getInstance();
@@ -55,6 +57,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonTimeTable.setOnClickListener(this);
             buttonDiary.setOnClickListener(this);
             buttonProfile.setOnClickListener(this);
+            buttonML.setOnClickListener(this);
         }
     }
 
@@ -71,6 +74,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view == buttonProfile){
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+        }
+        if(view == buttonML){
+            startActivity(new Intent(getApplicationContext(), MachineLearningActivity.class));
         }
     }
 }
