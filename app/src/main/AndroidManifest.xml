@@ -9,7 +9,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".DiaryActivity"></activity>
+        <activity android:name=".EditActivity"></activity>
+        <activity android:name=".DiaryActivity" />
         <activity android:name=".TimeTableActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".MainActivity">
