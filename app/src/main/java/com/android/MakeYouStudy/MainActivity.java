@@ -2,11 +2,8 @@ package com.android.MakeYouStudy;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.content.BroadcastReceiver;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -76,7 +73,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
         }
         if(view == buttonML){
-            startActivity(new Intent(getApplicationContext(), MachineLearningActivity.class));
+            startActivity(new Intent(getApplicationContext(), AttendanceCheckActivity.class));
         }
     }
 }

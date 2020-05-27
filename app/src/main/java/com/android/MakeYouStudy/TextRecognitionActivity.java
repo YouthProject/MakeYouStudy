@@ -25,7 +25,7 @@ import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
 
 import java.util.List;
 
-public class MachineLearningActivity extends AppCompatActivity {
+public class TextRecognitionActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private FirebaseAuth firebaseAuth;
@@ -33,6 +33,8 @@ public class MachineLearningActivity extends AppCompatActivity {
     private ImageView imageView;
     private TextView textView;
     private Bitmap imageBitmap;
+    private String data;
+    private boolean checkValue;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,12 +49,15 @@ public class MachineLearningActivity extends AppCompatActivity {
         imageView = findViewById(R.id.image_view);
         textView = findViewById(R.id.text_display);
 
+        Intent intent = getIntent();
+        data = intent.getStringExtra("English");
+        textView.setText("똑같이 작성해주세요 : "+ data + "\n");
 
         captureImageBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
-                textView.setText("");
+                //textView.setText("");
             }
         });
 
@@ -93,7 +98,7 @@ public class MachineLearningActivity extends AppCompatActivity {
         }).addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception e) {
-                Toast.makeText(MachineLearningActivity.this, "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
+                Toast.makeText(TextRecognitionActivity.this, "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
 
                 Log.d("Error: ", e.getMessage());
             }
@@ -109,8 +114,27 @@ public class MachineLearningActivity extends AppCompatActivity {
             for(FirebaseVisionText.Block block : firebaseVisionText.getBlocks())
             {
                 String text = block.getText();
-                textView.setText(text);
+                textView.append("Text in Image : "+text);
+                Log.d("What is text : ", text );
+                check(text, data);
             }
+        }
+    }
+
+    public void check(String text, String data){
+        if(text.equals(data)){
+            checkValue = true;
+            Intent intent = new Intent();
+
+            intent.putExtra("checkValue", checkValue);
+
+            setResult(RESULT_OK, intent);
+
+            finish();
+        }
+        else {
+            checkValue = false;
+            Toast.makeText(this, "다시 촬영(작성)해주세요." , Toast.LENGTH_SHORT).show();
         }
     }
 

@@ -9,12 +9,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MachineLearningActivity"></activity>
+        <activity android:name=".AttendanceCheckActivity"></activity>
+        <activity android:name=".Helper.InternetCheck" />
+        <activity android:name=".ImageLabelActivity" />
+        <activity android:name=".TextRecognitionActivity" />
         <activity android:name=".DiaryActivity" />
         <activity android:name=".TimeTableActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".MainActivity">
-
             <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
                 android:value="ocr" />
