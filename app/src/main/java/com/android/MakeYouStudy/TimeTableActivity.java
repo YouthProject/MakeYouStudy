@@ -1,5 +1,6 @@
 package com.android.MakeYouStudy;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
@@ -20,6 +21,11 @@ import com.github.tlaabs.timetableview.Schedule;
 import com.github.tlaabs.timetableview.TimetableView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -32,12 +38,14 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     //firebase auth object
     private FirebaseAuth firebaseAuth;
 
+    //firebase data object
+    private DatabaseReference mDatabaseReference; // 데이터베이스의 주소를 저장합니다.
+    private FirebaseDatabase mFirebaseDatabase; // 데이터베이스에 접근할 수 있는 진입점 클래스입니다.
+
     //view objects
     private TextView textViewUserEmail;
     private Button addBtn;
     private Button clearBtn;
-    private Button saveBtn;
-    private Button loadBtn;
 
     private TimetableView timetable;
 
@@ -55,6 +63,22 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         textViewUserEmail.setText("UserEmail : " + user.getEmail());
 
         init();
+
+        // initializing database
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference().child("timetable").child(user.getUid());
+
+        mDatabaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                String value = dataSnapshot.getValue(String.class);
+                timetable.load(value);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) {
+
+            }
+        });
     }
 
     private void init(){
@@ -63,8 +87,6 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         this.context = this;
         addBtn = findViewById(R.id.add_btn);
         clearBtn = findViewById(R.id.clear_btn);
-        saveBtn = findViewById(R.id.save_btn);
-        loadBtn = findViewById(R.id.load_btn);
 
         timetable = findViewById(R.id.timetable);
         timetable.setHeaderHighlight(nWeek);
@@ -74,9 +96,6 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     private void initView(){
         addBtn.setOnClickListener(this);
         clearBtn.setOnClickListener(this);
-        saveBtn.setOnClickListener(this);
-        loadBtn.setOnClickListener(this);
-
         timetable.setOnStickerSelectEventListener(new TimetableView.OnStickerSelectedListener() {
             @Override
             public void OnStickerSelected(int idx, ArrayList<Schedule> schedules) {
@@ -99,12 +118,8 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 break;
             case R.id.clear_btn:
                 timetable.removeAll();
-                break;
-            case R.id.save_btn:
-                saveByPreference(timetable.createSaveData());
-                break;
-            case R.id.load_btn:
-                loadSavedData();
+                // save data to db
+                mDatabaseReference.setValue(timetable.createSaveData());
                 break;
         }
     }
@@ -117,6 +132,8 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 if (resultCode == EditActivity.RESULT_OK_ADD) {
                     ArrayList<Schedule> item = (ArrayList<Schedule>) data.getSerializableExtra("schedules");
                     timetable.add(item);
+                    // save data to db
+                    mDatabaseReference.setValue(timetable.createSaveData());
                 }
                 break;
             case REQUEST_EDIT:
@@ -125,36 +142,19 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                     int idx = data.getIntExtra("idx", -1);
                     ArrayList<Schedule> item = (ArrayList<Schedule>) data.getSerializableExtra("schedules");
                     timetable.edit(idx, item);
+                    // save data to db
+                    mDatabaseReference.setValue(timetable.createSaveData());
                 }
                 /** Edit -> Delete */
                 else if (resultCode == EditActivity.RESULT_OK_DELETE) {
                     int idx = data.getIntExtra("idx", -1);
                     timetable.remove(idx);
+                    // save data to db
+                    mDatabaseReference.setValue(timetable.createSaveData());
                 }
                 break;
         }
     }
-
-    /** save timetableView's data to SharedPreferences in json format */
-    private void saveByPreference(String data){
-        SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(this);
-        SharedPreferences.Editor editor = mPref.edit();
-        editor.putString("timetable_demo",data);
-        editor.commit();
-        Toast.makeText(this, data,Toast.LENGTH_SHORT).show();
-        Toast.makeText(this,"saved!",Toast.LENGTH_SHORT).show();
-    }
-
-    /** get json data from SharedPreferences and then restore the timetable */
-    private void loadSavedData(){
-        timetable.removeAll();
-        SharedPreferences mPref = PreferenceManager.getDefaultSharedPreferences(this);
-        String savedData = mPref.getString("timetable_demo","");
-        if(savedData == null && savedData.equals("")) return;
-        timetable.load(savedData);
-        Toast.makeText(this,"loaded!",Toast.LENGTH_SHORT).show();
-    }
-
     private int doDayOfWeek(){
         Calendar cal = Calendar.getInstance();
         int nWeek = cal.get(Calendar.DAY_OF_WEEK);
