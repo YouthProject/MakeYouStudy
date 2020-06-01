@@ -16,13 +16,16 @@ import com.android.MakeYouStudy.Helper.InternetCheck;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.ml.vision.FirebaseVision;
-import com.google.firebase.ml.vision.cloud.FirebaseVisionCloudDetectorOptions;
-import com.google.firebase.ml.vision.cloud.label.FirebaseVisionCloudLabel;
-import com.google.firebase.ml.vision.cloud.label.FirebaseVisionCloudLabelDetector;
+//import com.google.firebase.ml.vision.cloud.FirebaseVisionCloudDetectorOptions;
+//import com.google.firebase.ml.vision.cloud.label.FirebaseVisionCloudLabel;
+//import com.google.firebase.ml.vision.cloud.label.FirebaseVisionCloudLabelDetector;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
-import com.google.firebase.ml.vision.label.FirebaseVisionLabel;
-import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector;
-import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetectorOptions;
+import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
+import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
+//import com.google.firebase.ml.vision.label.FirebaseVisionLabel;
+//import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector;
+//import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetectorOptions;
 import com.wonderkiln.camerakit.CameraKitError;
 import com.wonderkiln.camerakit.CameraKitEvent;
 import com.wonderkiln.camerakit.CameraKitEventListener;
@@ -110,17 +113,17 @@ public class ImageLabelActivity extends AppCompatActivity {
                 if(internet)
                 {
                     //인터넷이 있을 때 클라우드 사용
-                    FirebaseVisionCloudDetectorOptions options =
-                            new FirebaseVisionCloudDetectorOptions.Builder()
-                                    .setMaxResults(1) // 가장 높은 신뢰도로 1개의 결과 얻기
+                    FirebaseVisionCloudImageLabelerOptions options =
+                            new FirebaseVisionCloudImageLabelerOptions.Builder()
+                                    .setConfidenceThreshold(0.8f) // 가장 높은 신뢰도로 1개의 결과 얻기
                                     .build();
-                    FirebaseVisionCloudLabelDetector detector =
-                            FirebaseVision.getInstance().getVisionCloudLabelDetector(options);
+                    FirebaseVisionImageLabeler detector =
+                            FirebaseVision.getInstance().getCloudImageLabeler(options);
 
-                    detector.detectInImage(image)
-                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionCloudLabel>>() {
+                    detector.processImage(image)
+                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                                 @Override
-                                public void onSuccess(List<FirebaseVisionCloudLabel> firebaseVisionCloudLabels) {
+                                public void onSuccess(List<FirebaseVisionImageLabel> firebaseVisionCloudLabels) {
                                     processDataResultCloud(firebaseVisionCloudLabels);
                                 }
                             })
@@ -133,17 +136,17 @@ public class ImageLabelActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    FirebaseVisionLabelDetectorOptions options =
-                            new FirebaseVisionLabelDetectorOptions.Builder()
+                    FirebaseVisionCloudImageLabelerOptions options =
+                            new FirebaseVisionCloudImageLabelerOptions.Builder()
                                     .setConfidenceThreshold(0.8f) // 감지된 Label의 신뢰도 설정. 이 값보다 높은 신뢰도의 label만 반환됨
                                     .build();
-                    FirebaseVisionLabelDetector detector =
-                            FirebaseVision.getInstance().getVisionLabelDetector(options);
+                    FirebaseVisionImageLabeler detector =
+                            FirebaseVision.getInstance().getCloudImageLabeler(options);
 
-                    detector.detectInImage(image)
-                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionLabel>>() {
+                    detector.processImage(image)
+                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
                                 @Override
-                                public void onSuccess(List<FirebaseVisionLabel> firebaseVisionLabels) {
+                                public void onSuccess(List<FirebaseVisionImageLabel> firebaseVisionLabels) {
                                     processDataResult(firebaseVisionLabels);
                                 }
                             })
@@ -158,10 +161,10 @@ public class ImageLabelActivity extends AppCompatActivity {
         });
     }
 
-    private void processDataResultCloud(List<FirebaseVisionCloudLabel> firebaseVisionCloudLabels) {
-        for(FirebaseVisionCloudLabel label : firebaseVisionCloudLabels)
+    private void processDataResultCloud(List<FirebaseVisionImageLabel> firebaseVisionCloudLabels) {
+        for(FirebaseVisionImageLabel label : firebaseVisionCloudLabels)
         {
-            String labeling = label.getLabel();
+            String labeling = label.getText();
 
 //            Toast.makeText(this, "Cloud result: "+label.getLabel(), Toast.LENGTH_SHORT).show();
 //            Log.d("entityId", label.getEntityId());
@@ -179,10 +182,10 @@ public class ImageLabelActivity extends AppCompatActivity {
             waitingDialog.dismiss();
     }
 
-    private void processDataResult(List<FirebaseVisionLabel> firebaseVisionLabels) {
-        for(FirebaseVisionLabel label : firebaseVisionLabels)
+    private void processDataResult(List<FirebaseVisionImageLabel> firebaseVisionLabels) {
+        for(FirebaseVisionImageLabel label : firebaseVisionLabels)
         {
-            String labeling = label.getLabel();
+            String labeling = label.getText();
 
             //Toast.makeText(this, "Device result: "+label.getLabel(), Toast.LENGTH_SHORT).show();
 

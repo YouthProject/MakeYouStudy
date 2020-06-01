@@ -21,7 +21,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
-import com.google.firebase.ml.vision.text.FirebaseVisionTextDetector;
+import com.google.firebase.ml.vision.text.FirebaseVisionTextRecognizer;
 
 import java.util.List;
 
@@ -89,8 +89,8 @@ public class TextRecognitionActivity extends AppCompatActivity {
     private void detectTextFromImage()
     {
         FirebaseVisionImage firebaseVisionImage = FirebaseVisionImage.fromBitmap(imageBitmap);
-        FirebaseVisionTextDetector firebaseVisionTextDetector = FirebaseVision.getInstance().getVisionTextDetector();
-        firebaseVisionTextDetector.detectInImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
+        FirebaseVisionTextRecognizer firebaseVisionTextDetector = FirebaseVision.getInstance().getOnDeviceTextRecognizer();
+        firebaseVisionTextDetector.processImage(firebaseVisionImage).addOnSuccessListener(new OnSuccessListener<FirebaseVisionText>() {
             @Override
             public void onSuccess(FirebaseVisionText firebaseVisionText) {
                 displayTextFromImage(firebaseVisionText);
@@ -106,12 +106,12 @@ public class TextRecognitionActivity extends AppCompatActivity {
     }
 
     private void displayTextFromImage(FirebaseVisionText firebaseVisionText) {
-        List<FirebaseVisionText.Block> blockList = firebaseVisionText.getBlocks();
+        List<FirebaseVisionText.TextBlock> blockList = firebaseVisionText.getTextBlocks();
         if(blockList.size() == 0){
             Toast.makeText(this, "No Text Found in image.", Toast.LENGTH_SHORT);
         }
         else {
-            for(FirebaseVisionText.Block block : firebaseVisionText.getBlocks())
+            for(FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks())
             {
                 String text = block.getText();
                 textView.append("Text in Image : "+text);
