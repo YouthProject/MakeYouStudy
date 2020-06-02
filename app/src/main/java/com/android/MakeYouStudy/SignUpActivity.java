@@ -95,7 +95,7 @@ public class SignUpActivity extends AppCompatActivity  {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
                             Toast.makeText(SignUpActivity.this, "성공", Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
 
                             String cu = firebaseAuth.getUid();
