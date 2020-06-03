@@ -56,45 +56,22 @@ public class ProfileActivity extends AppCompatActivity{
             @Override
             public void onClick(View v) {
                 logoutDialog();
-                // FirebaseAuth.getInstance().signOut();
-
-                /*firebaseAuth.getInstance().signOut();
-                LoginManager.getInstance().logOut();
 
 
-                Intent intent = new Intent(getApplicationContext(), mainlogin.class);
-                startActivity(intent);
-*/
 
             }
         });
         bt_delect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // firebaseAuth.getCurrentUser().delete();
-                //firebaseAuth.signOut();
-                Dialog();
-               /* FirebaseUser user = FirebaseAuth.getInstance().getCurrentUser();
 
-                user.delete()
-                        .addOnCompleteListener(new OnCompleteListener<Void>() {
-                            @Override
-                            public void onComplete(@NonNull Task<Void> task) {
-                                if(task.isSuccessful()) {
-                                    Toast.makeText(profile.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
-                                    // firebaseAuth.getInstance().signOut();
-                                    Intent intent = new Intent(getApplicationContext(), mainlogin.class);
-                                    startActivity(intent);
+                Dialog();
+
 
                                 }
 
-                            }
-        });
-                String cu = firebaseAuth.getUid();
-      mdatabase.child("users").child(cu).setValue(null);*/
-            }
+                            });
 
-        });
     }
     public void Dialog () {
 
@@ -112,7 +89,7 @@ public class ProfileActivity extends AppCompatActivity{
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(ProfileActivity.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
-                                    // firebaseAuth.getInstance().signOut();
+                                     firebaseAuth.getInstance().signOut();
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     startActivity(intent);
 
@@ -162,17 +139,6 @@ public class ProfileActivity extends AppCompatActivity{
         });
         bui.show();
     }
-    private void access(){
-        firebaseAuth.getCurrentUser().unlink(PROVIDER_ID)
-                .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
-                    @Override
-                    public void onComplete(@NonNull Task<AuthResult> task) {
-                        if (task.isSuccessful()) {
-                            // Auth provider unlinked from account
-                            // ...
-                        }
-                    }
-                });
-    }
+
 
 }
