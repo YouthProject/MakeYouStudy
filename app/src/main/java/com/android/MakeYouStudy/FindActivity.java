@@ -37,7 +37,6 @@ public class FindActivity extends AppCompatActivity{
             public void onClick(View v) {
                 String eamilAddress = findeamil.getText().toString().trim();
 
-
                 firebaseAuth.sendPasswordResetEmail(eamilAddress)
                         .addOnCompleteListener(new OnCompleteListener<Void>() {
                             @Override
