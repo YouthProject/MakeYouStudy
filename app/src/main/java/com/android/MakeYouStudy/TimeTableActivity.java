@@ -72,7 +72,9 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 String value = dataSnapshot.getValue(String.class);
-                timetable.load(value);
+                if (value != null){
+                    timetable.load(value);
+                }
             }
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) {
