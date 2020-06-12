@@ -18,7 +18,7 @@ public class DiaryListAdapter extends BaseAdapter {
     private ArrayList<Diary> data;
     private LayoutInflater inflater;
 
-    //경민이형이 알려준 파이어베이스
+    //파이어베이스
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mFirebaseDatabase;
 

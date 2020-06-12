@@ -8,7 +8,7 @@ public class Diary {
     private String title;
     private String date;
     private String contents;
-    //경민이형이 알려준 파이어베이스
+    //파이어베이스
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mFirebaseDatabase;
 

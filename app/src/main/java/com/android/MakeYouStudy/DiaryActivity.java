@@ -73,7 +73,7 @@ public class DiaryActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
 
 
-    //경민이형이 알려준 파이어베이스
+    //파이어베이스
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mFirebaseDatabase;
 
@@ -85,7 +85,7 @@ public class DiaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
 
-        //경민이형이 알려준 oncreate 속 선언
+        //oncreate 속 파이어베이스선언
         textViewUserEmail = (TextView)findViewById(R.id.textviewUserEmail);
 
         firebaseAuth = FirebaseAuth.getInstance();
@@ -158,7 +158,7 @@ public class DiaryActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     InsertDB();
-                    //경민이형이 알려준 저장 방법
+                    //리스트 다이어리 파이어베이스 저장
                     mFirebaseDatabase.child("users").setValue(list_diary);
                 }
             });

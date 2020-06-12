@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class Tab_pager_Adapter extends FragmentStatePagerAdapter {
     private int tabCount;
-    //경민이형이 알려준 파이어베이스
+    //파이어베이스
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mFirebaseDatabase;
 
