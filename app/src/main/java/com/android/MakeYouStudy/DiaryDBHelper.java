@@ -9,7 +9,7 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class DiaryDBHelper extends SQLiteOpenHelper {
 
-    //파이어베이스
+    //파이어베이스 코드
     private DatabaseReference mDatabaseReference;
     private FirebaseDatabase mFirebaseDatabase;
 
