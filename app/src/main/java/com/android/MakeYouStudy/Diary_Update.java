@@ -10,6 +10,9 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Diary_Update extends AppCompatActivity {
 
     private Intent intent;
@@ -19,6 +22,11 @@ public class Diary_Update extends AppCompatActivity {
     private DiaryDBHelper dbHelper;
     private SQLiteDatabase db;
     private Diary diary = new Diary();
+
+    //경민이형이 알려준 파이어베이스
+    private DatabaseReference mDatabaseReference;
+    private FirebaseDatabase mFirebaseDatabase;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

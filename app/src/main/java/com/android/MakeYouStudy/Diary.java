@@ -1,10 +1,19 @@
 package com.android.MakeYouStudy;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Diary {
     private int code;
     private String title;
     private String date;
     private String contents;
+    //경민이형이 알려준 파이어베이스
+    private DatabaseReference mDatabaseReference;
+    private FirebaseDatabase mFirebaseDatabase;
+
+
+
 
     public int getCode() {
         return code;

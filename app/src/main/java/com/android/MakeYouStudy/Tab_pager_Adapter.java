@@ -4,8 +4,14 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentStatePagerAdapter;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class Tab_pager_Adapter extends FragmentStatePagerAdapter {
     private int tabCount;
+    //경민이형이 알려준 파이어베이스
+    private DatabaseReference mDatabaseReference;
+    private FirebaseDatabase mFirebaseDatabase;
 
     public Tab_pager_Adapter(FragmentManager fm,int tabCount) {
         super(fm);

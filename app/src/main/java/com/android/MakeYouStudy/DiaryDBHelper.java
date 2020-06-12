@@ -4,7 +4,14 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 public class DiaryDBHelper extends SQLiteOpenHelper {
+
+    //경민이형이 알려준 파이어베이스
+    private DatabaseReference mDatabaseReference;
+    private FirebaseDatabase mFirebaseDatabase;
 
 
     public DiaryDBHelper(Context context) {

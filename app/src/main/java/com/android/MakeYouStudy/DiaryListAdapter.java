@@ -7,6 +7,9 @@ import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
 
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+
 import java.util.ArrayList;
 
 public class DiaryListAdapter extends BaseAdapter {
@@ -14,6 +17,10 @@ public class DiaryListAdapter extends BaseAdapter {
     private int layout;
     private ArrayList<Diary> data;
     private LayoutInflater inflater;
+
+    //경민이형이 알려준 파이어베이스
+    private DatabaseReference mDatabaseReference;
+    private FirebaseDatabase mFirebaseDatabase;
 
     public DiaryListAdapter(Context ctx, int layout, ArrayList<Diary> data) {
         this.ctx = ctx;

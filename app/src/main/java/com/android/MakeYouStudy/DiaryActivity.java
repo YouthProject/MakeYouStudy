@@ -1,5 +1,6 @@
 package com.android.MakeYouStudy;
 
+import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,6 +8,7 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.viewpager.widget.ViewPager;
 
+import android.app.usage.NetworkStats;
 import android.content.BroadcastReceiver;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -28,9 +30,15 @@ import android.widget.Switch;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.github.tlaabs.timetableview.TimetableView;
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -64,6 +72,11 @@ public class DiaryActivity extends AppCompatActivity {
     //firebase auth object
     private FirebaseAuth firebaseAuth;
 
+
+    //경민이형이 알려준 파이어베이스
+    private DatabaseReference mDatabaseReference;
+    private FirebaseDatabase mFirebaseDatabase;
+
     //view objects
     private TextView textViewUserEmail;
 
@@ -72,6 +85,15 @@ public class DiaryActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_diary);
 
+        //경민이형이 알려준 oncreate 속 선언
+        textViewUserEmail = (TextView)findViewById(R.id.textviewUserEmail);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid());
+        //---------여기까지
 
 
         dbHelper = new DiaryDBHelper(this);
@@ -118,6 +140,10 @@ public class DiaryActivity extends AppCompatActivity {
         });
     }
 
+    private void load(String value) {
+    }
+
+    //다이어리 작성 내부 클라스
     public static class Diary_Write extends Fragment {
         @Nullable
         @Override
@@ -127,16 +153,20 @@ public class DiaryActivity extends AppCompatActivity {
             edit_contents = (EditText) view.findViewById(R.id.edit_contents_write);
             save_btn = (Button) view.findViewById(R.id.save_btn_write);
             save_btn.setOnClickListener(new View.OnClickListener() {
+                public DatabaseReference mFirebaseDatabase;
+
                 @Override
                 public void onClick(View v) {
                     InsertDB();
+                    //경민이형이 알려준 저장 방법
+                    mFirebaseDatabase.child("users").setValue(list_diary);
                 }
             });
             return view;
         }
     }
 
-    //Diary_List inner class
+    //다이어리 리스트 내부 클래스
     public static class Diary_List extends Fragment{
 
         @Nullable
@@ -260,6 +290,7 @@ public class DiaryActivity extends AppCompatActivity {
         }
     }
 
+    //다이어리 설정
     public static class Diary_Setting extends Fragment{
         @Nullable
         @Override
