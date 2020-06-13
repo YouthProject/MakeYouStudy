@@ -39,4 +39,19 @@
     </string-array>
 
 
+
+    <string-array name ="random_text">
+        <item>passion</item>
+        <item>wish</item>
+        <item>aspiration</item>
+        <item>peace</item>
+        <item>blossom</item>
+        <item>sunshine</item>
+        <item>cherish</item>
+        <item>smile</item>
+        <item>family</item>
+        <item>rainbow</item>
+    </string-array>
+
+
 </resources>

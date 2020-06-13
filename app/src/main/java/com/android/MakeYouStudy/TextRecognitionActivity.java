@@ -36,6 +36,8 @@ public class TextRecognitionActivity extends AppCompatActivity {
     private String data;
     private boolean checkValue;
 
+    private long pressedTime;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -138,5 +140,26 @@ public class TextRecognitionActivity extends AppCompatActivity {
         }
     }
 
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        if ( pressedTime == 0){
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+            pressedTime = System.currentTimeMillis();
+        }else {
+            int seconds = (int) (System.currentTimeMillis() - pressedTime);
+
+            if(seconds > 2000){
+                pressedTime = 0;
+            }else {
+                Intent intent = new Intent();
+
+                intent.putExtra("checkValue", false);
+
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+    }
 }
 

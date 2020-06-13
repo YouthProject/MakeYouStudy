@@ -43,6 +43,8 @@ public class ImageLabelActivity extends AppCompatActivity {
     Button btnDetect;
     AlertDialog waitingDialog;
 
+    private long pressedTime;
+
     @Override
     protected void onResume() {
         super.onResume();
@@ -112,27 +114,32 @@ public class ImageLabelActivity extends AppCompatActivity {
             public void accept(boolean internet) {
                 if(internet)
                 {
-                    //인터넷이 있을 때 클라우드 사용
-                    FirebaseVisionCloudImageLabelerOptions options =
-                            new FirebaseVisionCloudImageLabelerOptions.Builder()
-                                    .setConfidenceThreshold(0.8f) // 가장 높은 신뢰도로 1개의 결과 얻기
-                                    .build();
-                    FirebaseVisionImageLabeler detector =
-                            FirebaseVision.getInstance().getCloudImageLabeler(options);
 
-                    detector.processImage(image)
-                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
-                                @Override
-                                public void onSuccess(List<FirebaseVisionImageLabel> firebaseVisionCloudLabels) {
-                                    processDataResultCloud(firebaseVisionCloudLabels);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("EDMTERROR", e.getMessage());
-                                }
-                            });
+                        //인터넷이 있을 때 클라우드 사용
+                        FirebaseVisionCloudImageLabelerOptions options =
+                                new FirebaseVisionCloudImageLabelerOptions.Builder()
+                                        .setConfidenceThreshold(0.7f) // 감지된 Label의 신뢰도 설정. 이 값보다 높은 신뢰도의 label만 반환됨
+                                        .build();
+                        FirebaseVisionImageLabeler detector =
+                                FirebaseVision.getInstance().getCloudImageLabeler(options);
+
+
+                        detector.processImage(image)
+                                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
+                                                @Override
+                                                public void onSuccess(List<FirebaseVisionImageLabel> firebaseVisionCloudLabels) {
+                                                    processDataResultCloud(firebaseVisionCloudLabels);
+                                                }
+                                            })
+                                            .addOnFailureListener(new OnFailureListener() {
+                                                @Override
+                                                public void onFailure(@NonNull Exception e) {
+                                        Log.d("EDMTERROR", e.getMessage());
+                                    }
+                                });
+
+
+
                 }
                 else
                 {
@@ -162,21 +169,33 @@ public class ImageLabelActivity extends AppCompatActivity {
     }
 
     private void processDataResultCloud(List<FirebaseVisionImageLabel> firebaseVisionCloudLabels) {
-        for(FirebaseVisionImageLabel label : firebaseVisionCloudLabels)
-        {
-            String labeling = label.getText();
-
+        if(firebaseVisionCloudLabels.size()!=0){
+            for(FirebaseVisionImageLabel label : firebaseVisionCloudLabels)
+            {
+                String labeling = label.getText();
+                Log.d("Label Success", "True");
 //            Toast.makeText(this, "Cloud result: "+label.getLabel(), Toast.LENGTH_SHORT).show();
 //            Log.d("entityId", label.getEntityId());
-            Log.d("confidence", ""+ label.getConfidence());
+                Log.d("confidence", ""+ label.getConfidence() +""+ label.getText());
 
+                Intent intent = new Intent();
+
+                intent.putExtra("labeling", labeling);
+
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
+        else{
+            Log.d("im Danggo", "yes");
             Intent intent = new Intent();
 
-            intent.putExtra("labeling", labeling);
+            intent.putExtra("labeling", "NULL");
 
             setResult(RESULT_OK, intent);
             finish();
         }
+
 
         if(waitingDialog.isShowing())
             waitingDialog.dismiss();
@@ -199,6 +218,29 @@ public class ImageLabelActivity extends AppCompatActivity {
 
         if(waitingDialog.isShowing())
             waitingDialog.dismiss();
+    }
+
+    //뒤로가기 버튼 두번클릭시 종료
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        if ( pressedTime == 0){
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+            pressedTime = System.currentTimeMillis();
+        }else {
+            int seconds = (int) (System.currentTimeMillis() - pressedTime);
+
+            if(seconds > 2000){
+                pressedTime = 0;
+            }else {
+                Intent intent = new Intent();
+
+                intent.putExtra("labeling", "BackPressed");
+
+                setResult(RESULT_OK, intent);
+                finish();
+            }
+        }
     }
 }
 
