@@ -52,5 +52,6 @@ dependencies {
     implementation 'com.google.android.gms:play-services-auth:18.0.0'
     // TimeTable
     implementation 'com.github.tlaabs:TimetableView:1.0.3-fx1'
+    implementation 'com.google.code.gson:gson:2.8.5'
 
 }

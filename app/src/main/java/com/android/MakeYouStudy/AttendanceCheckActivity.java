@@ -4,9 +4,13 @@ import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.AlarmManager;
 import android.app.AlertDialog;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -32,6 +36,11 @@ public class AttendanceCheckActivity extends AppCompatActivity {
     private String[] randomText;
     // Skip dialog
     private Activity activity;
+    // Alarm object
+    private AlarmManager alarmManager;
+    private int reqCode;
+    private Intent sintent;
+    private Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,11 +49,21 @@ public class AttendanceCheckActivity extends AppCompatActivity {
 
         randomText = getResources().getStringArray(R.array.random_text);
         rnd = new Random();
+        this.context = this;
+
+        // AlarmService의 mediaPlayer제어를 위한 Intent
+        sintent = new Intent(context, AlarmService.class);
+        // AlarmReceiver를 위한 object와 intent
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        Intent intent = getIntent();
+        reqCode = intent.getIntExtra("reqCode", -1);
+        Log.d("reqTest", " 받아온 reqCode값은 : " + reqCode);
 
         btnCheck = (Button)findViewById(R.id.btnCheck);
         btnCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPause();
                 startActivityForResult(new Intent(getApplicationContext(), ImageLabelActivity.class), LABEL_ACTIVITY);
             }
         });
@@ -53,6 +72,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         btnTextCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPause();
                 textRecognition();
             }
         });
@@ -70,7 +90,6 @@ public class AttendanceCheckActivity extends AppCompatActivity {
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
 
-
         switch (requestCode) {
             case LABEL_ACTIVITY:
 
@@ -78,14 +97,15 @@ public class AttendanceCheckActivity extends AppCompatActivity {
 
                 if(label.equals("Desk") || label.equals("Table") ){
                     Toast.makeText(this, "Label 출석체크 완료 : "+label, Toast.LENGTH_SHORT).show();
+                    alarmOff();
                     Log.d(TAG, "실행");
                     finish();
                 }
                 else if(label.equals("BackPressed")){
                     Toast.makeText(this, "Label 출석체크 취소", Toast.LENGTH_SHORT).show();
+                    mediaRestart();
                 }
                 else {
-
                     Toast.makeText(this, "출석체크 실패 : "+label, Toast.LENGTH_SHORT).show();
                     count++;
 
@@ -103,9 +123,11 @@ public class AttendanceCheckActivity extends AppCompatActivity {
                 boolean checkValue = data.getBooleanExtra("checkValue", false);
                 if(checkValue == true){
                     Toast.makeText(this, "Text 출석체크 완료", Toast.LENGTH_SHORT).show();
+                    alarmOff();
                     finish();
                 }else {
                     Toast.makeText(this, "Text 출석체크 취소", Toast.LENGTH_SHORT).show();
+                    mediaRestart();
                 }
                 break;
         }
@@ -135,6 +157,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(activity, "결석처리 되었습니다.", Toast.LENGTH_SHORT).show();
+                alarmOff();
                 finish();
             }
         });
@@ -153,5 +176,35 @@ public class AttendanceCheckActivity extends AppCompatActivity {
 
         alert.show();
 
+    }
+    // media를 pause하기위한 Service호출
+    public void mediaPause(){
+        sintent.putExtra("state", "pause");
+        // Oreo(26) 버전 이후부터는 Background 에서 실행을 금지하기 때문에 Foreground 에서 실행해야 함
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(sintent);
+        } else {
+            context.startService(sintent);
+        }
+    }
+    // pause된 media를 restart하기 위한 Service호출
+    public void mediaRestart(){
+        sintent.putExtra("state", "restart");
+        // Oreo(26) 버전 이후부터는 Background 에서 실행을 금지하기 때문에 Foreground 에서 실행해야 함
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+            context.startForegroundService(sintent);
+        } else {
+            context.startService(sintent);
+        }
+    }
+    // 실행중인 alarm을 삭제
+    public void alarmOff(){
+        // AlarmReceiver
+        Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+        intent.putExtra("state","off");
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        alarmManager.cancel(pendingIntent);
+        sendBroadcast(intent);
+        Log.d("ReqTest", reqCode + " 의 pendingintent 알람이 해제되었습니다.");
     }
 }

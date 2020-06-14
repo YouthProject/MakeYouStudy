@@ -4,11 +4,14 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
+import android.os.Build;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
@@ -26,6 +29,9 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
+import com.google.gson.JsonParser;
 
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -41,6 +47,10 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     //firebase data object
     private DatabaseReference mDatabaseReference; // 데이터베이스의 주소를 저장합니다.
     private FirebaseDatabase mFirebaseDatabase; // 데이터베이스에 접근할 수 있는 진입점 클래스입니다.
+
+    //Alarm object
+    private AlarmManager alarmManager;
+    private PendingIntent pendingIntent;
 
     //view objects
     private TextView textViewUserEmail;
@@ -60,6 +70,9 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         firebaseAuth = FirebaseAuth.getInstance();
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
+        // AlarmManger Service
+        alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+
         textViewUserEmail.setText("UserEmail : " + user.getEmail());
 
         init();
@@ -74,6 +87,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 String value = dataSnapshot.getValue(String.class);
                 if (value != null){
                     timetable.load(value);
+                    AddAlarm(value);
                 }
             }
             @Override
@@ -157,6 +171,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 break;
         }
     }
+    // timetable.setHeaderHighlight를 위한 DayOfWeek 계산
     private int doDayOfWeek(){
         Calendar cal = Calendar.getInstance();
         int nWeek = cal.get(Calendar.DAY_OF_WEEK);
@@ -166,5 +181,69 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
             nWeek -= 1;
         }
         return nWeek;
+    }
+
+    // Parse json and add Alarm
+    public void AddAlarm(String json){
+        // 시간 설정
+        Calendar calendar = Calendar.getInstance();
+
+        // json parse
+        JsonParser parser = new JsonParser();
+        JsonObject obj1 = (JsonObject)parser.parse(json);
+        JsonArray arr1 = obj1.getAsJsonArray("sticker");
+        for(int i = 0; i < arr1.size(); i++){
+            JsonObject obj2 = (JsonObject)arr1.get(i);
+            JsonArray arr2 = (JsonArray)obj2.get("schedule");
+            for(int k = 0; k < arr2.size(); k++){
+                JsonObject obj3 = (JsonObject)arr2.get(k);
+
+                // obj3 will be used for AttendanceCheck_Activity
+                obj3.get("classTitle").getAsString();
+                obj3.get("classPlace").getAsString();
+                obj3.get("professorName").getAsString();
+                obj3.get("day").getAsInt();
+
+                JsonObject obj4 = (JsonObject)obj3.get("startTime");
+                obj4.get("hour").getAsInt();
+                obj4.get("minute").getAsInt();
+                Log.d("hello", obj3.get("classTitle").getAsString() +
+                        obj3.get("classPlace").getAsString() +
+                        obj3.get("professorName").getAsString() +
+                        obj3.get("day").getAsInt() +
+                        obj4.get("hour").getAsInt() +
+                        obj4.get("minute").getAsInt() +
+                        " i : " + i
+                        );
+                calendar.set(Calendar.HOUR_OF_DAY, obj4.get("hour").getAsInt());
+                calendar.set(Calendar.MINUTE, obj4.get("minute").getAsInt());
+                calendar.set(Calendar.SECOND, 0);
+                // 현재시간보다 이전이면 다음날로 설정해 계속 알람이 울리는 오류를 해결
+                if (calendar.before(Calendar.getInstance())){
+                    calendar.add(Calendar.DATE, 1);
+                }
+
+                // Receiver 설정
+                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                intent.putExtra("weekday", obj3.get("day").getAsInt());
+                intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
+                intent.putExtra("reqCode", i);
+                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+                // 알람 설정, API 별로 alarmManger.set 함수 구별
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                        // API 19이상 API 23미만
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    }else{
+                        // API 19미만
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    }
+                }else{
+                    // API 23이상
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                }
+            }
+        }
     }
 }

@@ -3,7 +3,11 @@ package com.android.MakeYouStudy;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
+import android.provider.Settings;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -38,6 +42,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDiary = (Button)findViewById(R.id.buttonDiary);
         buttonProfile = (Button)findViewById(R.id.buttonProfile);
         buttonML = (Button)findViewById(R.id.buttonML);
+
+        // Android 10 이상부터 사용자가 직접 OverlayPermission을 설정해 줘야함
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
+            if(!Settings.canDrawOverlays(getApplicationContext())){
+                checkOverlayPermission();
+            }
+        }
 
         // 유저가 로그인하지 않은 상태라면 LoginActivity 실행
         firebaseAuth = FirebaseAuth.getInstance();
@@ -74,6 +85,18 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view == buttonML){
             startActivity(new Intent(getApplicationContext(), AttendanceCheckActivity.class));
+        }
+    }
+
+    // alarm overlay permission check 알람이 시작될 때 Activity를 띄워줌
+    private void checkOverlayPermission(){
+        try{
+            Uri uri = Uri.parse("package:" + getPackageName());
+            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, uri);
+
+            startActivityForResult(intent, 5469);
+        }catch (Exception e){
+            Log.d("MainActivity", "" + e);
         }
     }
 }
