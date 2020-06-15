@@ -75,7 +75,7 @@ public class DiaryActivity extends AppCompatActivity {
 
     //파이어베이스
     private DatabaseReference mDatabaseReference;
-    private FirebaseDatabase mFirebaseDatabase;
+    private static FirebaseDatabase mFirebaseDatabase;
 
     //view objects
     private TextView textViewUserEmail;
@@ -92,7 +92,7 @@ public class DiaryActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid());
+        mDatabaseReference = mFirebaseDatabase.getReference();
         //---------여기까지
 
 
@@ -158,8 +158,6 @@ public class DiaryActivity extends AppCompatActivity {
                 @Override
                 public void onClick(View v) {
                     InsertDB();
-                    //리스트 다이어리 파이어베이스 저장
-                    mFirebaseDatabase.child("users").setValue(list_diary);
                 }
             });
             return view;
@@ -339,6 +337,9 @@ public class DiaryActivity extends AppCompatActivity {
         st.bindString(2,writeTime);
         st.bindString(3,edit_contents.getText().toString());
         st.execute();
+
+        mFirebaseDatabase.getReference("users").setValue(edit_contents.getText().toString());
+
         db.close();
         edit_title.setText("");
         edit_contents.setText("");
