@@ -69,13 +69,15 @@ public class DiaryActivity extends AppCompatActivity {
     public static EditText checkPass;
     public static int flag = 0;
     public static int flag2 = 0;
-    //firebase auth object
-    private FirebaseAuth firebaseAuth;
+    private static FirebaseAuth firebaseAuth;
+
 
 
     //파이어베이스
     private DatabaseReference mDatabaseReference;
     private static FirebaseDatabase mFirebaseDatabase;
+
+    private Diary_List diary;
 
     //view objects
     private TextView textViewUserEmail;
@@ -153,8 +155,6 @@ public class DiaryActivity extends AppCompatActivity {
             edit_contents = (EditText) view.findViewById(R.id.edit_contents_write);
             save_btn = (Button) view.findViewById(R.id.save_btn_write);
             save_btn.setOnClickListener(new View.OnClickListener() {
-                public DatabaseReference mFirebaseDatabase;
-
                 @Override
                 public void onClick(View v) {
                     InsertDB();
@@ -339,6 +339,10 @@ public class DiaryActivity extends AppCompatActivity {
         st.execute();
 
         mFirebaseDatabase.getReference("users").setValue(edit_contents.getText().toString());
+        FirebaseUser user = firebaseAuth.getCurrentUser();
+        String cu = firebaseAuth.getUid();
+
+        mFirebaseDatabase.getReference(cu).child("diary").setValue(edit_contents.getText().toString());
 
         db.close();
         edit_title.setText("");
