@@ -4,6 +4,11 @@ android {
     compileSdkVersion 29
     buildToolsVersion "29.0.3"
 
+    compileOptions{
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+
     defaultConfig {
         applicationId "com.android.MakeYouStudy"
         minSdkVersion 19
@@ -53,5 +58,6 @@ dependencies {
     // TimeTable
     implementation 'com.github.tlaabs:TimetableView:1.0.3-fx1'
     implementation 'com.google.code.gson:gson:2.8.5'
-
+    //Calendar
+    implementation 'com.applandeo:material-calendar-view:1.7.0'
 }
