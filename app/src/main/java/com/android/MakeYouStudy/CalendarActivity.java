@@ -44,6 +44,7 @@ public class CalendarActivity extends AppCompatActivity {
     int checkYear;
     int checkMonth;
     int checkDay;
+    private int widget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -61,6 +62,7 @@ public class CalendarActivity extends AppCompatActivity {
         edtDiary=(EditText)findViewById(R.id.edtDairy);
         btnSave=(Button)findViewById(R.id.btnSave);
 
+
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
         List<EventDay> events = new ArrayList<> ();
 
@@ -75,6 +77,8 @@ public class CalendarActivity extends AppCompatActivity {
         checkMonth = todayMonth;
         checkDay = todayDay;
 
+        //날짜
+
         // 첫시작 할 때 일정이 있으면 캘린더에 표시해주기
         mFirebaseDatabase.getReference().child("calendar").child(user.getUid()).addValueEventListener(new ValueEventListener () {
             @Override
@@ -84,7 +88,7 @@ public class CalendarActivity extends AppCompatActivity {
                     int[] date = splitDate(key);
                     Calendar event_calendar = Calendar.getInstance();
                     event_calendar.set(date[0], date[1], date[2]);
-                    EventDay event = new EventDay(event_calendar, R.drawable.ic_dot);
+                    EventDay event = new EventDay(event_calendar, R.drawable.ic_dog);
                     events.add(event);
                 }
                 calendarView.setEvents(events);
