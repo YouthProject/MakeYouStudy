@@ -40,4 +40,48 @@
         app:layout_constraintStart_toStartOf="@+id/bt_logut"
         app:layout_constraintTop_toBottomOf="@+id/bt_logut" />
 
+    <Button
+        android:id="@+id/takepicture"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="36dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="@+id/bt_delect"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/bt_delect"
+        app:layout_constraintTop_toBottomOf="@+id/bt_delect" />
+
+    <ImageView
+        android:id="@+id/takeimage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginBottom="150dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/takepicture"
+        app:layout_constraintTop_toBottomOf="@+id/te_textview" />
+
+    <ImageView
+        android:id="@+id/photoimage"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_marginStart="46dp"
+        android:layout_marginBottom="170dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="@+id/takeimage"
+        app:layout_constraintTop_toBottomOf="@+id/te_textview" />
+
+    <Button
+        android:id="@+id/retry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="116dp"
+        android:text="Button"
+        app:layout_constraintEnd_toEndOf="@+id/takepicture"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="@+id/takepicture"
+        app:layout_constraintTop_toBottomOf="@+id/takepicture" />
+
+
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

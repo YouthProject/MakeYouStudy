@@ -1,40 +1,54 @@
 package com.android.MakeYouStudy;
 
+import android.app.Activity;
+import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Bundle;
+import android.provider.MediaStore;
+import android.view.View;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-
-import android.content.DialogInterface;
-import android.content.Intent;
-import android.os.Bundle;
-import android.view.View;
-import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
-import static com.google.firebase.auth.FirebaseAuthProvider.PROVIDER_ID;
+import java.io.InputStream;
 
 public class ProfileActivity extends AppCompatActivity{
+    private static final String TAG = "MainActivity";
+
     GoogleSignInClient googleSignInClient;
     FirebaseAuth firebaseAuth;
     private TextView te_textview;
-    private Button bt_logout, bt_delect;
+    private Button bt_logout, bt_delect,takepicture,retry,uplo;
+    ImageView takeimage,photoimage;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mdatabase = FirebaseDatabase.getInstance().getReference();
     CallbackManager callbackManager;
 
-
+    private final int REQ_CODE_SELECT_IMAGE=1000;
+    private String mImgPath=null;
+    private String mImgTitle=null;
+    private String mImgOrient=null;
+    private Uri filePath;
+    static final int REQUEST_IMAGE_CAPTURE = 1;
+    static final int PICK_IMAGE=2;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -43,13 +57,18 @@ public class ProfileActivity extends AppCompatActivity{
         te_textview = (TextView) findViewById(R.id.te_textview);
         bt_logout = (Button) findViewById(R.id.bt_logut);
         bt_delect = (Button) findViewById(R.id.bt_delect);
-        firebaseAuth = FirebaseAuth.getInstance();
 
+        takepicture=(Button)findViewById(R.id.takepicture);
+        takeimage=(ImageView)findViewById(R.id.takeimage);
+        retry=(Button)findViewById(R.id.retry);
+        firebaseAuth = FirebaseAuth.getInstance();
+        photoimage=(ImageView)findViewById(R.id.photoimage);
         FirebaseUser user = firebaseAuth.getCurrentUser();
         te_textview.setText("반갑습니다.\n" + user.getEmail() + "으로 로그인 하였습니다.");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mDatabase;
         String cu = firebaseAuth.getUid();
+
 
 
         bt_logout.setOnClickListener(new View.OnClickListener() {
@@ -68,11 +87,99 @@ public class ProfileActivity extends AppCompatActivity{
                 Dialog();
 
 
-                                }
+            }
 
-                            });
+        });
+
+        takepicture.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+              /*  Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType
+                        (android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                startActivityForResult(intent,PICK_IMAGE);
+        */
+
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
+            }
+
+        });
+        retry.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                dispatchTakePictureIntent();
+                Intent intent = new Intent();
+                intent.setType("image/*");
+                intent.setAction(Intent.ACTION_GET_CONTENT);
+                startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
+
+
+            }
+        });
+
+
+
 
     }
+
+
+
+
+
+    private void dispatchTakePictureIntent() {
+        Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+        startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
+
+    }
+
+
+    @Override //갤러리에서 이미지 불러온 후 행동
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        // Check which request we're responding to
+        super.onActivityResult(requestCode, resultCode, data);
+
+
+
+
+        if (requestCode == PICK_IMAGE) {
+            // Make sure the request was successful
+            if (resultCode == RESULT_OK) {
+                try {
+                    // 선택한 이미지에서 비트맵 생성
+                    InputStream in = getContentResolver().openInputStream(data.getData());
+                    Bitmap img = BitmapFactory.decodeStream(in);
+                    in.close();
+                    // 이미지뷰에 세팅
+                    takeimage.setImageBitmap(img);
+
+
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+            }
+
+        }
+
+        if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data.hasExtra("data")) {
+            Bitmap bitmap = (Bitmap) data.getExtras().get("data");
+            filePath = data.getData();;
+            if (bitmap != null) {
+                photoimage.setImageBitmap(bitmap);
+            }
+
+
+
+        }
+
+
+    }
+
+
+
     public void Dialog () {
 
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
@@ -89,7 +196,7 @@ public class ProfileActivity extends AppCompatActivity{
                             public void onComplete(@NonNull Task<Void> task) {
                                 if (task.isSuccessful()) {
                                     Toast.makeText(ProfileActivity.this, "계정이 삭제 되었습니다.", Toast.LENGTH_LONG).show();
-                                     firebaseAuth.getInstance().signOut();
+                                    firebaseAuth.getInstance().signOut();
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     startActivity(intent);
 
@@ -123,7 +230,9 @@ public class ProfileActivity extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int which) {
 
                 FirebaseAuth.getInstance().signOut();
+                firebaseAuth.signOut();
                 LoginManager.getInstance().logOut();
+                finish();
                 Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                 startActivity(intent);
 
@@ -142,3 +251,5 @@ public class ProfileActivity extends AppCompatActivity{
 
 
 }
+
+
