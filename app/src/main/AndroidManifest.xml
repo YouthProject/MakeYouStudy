@@ -33,6 +33,7 @@
         <activity android:name=".ImageLabelActivity" />
         <activity android:name=".TextRecognitionActivity" />
         <activity android:name=".DiaryActivity" />
+        <activity android:name=".Diary_Update" />
         <activity android:name=".TimeTableActivity" />
         <activity android:name=".CalendarActivity" />
         <activity android:name=".MainActivity">
