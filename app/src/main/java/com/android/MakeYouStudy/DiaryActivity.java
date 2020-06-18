@@ -196,28 +196,31 @@ public class DiaryActivity extends AppCompatActivity {
     }
 
     public static ArrayList<Diary> showDB(){
-        mFirebaseDatabase.getReference().child("diary").child(user.getUid()).addValueEventListener(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                data.clear();
-                list_diary.setAdapter(listAdapter);
-                int code = 1;
-                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    String[] fbData = splitData(snapshot.getValue().toString());
-                    Diary diary = new Diary();
-                    diary.setCode(code);
-                    diary.setTitle(fbData[0]);
-                    diary.setContents(fbData[1]);
-                    diary.setDate(snapshot.getKey());
-                    data.add(diary);
-                    code += 1;
+        mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid());
+        if(mDatabaseReference != null){
+            mFirebaseDatabase.getReference().child("diary").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                    data.clear();
+                    list_diary.setAdapter(listAdapter);
+                    int code = 1;
+                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        String[] fbData = splitData(snapshot.getValue().toString());
+                        Diary diary = new Diary();
+                        diary.setCode(code);
+                        diary.setTitle(fbData[0]);
+                        diary.setContents(fbData[1]);
+                        diary.setDate(snapshot.getKey());
+                        data.add(diary);
+                        code += 1;
+                    }
+                    list_diary.setAdapter(listAdapter);
                 }
-                list_diary.setAdapter(listAdapter);
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {   }
-        });
-        return data;
+                @Override
+                public void onCancelled(@NonNull DatabaseError databaseError) {   }
+            });
+            return data;
+        }else{ return null; }
     }
 
     public static void deleteDB(String date){
