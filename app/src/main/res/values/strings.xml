@@ -16,7 +16,6 @@
     <string name="fb_login_protocol_scheme">fb553770972225868</string>
 
 
-
     <string-array name="my_header_title">
         <item></item>
         <item>Mon</item>
@@ -39,18 +38,17 @@
     </string-array>
 
 
-
-    <string-array name ="random_text">
-        <item>passion</item>
-        <item>wish</item>
-        <item>aspiration</item>
-        <item>peace</item>
-        <item>blossom</item>
-        <item>sunshine</item>
-        <item>cherish</item>
-        <item>smile</item>
-        <item>family</item>
-        <item>rainbow</item>
+    <string-array name="random_text">
+        <item>Passion</item>
+        <item>Wish</item>
+        <item>Aspiration</item>
+        <item>Peace</item>
+        <item>Blossom</item>
+        <item>Sunshine</item>
+        <item>Cherish</item>
+        <item>Smile</item>
+        <item>Family</item>
+        <item>Rainbow</item>
     </string-array>
 
 

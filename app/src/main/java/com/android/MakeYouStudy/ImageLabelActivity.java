@@ -15,17 +15,13 @@ import android.widget.Toast;
 import com.android.MakeYouStudy.Helper.InternetCheck;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+
 import com.google.firebase.ml.vision.FirebaseVision;
-//import com.google.firebase.ml.vision.cloud.FirebaseVisionCloudDetectorOptions;
-//import com.google.firebase.ml.vision.cloud.label.FirebaseVisionCloudLabel;
-//import com.google.firebase.ml.vision.cloud.label.FirebaseVisionCloudLabelDetector;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.label.FirebaseVisionCloudImageLabelerOptions;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabel;
 import com.google.firebase.ml.vision.label.FirebaseVisionImageLabeler;
-//import com.google.firebase.ml.vision.label.FirebaseVisionLabel;
-//import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetector;
-//import com.google.firebase.ml.vision.label.FirebaseVisionLabelDetectorOptions;
+
 import com.wonderkiln.camerakit.CameraKitError;
 import com.wonderkiln.camerakit.CameraKitEvent;
 import com.wonderkiln.camerakit.CameraKitEventListener;
@@ -114,7 +110,6 @@ public class ImageLabelActivity extends AppCompatActivity {
             public void accept(boolean internet) {
                 if(internet)
                 {
-
                         //인터넷이 있을 때 클라우드 사용
                         FirebaseVisionCloudImageLabelerOptions options =
                                 new FirebaseVisionCloudImageLabelerOptions.Builder()
@@ -122,7 +117,6 @@ public class ImageLabelActivity extends AppCompatActivity {
                                         .build();
                         FirebaseVisionImageLabeler detector =
                                 FirebaseVision.getInstance().getCloudImageLabeler(options);
-
 
                         detector.processImage(image)
                                             .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
@@ -137,8 +131,6 @@ public class ImageLabelActivity extends AppCompatActivity {
                                         Log.d("EDMTERROR", e.getMessage());
                                     }
                                 });
-
-
 
                 }
                 else
@@ -174,12 +166,9 @@ public class ImageLabelActivity extends AppCompatActivity {
             {
                 String labeling = label.getText();
                 Log.d("Label Success", "True");
-//            Toast.makeText(this, "Cloud result: "+label.getLabel(), Toast.LENGTH_SHORT).show();
-//            Log.d("entityId", label.getEntityId());
                 Log.d("confidence", ""+ label.getConfidence() +""+ label.getText());
 
                 Intent intent = new Intent();
-
                 intent.putExtra("labeling", labeling);
 
                 setResult(RESULT_OK, intent);
@@ -187,16 +176,12 @@ public class ImageLabelActivity extends AppCompatActivity {
             }
         }
         else{
-            Log.d("im Danggo", "yes");
             Intent intent = new Intent();
-
             intent.putExtra("labeling", "NULL");
 
             setResult(RESULT_OK, intent);
             finish();
         }
-
-
         if(waitingDialog.isShowing())
             waitingDialog.dismiss();
     }
@@ -206,10 +191,7 @@ public class ImageLabelActivity extends AppCompatActivity {
         {
             String labeling = label.getText();
 
-            //Toast.makeText(this, "Device result: "+label.getLabel(), Toast.LENGTH_SHORT).show();
-
             Intent intent = new Intent();
-
             intent.putExtra("labeling", labeling);
 
             setResult(RESULT_OK, intent);
@@ -225,7 +207,7 @@ public class ImageLabelActivity extends AppCompatActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         if ( pressedTime == 0){
-            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
             pressedTime = System.currentTimeMillis();
         }else {
             int seconds = (int) (System.currentTimeMillis() - pressedTime);

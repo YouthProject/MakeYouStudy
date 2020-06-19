@@ -34,7 +34,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
-import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -68,7 +67,6 @@ public class ProfileActivity extends AppCompatActivity{
     int position;
     int size;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -91,20 +89,7 @@ public class ProfileActivity extends AppCompatActivity{
 
         storageRef = storage.getReference().child("images").child(user.getUid());
 
-        // test listall
-        storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-            @Override
-            public void onSuccess(ListResult listResult) {
-                for (StorageReference item : listResult.getItems()){
-                    Log.d("item", item.toString());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
 
-            }
-        });
 
         // 로그아웃 버튼 리스너
         bt_logout.setOnClickListener(new View.OnClickListener() {
@@ -169,7 +154,7 @@ public class ProfileActivity extends AppCompatActivity{
                     InputStream in = getContentResolver().openInputStream(data.getData());
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
-                    imageUpload(img);
+                    imageUpload(img, 70);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -180,7 +165,7 @@ public class ProfileActivity extends AppCompatActivity{
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             filePath = data.getData();;
             if (bitmap != null) {
-                imageUpload(bitmap);
+                imageUpload(bitmap, 100);
             }
         }
     }
@@ -253,9 +238,9 @@ public class ProfileActivity extends AppCompatActivity{
     }
 
     //firebase에 책상 image upload method
-    public void imageUpload(Bitmap bmpImage){
+    public void imageUpload(Bitmap bmpImage, int quality){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmpImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        bmpImage.compress(Bitmap.CompressFormat.JPEG, quality, baos);
         byte[] data1 = baos.toByteArray();
 
         StorageReference filepath = storageRef.child(position+"");
@@ -275,12 +260,15 @@ public class ProfileActivity extends AppCompatActivity{
                 Log.d("Upload : ", "Success");
                 Toast.makeText(ProfileActivity.this, "이미지가 성공적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "SIZE : " + size + "POSITION : " + position);
+
+                countPosition();
+
                 mdatabase.child("image").child(user.getUid()).child("size").setValue(size+"");
                 mdatabase.child("image").child(user.getUid()).child("position").setValue(position+"");
+
             }
         });
     }
-
 
     // image database가 null인지 확인 후 null이면 초기화
     public void checksize(){
@@ -297,7 +285,7 @@ public class ProfileActivity extends AppCompatActivity{
                         }else{
                             size = Integer.parseInt(dataSnapshot.child("size").getValue(String.class));
                             position = Integer.parseInt(dataSnapshot.child("position").getValue(String.class));
-                            countPosition();
+
                         }
                     }
             @Override

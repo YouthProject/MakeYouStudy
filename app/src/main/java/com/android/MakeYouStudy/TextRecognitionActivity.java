@@ -31,7 +31,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
     private FirebaseAuth firebaseAuth;
     private Button captureImageBtn, detectTextBtn;
     private ImageView imageView;
-    private TextView textView;
+    private TextView textView, textView2;
     private Bitmap imageBitmap;
     private String data;
     private boolean checkValue;
@@ -50,6 +50,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
         detectTextBtn = findViewById(R.id.detect_text_image_btn);
         imageView = findViewById(R.id.image_view);
         textView = findViewById(R.id.text_display);
+        textView2 = findViewById(R.id.text_display2);
 
         Intent intent = getIntent();
         data = intent.getStringExtra("English");
@@ -59,7 +60,6 @@ public class TextRecognitionActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 dispatchTakePictureIntent();
-                //textView.setText("");
             }
         });
 
@@ -116,7 +116,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
             for(FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks())
             {
                 String text = block.getText();
-                textView.append("Text in Image : "+text);
+                textView2.setText( "Text in Image : "+text);
                 Log.d("What is text : ", text );
                 check(text, data);
             }
@@ -144,7 +144,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
     public void onBackPressed() {
         //super.onBackPressed();
         if ( pressedTime == 0){
-            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "한번 더 누르면 종료됩니다.", Toast.LENGTH_SHORT).show();
             pressedTime = System.currentTimeMillis();
         }else {
             int seconds = (int) (System.currentTimeMillis() - pressedTime);
@@ -153,7 +153,6 @@ public class TextRecognitionActivity extends AppCompatActivity {
                 pressedTime = 0;
             }else {
                 Intent intent = new Intent();
-
                 intent.putExtra("checkValue", false);
 
                 setResult(RESULT_OK, intent);

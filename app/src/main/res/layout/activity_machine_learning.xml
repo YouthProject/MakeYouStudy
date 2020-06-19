@@ -23,6 +23,17 @@
         android:textSize="26dp"
         />
 
+    <TextView
+        android:id="@+id/text_display2"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/image_view"
+
+        android:layout_marginTop="62dp"
+        android:maxLines="5"
+        android:text=""
+        android:textSize="26dp" />
+
     <Button
         android:id="@+id/capture_image_btn"
         android:layout_width="match_parent"
