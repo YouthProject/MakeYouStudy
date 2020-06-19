@@ -8,6 +8,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -22,12 +23,22 @@ import com.facebook.CallbackManager;
 import com.facebook.login.LoginManager;
 import com.google.android.gms.auth.api.signin.GoogleSignInClient;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
+import com.google.firebase.storage.StorageReference;
+import com.google.firebase.storage.UploadTask;
 
+import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
 public class ProfileActivity extends AppCompatActivity{
@@ -49,6 +60,15 @@ public class ProfileActivity extends AppCompatActivity{
     private Uri filePath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
     static final int PICK_IMAGE=2;
+
+    //firebase에 자신의 책상 image 등록해주기 위함
+    FirebaseStorage storage = FirebaseStorage.getInstance();
+    StorageReference storageRef;
+    private FirebaseUser user;
+    int position;
+    int size;
+
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -63,87 +83,83 @@ public class ProfileActivity extends AppCompatActivity{
         retry=(Button)findViewById(R.id.retry);
         firebaseAuth = FirebaseAuth.getInstance();
         photoimage=(ImageView)findViewById(R.id.photoimage);
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        user = firebaseAuth.getCurrentUser();
         te_textview.setText("반갑습니다.\n" + user.getEmail() + "으로 로그인 하였습니다.");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mDatabase;
         String cu = firebaseAuth.getUid();
 
+        storageRef = storage.getReference().child("images").child(user.getUid());
 
+        // test listall
+        storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                for (StorageReference item : listResult.getItems()){
+                    Log.d("item", item.toString());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
+            }
+        });
+
+        // 로그아웃 버튼 리스너
         bt_logout.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 logoutDialog();
-
-
-
             }
         });
         bt_delect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                 Dialog();
-
-
             }
-
         });
 
+        // 이미지 불러오기 버튼 리스너
         takepicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-              /*  Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType
-                        (android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent,PICK_IMAGE);
-        */
+                checksize(); // 이미지를 불러오기전에 size와 positon 초기화
+                Log.d("TTT", "size" + size + " / position" + position);
 
+                // 사진을 가져오는 Activity 실행
+                Intent intent = new Intent(Intent.ACTION_PICK);
+                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
+                startActivityForResult(intent,PICK_IMAGE);
+                /*
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
+                startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);*/
             }
-
         });
         retry.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                checksize();
                 dispatchTakePictureIntent();
                 Intent intent = new Intent();
                 intent.setType("image/*");
                 intent.setAction(Intent.ACTION_GET_CONTENT);
                 startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
-
-
             }
         });
-
-
-
-
     }
-
-
-
-
-
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
 
     }
 
-
-    @Override //갤러리에서 이미지 불러온 후 행동
+    @Override //갤러리에서 이미지 불러온 후 이미지를 저장
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         super.onActivityResult(requestCode, resultCode, data);
-
-
-
 
         if (requestCode == PICK_IMAGE) {
             // Make sure the request was successful
@@ -153,35 +169,25 @@ public class ProfileActivity extends AppCompatActivity{
                     InputStream in = getContentResolver().openInputStream(data.getData());
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
-                    // 이미지뷰에 세팅
-                    takeimage.setImageBitmap(img);
-
-
+                    imageUpload(img);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
             }
-
         }
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data.hasExtra("data")) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             filePath = data.getData();;
             if (bitmap != null) {
-                photoimage.setImageBitmap(bitmap);
+                imageUpload(bitmap);
             }
-
-
-
         }
-
-
     }
 
 
 
     public void Dialog () {
-
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("회원 탈퇴");
         builder.setMessage("탈퇴 하시겠습니까?");
@@ -204,8 +210,6 @@ public class ProfileActivity extends AppCompatActivity{
 
                             }
                         });
-
-
                 String cu = firebaseAuth.getUid();
                 mdatabase.child("users").child(cu).setValue(null);
             }
@@ -243,13 +247,68 @@ public class ProfileActivity extends AppCompatActivity{
             public void onClick(DialogInterface dialog, int which) {
                 Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
                 startActivity(intent);
-
             }
         });
         bui.show();
     }
 
+    //firebase에 책상 image upload method
+    public void imageUpload(Bitmap bmpImage){
+        ByteArrayOutputStream baos = new ByteArrayOutputStream();
+        bmpImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
+        byte[] data1 = baos.toByteArray();
 
+        StorageReference filepath = storageRef.child(position+"");
+
+        UploadTask uploadTask = filepath.putBytes(data1);
+        uploadTask.addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception exception) {
+                // Handle unsuccessful uploads
+                Toast.makeText(ProfileActivity.this, "이미지 등록에 실패하였습니다.", Toast.LENGTH_SHORT).show();
+            }
+        }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
+            @Override
+            public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
+                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
+                // ...
+                Log.d("Upload : ", "Success");
+                Toast.makeText(ProfileActivity.this, "이미지가 성공적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
+                Log.d("TEST", "SIZE : " + size + "POSITION : " + position);
+                mdatabase.child("image").child(user.getUid()).child("size").setValue(size+"");
+                mdatabase.child("image").child(user.getUid()).child("position").setValue(position+"");
+            }
+        });
+    }
+
+
+    // image database가 null인지 확인 후 null이면 초기화
+    public void checksize(){
+                mdatabase.child("image").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        if(dataSnapshot.getValue() == null){
+                            Log.d("Checksize : ", "Uid child is null");
+                            // 처음 등록할 때 size값과 position값을 초기화시켜준다.
+                            mdatabase.child("image").child(user.getUid()).child("size").setValue("0");
+                            mdatabase.child("image").child(user.getUid()).child("position").setValue("0");
+                            size = 0;
+                            position = 0;
+                        }else{
+                            size = Integer.parseInt(dataSnapshot.child("size").getValue(String.class));
+                            position = Integer.parseInt(dataSnapshot.child("position").getValue(String.class));
+                            countPosition();
+                        }
+                    }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+    }
+    // user별 database에 저장된 현재 position값 계산
+    public void countPosition(){
+        if(size < 4){ size++; }
+        if(position > 3){ position = 0; } else{ position++; }
+    }
 }
 
 
