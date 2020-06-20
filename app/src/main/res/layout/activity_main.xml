@@ -48,4 +48,11 @@
         android:layout_height="wrap_content"
         android:text="Show ML"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+
+    <Button
+        android:id="@+id/buttonAttendance"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Show AttendanceRate"
+        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 </androidx.appcompat.widget.LinearLayoutCompat>

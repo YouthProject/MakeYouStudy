@@ -28,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonDiary;
     private Button buttonProfile;
     private Button buttonML;
+    private Button buttonAttendanceRate;
 
 
     @Override
@@ -42,7 +43,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonDiary = (Button)findViewById(R.id.buttonDiary);
         buttonProfile = (Button)findViewById(R.id.buttonProfile);
         buttonML = (Button)findViewById(R.id.buttonML);
+        buttonAttendanceRate = (Button)findViewById(R.id.buttonAttendance);
 
+        // 권한설정 부분
         // Android 10 이상부터 사용자가 직접 OverlayPermission을 설정해 줘야함
         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
             if(!Settings.canDrawOverlays(getApplicationContext())){
@@ -66,6 +69,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonDiary.setOnClickListener(this);
             buttonProfile.setOnClickListener(this);
             buttonML.setOnClickListener(this);
+            buttonAttendanceRate.setOnClickListener(this);
         }
     }
 
@@ -85,6 +89,9 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view == buttonML){
             startActivity(new Intent(getApplicationContext(), AttendanceCheckActivity.class));
+        }
+        if(view == buttonAttendanceRate){
+            startActivity(new Intent(getApplicationContext(), AttendanceRateActivity.class));
         }
     }
 

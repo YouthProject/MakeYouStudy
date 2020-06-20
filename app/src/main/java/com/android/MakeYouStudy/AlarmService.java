@@ -31,6 +31,7 @@ public class AlarmService extends Service {
 
         String state = intent.getStringExtra("state");
         int reqCode = intent.getIntExtra("reqCode", -1);
+        int weeks = intent.getIntExtra("weekday", -1);
         Log.d("AlarmService", "AlarmService로 넘어온 state값" + state);
         Log.d("AlarmService", "에서 받은 reqCode : " + reqCode);
 
@@ -49,6 +50,7 @@ public class AlarmService extends Service {
             // notification 클릭시에도 AttendanceCheckActivity를 실행할 수 있도록 함
             Intent intent1 = new Intent(getApplicationContext(), AttendanceCheckActivity.class);
             intent1.putExtra("reqCode", reqCode);
+            intent1.putExtra("weekday", weeks);
             PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
 
             // Foreground 에서 실행되면 Notification 을 보여줘야 됨
@@ -68,7 +70,6 @@ public class AlarmService extends Service {
             Log.d("AlarmService", "Alarm Start");
 
         } else if (this.isRunning && state.equals("off")) {
-
             // 알람음 재생 ON, 알람음 중지 상태
             this.mediaPlayer.stop();
             this.mediaPlayer.reset();
