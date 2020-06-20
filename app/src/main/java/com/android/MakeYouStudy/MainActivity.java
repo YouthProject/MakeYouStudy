@@ -1,8 +1,15 @@
 package com.android.MakeYouStudy;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 
+import android.Manifest;
+import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -11,12 +18,24 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class MainActivity extends AppCompatActivity implements View.OnClickListener{
     private static final String TAG = "MainActivity";
+
+    private static final int MULTIPLE_PERMISSIONS = 101;
+    private String[] permission = {
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+            Manifest.permission.READ_EXTERNAL_STORAGE,
+            Manifest.permission.CAMERA,
+            Manifest.permission.RECORD_AUDIO
+    };
 
     //firebase auth object
     private FirebaseAuth firebaseAuth;
@@ -30,12 +49,19 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonML;
     private Button buttonAttendanceRate;
 
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 권한설정 부분
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.M){
+            checkPermission();
+            // Android 10 이상부터 사용자가 직접 OverlayPermission을 설정해 줘야함
+            if(!Settings.canDrawOverlays(getApplicationContext())){
+                checkOverlayPermission();
+            }
+        }
         //initializing views
         textViewUserEmail = (TextView)findViewById(R.id.textviewUserEmail);
         buttonCalendar = (Button)findViewById(R.id.buttonCalendar);
@@ -44,14 +70,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonProfile = (Button)findViewById(R.id.buttonProfile);
         buttonML = (Button)findViewById(R.id.buttonML);
         buttonAttendanceRate = (Button)findViewById(R.id.buttonAttendance);
-
-        // 권한설정 부분
-        // Android 10 이상부터 사용자가 직접 OverlayPermission을 설정해 줘야함
-        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q){
-            if(!Settings.canDrawOverlays(getApplicationContext())){
-                checkOverlayPermission();
-            }
-        }
 
         // 유저가 로그인하지 않은 상태라면 LoginActivity 실행
         firebaseAuth = FirebaseAuth.getInstance();
@@ -95,15 +113,72 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        switch (requestCode){
+            case MULTIPLE_PERMISSIONS:{
+                if(grantResults.length > 0){
+                    for (int i = 0; i < permissions.length; i++){
+                        if(permissions[i].equals(this.permission[i])){
+                            if(grantResults[i] != PackageManager.PERMISSION_GRANTED){
+                                showToast_PermissionDeny();
+                            }
+                        }
+                    }
+                }else{
+                    showToast_PermissionDeny();
+                }
+                return;
+            }
+        }
+
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+    }
+
+    private boolean checkPermission(){
+        int result;
+        List<String> permissionList = new ArrayList<>();
+        for (String pm : permission){
+            result = ContextCompat.checkSelfPermission(this, pm);
+            if(result != PackageManager.PERMISSION_GRANTED){
+                permissionList.add(pm);
+            }
+        }if(!permissionList.isEmpty()){
+            ActivityCompat.requestPermissions(this, permissionList.toArray(new String[permissionList.size()]), MULTIPLE_PERMISSIONS);
+            return false;
+        }
+        return true;
+    }
     // alarm overlay permission check 알람이 시작될 때 Activity를 띄워줌
     private void checkOverlayPermission(){
-        try{
-            Uri uri = Uri.parse("package:" + getPackageName());
-            Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, uri);
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("백그라운드 재생 권한").setMessage("백그라운드에서 Make You Study의 타임테이블 알람을 울리기 위해서 권한을 허용해 주셔야 합니다.");
+        builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                try{
+                    Uri uri = Uri.parse("package:" + getPackageName());
+                    Intent intent = new Intent(Settings.ACTION_MANAGE_OVERLAY_PERMISSION, uri);
 
-            startActivityForResult(intent, 5469);
-        }catch (Exception e){
-            Log.d("MainActivity", "" + e);
-        }
+                    startActivityForResult(intent, 5469);
+                }catch (Exception e){
+                    Log.d("MainActivity", "" + e);
+                }
+            }
+        });
+        builder.setNegativeButton("종료", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                showToast_PermissionDeny();
+            }
+        });
+        AlertDialog alertDialog = builder.create();
+        alertDialog.show();
+
+    }
+    // Permission check notification
+    private void showToast_PermissionDeny() {
+        Toast.makeText(this, "권한 요청에 동의 해주셔야 이용 가능합니다. 설정에서 권한 허용 하시기 바랍니다.", Toast.LENGTH_SHORT).show();
+        finish();
     }
 }

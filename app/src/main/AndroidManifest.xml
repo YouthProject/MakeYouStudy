@@ -8,13 +8,11 @@
         android:required="true" />
 
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-permission android:name="android.permission.CAMERA" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
-
-
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.INTERNET"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW"/>
     <uses-permission android:name="android.permission.WAKE_LOCK"/>
     <application
         android:allowBackup="true"
@@ -26,6 +24,7 @@
         android:theme="@style/AppTheme">
         <activity android:name=".EditActivity"></activity>
         <activity android:name=".AttendanceCheckActivity"></activity>
+        <activity android:name=".AttendanceRateActivity"/>
         <activity android:name=".Helper.InternetCheck" />
         <activity android:name=".ImageLabelActivity" />
         <activity android:name=".TextRecognitionActivity" />
@@ -73,16 +72,12 @@
                 <data android:scheme="@string/fb_login_protocol_scheme" />
             </intent-filter>
         </activity>
-
         <receiver
             android:name=".AlarmReceiver"
             android:enabled="true"
             android:exported="false" />
-
         <service
             android:name=".AlarmService"
             android:enabled="true" />
-
     </application>
-
 </manifest>
