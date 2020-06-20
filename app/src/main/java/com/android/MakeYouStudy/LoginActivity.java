@@ -18,6 +18,9 @@ import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
+import com.facebook.LoginStatusCallback;
+import com.facebook.login.Login;
+import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -37,6 +40,9 @@ import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+import java.util.ArrayList;
+import java.util.Arrays;
+
 import static com.google.firebase.auth.FirebaseAuthProvider.PROVIDER_ID;
 
 public class LoginActivity extends AppCompatActivity {
@@ -45,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     private String email = "";
     private String password = "";
     private EditText ed_eamil, ed_password;
-    private Button btn_login, btn_signup, bt_find, bt_test;
+    private Button btn_login, btn_signup, bt_find, bt_test,testbutton,goobtn;
 
     private static final int RC_SIGN_IN = 900;
     private GoogleSignInClient googleSignInClient;
@@ -55,7 +61,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
     private CallbackManager callbackManager;
-
+         private LoginStatusCallback loginStatusCallback;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -69,6 +75,19 @@ public class LoginActivity extends AppCompatActivity {
         btn_login = (Button) findViewById(R.id.bt_login);
         btn_signup = (Button) findViewById(R.id.bt_signup);
         bt_find = (Button) findViewById(R.id.bt_find);
+    testbutton=(Button)findViewById(R.id.testbutton);
+    goobtn=(Button)findViewById(R.id.goobtn);
+        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+        loginButton = findViewById(R.id.login_button);
+        LoginButton finalLoginButton = loginButton;
+
+
+        testbutton.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            finalLoginButton.performClick();
+        }
+    });
 
 
         bt_find.setOnClickListener(new View.OnClickListener() {
@@ -91,8 +110,8 @@ public class LoginActivity extends AppCompatActivity {
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
 
         callbackManager = CallbackManager.Factory.create();
-        LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-        loginButton = findViewById(R.id.login_button);
+       // LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
+      //  loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
@@ -111,6 +130,14 @@ public class LoginActivity extends AppCompatActivity {
             @Override
             public void onError(FacebookException error) {
 
+
+            }
+        });
+        goobtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                buttonGoogle.performClick();
 
             }
         });
@@ -260,6 +287,7 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         }
+        callbackManager.onActivityResult(requestCode,resultCode,data);
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 

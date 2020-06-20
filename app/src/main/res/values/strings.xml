@@ -39,16 +39,16 @@
 
 
     <string-array name="random_text">
-        <item>Passion</item>
-        <item>Wish</item>
-        <item>Aspiration</item>
-        <item>Peace</item>
-        <item>Blossom</item>
-        <item>Sunshine</item>
-        <item>Cherish</item>
-        <item>Smile</item>
-        <item>Family</item>
-        <item>Rainbow</item>
+        <item>passion</item>
+        <item>wish</item>
+        <item>aspiration</item>
+        <item>peace</item>
+        <item>blossom</item>
+        <item>sunshine</item>
+        <item>cherish</item>
+        <item>smile</item>
+        <item>family</item>
+        <item>rainbow</item>
     </string-array>
 
 

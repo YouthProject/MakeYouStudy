@@ -1,87 +1,74 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ProfileActivity">
+    tools:context=".ProfileActivity"
+    android:layout_gravity="center"
+    android:gravity="center">
 
+    <RelativeLayout
+        android:id="@+id/profileRe"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content">
     <TextView
         android:id="@+id/te_textview"
-        android:layout_width="200dp"
-        android:layout_height="0dp"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="143dp"
-        android:layout_marginEnd="50dp"
-        android:layout_marginBottom="538dp"
-        android:text="TextView"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent" />
+        android:layout_width="300dp"
+        android:layout_height="40dp"
+        android:textSize="15sp"
+        android:text="현재 로그인 된 계정 "
+     />
 
     <Button
         android:id="@+id/bt_logut"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:text="로그아웃"
-        app:layout_constraintEnd_toEndOf="@+id/te_textview"
-        app:layout_constraintStart_toStartOf="@+id/te_textview"
-        app:layout_constraintTop_toBottomOf="@+id/te_textview" />
-
+        android:layout_below="@+id/te_textview"
+      />
     <Button
+        android:layout_toRightOf="@+id/bt_logut"
         android:id="@+id/bt_delect"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
         android:text="회원 탈퇴"
-        app:layout_constraintEnd_toEndOf="@+id/bt_logut"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/bt_logut"
-        app:layout_constraintTop_toBottomOf="@+id/bt_logut" />
+        android:layout_marginTop="40dp"
+      />
 
     <Button
-        android:id="@+id/takepicture"
+        android:layout_toRightOf="@+id/bt_delect"
+        android:id="@+id/takeapicture"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="36dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/bt_delect"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/bt_delect"
-        app:layout_constraintTop_toBottomOf="@+id/bt_delect" />
+        android:text="사진 찍기"
+        android:layout_marginTop="40dp"
+    />
 
-    <ImageView
-        android:id="@+id/takeimage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginBottom="150dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="@+id/takepicture"
-        app:layout_constraintTop_toBottomOf="@+id/te_textview" />
+        <Button
+            android:layout_toRightOf="@+id/takeapicture"
+            android:id="@+id/bringimage"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="40dp"
+            android:text="갤러리"
+            />
+        <ImageView
+            android:layout_below="@id/bringimage"
+            android:id="@+id/takeimage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/loadinimage"
+            />
 
-    <ImageView
-        android:id="@+id/photoimage"
-        android:layout_width="150dp"
-        android:layout_height="150dp"
-        android:layout_marginStart="46dp"
-        android:layout_marginBottom="170dp"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintStart_toStartOf="@+id/takeimage"
-        app:layout_constraintTop_toBottomOf="@+id/te_textview" />
-
-    <Button
-        android:id="@+id/retry"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="116dp"
-        android:text="Button"
-        app:layout_constraintEnd_toEndOf="@+id/takepicture"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/takepicture"
-        app:layout_constraintTop_toBottomOf="@+id/takepicture" />
+        <ImageView
+            android:layout_below="@id/takeimage"
+            android:id="@+id/photoimage"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:src="@drawable/loadinimage"
+            />
+</RelativeLayout>
 
 
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
+</RelativeLayout>

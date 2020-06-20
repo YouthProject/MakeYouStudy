@@ -34,6 +34,7 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.ListResult;
 import com.google.firebase.storage.StorageReference;
 import com.google.firebase.storage.UploadTask;
 
@@ -46,7 +47,7 @@ public class ProfileActivity extends AppCompatActivity{
     GoogleSignInClient googleSignInClient;
     FirebaseAuth firebaseAuth;
     private TextView te_textview;
-    private Button bt_logout, bt_delect,takepicture,retry,uplo;
+    private Button bt_logout, bt_delect,bringimage,takeapicture;
     ImageView takeimage,photoimage;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mdatabase = FirebaseDatabase.getInstance().getReference();
@@ -67,6 +68,7 @@ public class ProfileActivity extends AppCompatActivity{
     int position;
     int size;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +78,9 @@ public class ProfileActivity extends AppCompatActivity{
         bt_logout = (Button) findViewById(R.id.bt_logut);
         bt_delect = (Button) findViewById(R.id.bt_delect);
 
-        takepicture=(Button)findViewById(R.id.takepicture);
+        bringimage=(Button)findViewById(R.id.bringimage);
         takeimage=(ImageView)findViewById(R.id.takeimage);
-        retry=(Button)findViewById(R.id.retry);
+        takeapicture=(Button)findViewById(R.id.takeapicture);
         firebaseAuth = FirebaseAuth.getInstance();
         photoimage=(ImageView)findViewById(R.id.photoimage);
         user = firebaseAuth.getCurrentUser();
@@ -89,7 +91,20 @@ public class ProfileActivity extends AppCompatActivity{
 
         storageRef = storage.getReference().child("images").child(user.getUid());
 
+        // test listall
+        storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
+            @Override
+            public void onSuccess(ListResult listResult) {
+                for (StorageReference item : listResult.getItems()){
+                    Log.d("item", item.toString());
+                }
+            }
+        }).addOnFailureListener(new OnFailureListener() {
+            @Override
+            public void onFailure(@NonNull Exception e) {
 
+            }
+        });
 
         // 로그아웃 버튼 리스너
         bt_logout.setOnClickListener(new View.OnClickListener() {
@@ -106,7 +121,7 @@ public class ProfileActivity extends AppCompatActivity{
         });
 
         // 이미지 불러오기 버튼 리스너
-        takepicture.setOnClickListener(new View.OnClickListener() {
+        bringimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checksize(); // 이미지를 불러오기전에 size와 positon 초기화
@@ -116,25 +131,22 @@ public class ProfileActivity extends AppCompatActivity{
                 Intent intent = new Intent(Intent.ACTION_PICK);
                 intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
                 startActivityForResult(intent,PICK_IMAGE);
-                /*
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);*/
+
             }
         });
-        retry.setOnClickListener(new View.OnClickListener() {
+
+        //사진 찍기 리스너너
+       takeapicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checksize();
                 dispatchTakePictureIntent();
-                Intent intent = new Intent();
-                intent.setType("image/*");
-                intent.setAction(Intent.ACTION_GET_CONTENT);
-                startActivityForResult(Intent.createChooser(intent, "이미지를 선택하세요."), 0);
+
             }
         });
     }
+
+    // 사진 찍기
     private void dispatchTakePictureIntent() {
         Intent takePictureIntent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
         startActivityForResult(takePictureIntent, REQUEST_IMAGE_CAPTURE);
@@ -154,7 +166,7 @@ public class ProfileActivity extends AppCompatActivity{
                     InputStream in = getContentResolver().openInputStream(data.getData());
                     Bitmap img = BitmapFactory.decodeStream(in);
                     in.close();
-                    imageUpload(img, 70);
+                    imageUpload(img);
                 } catch (Exception e) {
                     e.printStackTrace();
                 }
@@ -165,7 +177,8 @@ public class ProfileActivity extends AppCompatActivity{
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             filePath = data.getData();;
             if (bitmap != null) {
-                imageUpload(bitmap, 100);
+                imageUpload(bitmap);
+                takeimage.setImageBitmap(bitmap);
             }
         }
     }
@@ -238,9 +251,9 @@ public class ProfileActivity extends AppCompatActivity{
     }
 
     //firebase에 책상 image upload method
-    public void imageUpload(Bitmap bmpImage, int quality){
+    public void imageUpload(Bitmap bmpImage){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmpImage.compress(Bitmap.CompressFormat.JPEG, quality, baos);
+        bmpImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data1 = baos.toByteArray();
 
         StorageReference filepath = storageRef.child(position+"");
@@ -260,15 +273,12 @@ public class ProfileActivity extends AppCompatActivity{
                 Log.d("Upload : ", "Success");
                 Toast.makeText(ProfileActivity.this, "이미지가 성공적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "SIZE : " + size + "POSITION : " + position);
-
-                countPosition();
-
                 mdatabase.child("image").child(user.getUid()).child("size").setValue(size+"");
                 mdatabase.child("image").child(user.getUid()).child("position").setValue(position+"");
-
             }
         });
     }
+
 
     // image database가 null인지 확인 후 null이면 초기화
     public void checksize(){
@@ -285,7 +295,7 @@ public class ProfileActivity extends AppCompatActivity{
                         }else{
                             size = Integer.parseInt(dataSnapshot.child("size").getValue(String.class));
                             position = Integer.parseInt(dataSnapshot.child("position").getValue(String.class));
-
+                            countPosition();
                         }
                     }
             @Override

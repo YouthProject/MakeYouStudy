@@ -8,96 +8,107 @@
 
     tools:context="com.android.MakeYouStudy.LoginActivity">
 
-    <EditText
-        android:id="@+id/ed_email"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="50dp"
-        android:layout_marginTop="48dp"
-        android:layout_marginEnd="50dp"
-        android:layout_margin="10dp"
+    <TextView
+        android:layout_width="200dp"
+        android:layout_height="200dp"
         android:layout_gravity="center"
-        android:ems="10"
-        android:hint="example@example.com"
-        android:inputType="textPersonName"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.469"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/ed_password"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
         android:layout_marginTop="30dp"
-        android:ems="10"
-        android:hint="****"
-        android:layout_gravity="center"
-        app:layout_constraintEnd_toEndOf="@+id/ed_email"
-        app:layout_constraintStart_toStartOf="@+id/ed_email"
-        app:layout_constraintTop_toBottomOf="@+id/ed_email" />
+        android:background="@drawable/loadinimage"
+        />
 
-    <Button
-        android:id="@+id/bt_login"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="로그인"
-        android:layout_gravity="center"
+    <RelativeLayout
+        android:layout_width="300dp"
+        android:layout_height="300dp"
+        android:layout_marginTop="50dp"
+        android:layout_gravity="center">
 
-        app:layout_constraintEnd_toEndOf="@+id/ed_password"
-        app:layout_constraintStart_toStartOf="@+id/ed_password"
-        app:layout_constraintTop_toBottomOf="@+id/ed_password" />
+        <EditText
+            android:id="@+id/ed_email"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:hint="example@example.com"
+            android:inputType="textPersonName"
+            />
 
-    <Button
+        <EditText
+            android:id="@+id/ed_password"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ed_email"
+            android:layout_gravity="center"
+            android:inputType="textPassword"
+            android:hint="****"
+             />
 
-        android:id="@+id/bt_signup"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:text="회원가입"
-        android:layout_gravity="center"
+        <Button
+            android:id="@+id/bt_login"
+            android:layout_width="3000dp"
+            android:layout_height="wrap_content"
+            android:layout_below="@+id/ed_password"
+            android:layout_gravity="center"
 
-        app:layout_constraintEnd_toEndOf="@+id/bt_login"
-        app:layout_constraintStart_toStartOf="@+id/bt_login"
-        app:layout_constraintTop_toBottomOf="@+id/bt_login" />
+            android:text="로그인"
 
-    <Button
-        android:id="@+id/bt_find"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:text="비밀번호 찾기"
-        android:layout_gravity="center"
+           />
 
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="@+id/bt_signup"
-        app:layout_constraintStart_toStartOf="@+id/bt_signup"
-        app:layout_constraintTop_toBottomOf="@+id/bt_signup"/>
+
+        <Button
+
+            android:id="@+id/bt_signup"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_below="@+id/bt_login"
+            android:text="회원가입"
+            />
+
+        <Button
+            android:id="@+id/bt_find"
+            android:layout_width="150dp"
+            android:layout_height="50dp"
+            android:layout_marginTop="138dp"
+            android:layout_toRightOf="@+id/bt_signup"
+            android:text="비밀번호 찾기"
+        />
 
 
 
     <com.google.android.gms.common.SignInButton
-        android:id="@+id/btn_googleSignIn"
-        android:layout_width="220dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:layout_gravity="center"
+            android:id="@+id/btn_googleSignIn"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:layout_below="@+id/bt_find"
+         />
 
-        app:layout_constraintEnd_toEndOf="@+id/bt_find"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toStartOf="@+id/bt_find"
-        app:layout_constraintTop_toBottomOf="@+id/bt_find" />
 
-    <com.facebook.login.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="220dp"
-        android:layout_height="300dp"
-        android:layout_gravity="center"
+            <com.facebook.login.widget.LoginButton
+                android:id="@+id/login_button"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginLeft="150dp"
+                android:layout_marginTop="300dp"
+                android:height="@android:dimen/app_icon_size"
+               />
 
-        android:layout_marginTop="30dp"
-        app:layout_constraintEnd_toEndOf="@+id/btn_googleSignIn"
-        app:layout_constraintStart_toStartOf="@+id/btn_googleSignIn"
-        app:layout_constraintTop_toBottomOf="@+id/btn_googleSignIn" />
+        <Button
+            android:id="@+id/goobtn"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="190dp"
+            android:background="@drawable/googleimage"
+
+            />
+            <Button
+                android:id="@+id/testbutton"
+                android:layout_width="2000dp"
+                android:layout_height="40dp"
+                android:layout_marginTop="240dp"
+                android:background="@drawable/facebookimage"/>
+
+
+    </RelativeLayout>
 
 
 </LinearLayout>
