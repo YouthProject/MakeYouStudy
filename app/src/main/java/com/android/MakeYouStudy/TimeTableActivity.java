@@ -33,6 +33,7 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -43,6 +44,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
 
     //firebase auth object
     private FirebaseAuth firebaseAuth;
+    private FirebaseUser user;
 
     //firebase data object
     private DatabaseReference mDatabaseReference; // 데이터베이스의 주소를 저장합니다.
@@ -59,6 +61,8 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
 
     private TimetableView timetable;
 
+    private int[] days;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,7 +72,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         textViewUserEmail = (TextView)findViewById(R.id.textviewUserEmail);
 
         firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
+        user = firebaseAuth.getCurrentUser();
 
         // AlarmManger Service
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
@@ -187,11 +191,13 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     public void AddAlarm(String json){
         // 시간 설정
         Calendar calendar = Calendar.getInstance();
-
+        // timetable_checked의 Total값 초기화
+        initDaysTotal();
         // json parse
         JsonParser parser = new JsonParser();
         JsonObject obj1 = (JsonObject)parser.parse(json);
         JsonArray arr1 = obj1.getAsJsonArray("sticker");
+
         for(int i = 0; i < arr1.size(); i++){
             JsonObject obj2 = (JsonObject)arr1.get(i);
             JsonArray arr2 = (JsonArray)obj2.get("schedule");
@@ -215,6 +221,9 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                         obj4.get("minute").getAsInt() +
                         " i : " + i
                         );
+                // database timetable_checked에 요일별로 total값을 계산해준다.
+                days[obj3.get("day").getAsInt()]++;
+
                 calendar.set(Calendar.HOUR_OF_DAY, obj4.get("hour").getAsInt());
                 calendar.set(Calendar.MINUTE, obj4.get("minute").getAsInt());
                 calendar.set(Calendar.SECOND, 0);
@@ -245,5 +254,18 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 }
             }
         }
+        daysUpdate();
+    }
+
+    public void daysUpdate(){
+        int sum = 0;
+        for(int i = 0; i < 7; i++) {
+            mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child(i + "").child("DayTotal").setValue(days[i]);
+            sum += days[i];
+        }
+        mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child("AllTotal").setValue(sum);
+    }
+    public void initDaysTotal(){
+        days = new int[]{0, 0, 0, 0, 0, 0, 0};
     }
 }

@@ -51,7 +51,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
     private Activity activity;
     // Alarm object
     private AlarmManager alarmManager;
-    private int reqCode;
+    private int reqCode, weeks;
     private Intent sintent;
     private Context context;
     //firebase
@@ -63,11 +63,20 @@ public class AttendanceCheckActivity extends AppCompatActivity {
 
     int size;
 
+    private DatabaseReference mDatabaseReference; // 데이터베이스의 주소를 저장합니다.
+    private FirebaseDatabase mFirebaseDatabase; // 데이터베이스에 접근할 수 있는 진입점 클래스입니다.
+    private int[] dayschecked;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_attendance_check);
+
+        firebaseAuth = FirebaseAuth.getInstance();
+        user = firebaseAuth.getCurrentUser();
+
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid());
 
         randomText = getResources().getStringArray(R.array.random_text);
         rnd = new Random();
@@ -79,10 +88,10 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
         Intent intent = getIntent();
         reqCode = intent.getIntExtra("reqCode", -1);
-        Log.d("reqTest", " 받아온 reqCode값은 : " + reqCode);
+        weeks = intent.getIntExtra("weekday", -1);
 
-        firebaseAuth = FirebaseAuth.getInstance();
-        user = firebaseAuth.getCurrentUser();
+        Log.d("Attendance", " Receiver와 service에서 받아온 reqCode값은 : " + reqCode + " week에서 받은 값은 " + weeks);
+
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference().child("images").child(user.getUid());
 
@@ -214,6 +223,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(activity, "결석처리 되었습니다.", Toast.LENGTH_SHORT).show();
                 alarmOff();
+                checkDaysTotal(weeks);
                 finish();
             }
         });
@@ -319,5 +329,38 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         alarmManager.cancel(pendingIntent);
         sendBroadcast(intent);
         Log.d("ReqTest", reqCode + " 의 pendingintent 알람이 해제되었습니다.");
+    }
+
+    public void checkDaysTotal(int day){
+        Log.d("TASET", day + "");
+        dayschecked = new int[]{0, 0, 0, 0, 0, 0, 0};
+        mDatabaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                int sum = 0;
+                for (DataSnapshot snapshot : dataSnapshot.getChildren()){
+                    if(snapshot.getKey() == "AllCheck"){ break; }
+                    else if (snapshot.child("DayCheck").getValue(Integer.class)==null){
+                        // DayCheck가 null일 때 0으로 초기화 시켜준다.
+                        for (int i = 0; i < 7; i++){
+                            mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child(i + "").child("DayCheck").setValue(dayschecked[i]);
+                        }
+                    } else{
+                        Log.d(TAG, "datasanashot" + snapshot.getKey());
+                        dayschecked[Integer.parseInt(snapshot.getKey())] = snapshot.child("DayCheck").getValue(Integer.class);
+                    }
+                }
+                dayschecked[day]++;
+                for (int i = 0; i < 7; i++){
+                    mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child(i + "").child("DayCheck").setValue(dayschecked[i]);
+                    sum += dayschecked[i];
+                }
+                mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child("AllCheck").setValue(sum);
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+
+
     }
 }

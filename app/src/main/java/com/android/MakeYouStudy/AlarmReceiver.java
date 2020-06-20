@@ -54,6 +54,7 @@ public class AlarmReceiver extends BroadcastReceiver {
         }
         else if(weeks == nweeks) { // 오늘이 설정한 요일 일 때
             sIntent.putExtra("state", "on");
+            sIntent.putExtra("weekday", weeks);
             // Oreo(26) 버전 이후부터는 Background 에서 실행을 금지하기 때문에 Foreground 에서 실행해야 함
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 context.startForegroundService(sIntent);
@@ -71,6 +72,7 @@ public class AlarmReceiver extends BroadcastReceiver {
             try {
                 Intent intent2 = new Intent(context, AttendanceCheckActivity.class);
                 intent2.putExtra("reqCode", reqCode);
+                intent2.putExtra("weekday", weeks);
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
                 pendingIntent.send();
                 Log.d(TAG, "Activity 실행");

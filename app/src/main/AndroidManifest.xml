@@ -24,6 +24,7 @@
         <activity android:name=".ImageMatchingActivity"></activity>
         <activity android:name=".EditActivity" />
         <activity android:name=".AttendanceCheckActivity" />
+        <activity android:name=".AttendanceRateActivity"></activity>
         <activity android:name=".Helper.InternetCheck" />
         <activity android:name=".ImageLabelActivity" />
         <activity android:name=".TextRecognitionActivity" />
