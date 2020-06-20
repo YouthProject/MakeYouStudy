@@ -37,7 +37,7 @@
             android:layout_below="@+id/ed_email"
             android:layout_gravity="center"
             android:inputType="textPassword"
-            android:hint="****"
+            android:hint="******"
              />
 
         <Button

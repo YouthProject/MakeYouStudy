@@ -41,7 +41,7 @@
         </intent-filter>
         </activity>
 
-        <!--
+
         <activity android:name=".MainActivity">
             <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
@@ -82,7 +82,7 @@
         <service
             android:name=".AlarmService"
             android:enabled="true" />
-       -->
+
     </application>
 
 </manifest>
