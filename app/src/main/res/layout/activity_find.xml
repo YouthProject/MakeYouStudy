@@ -7,20 +7,13 @@
     android:orientation="vertical"
     tools:context="com.android.MakeYouStudy.FindActivity">
 
-    <TextView
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="50dp"
-        android:textSize="23dp"
-        android:textColor="@color/colorAccent"
-        android:text="암호찾기" />
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="200dp"
+        android:background="@drawable/password_find"
+        />
 
-    <TextView
-        android:text="등록한 Email을 입력해 주세요/"
-        android:layout_gravity="center_horizontal"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
 
     <EditText
         android:id="@+id/findemail"

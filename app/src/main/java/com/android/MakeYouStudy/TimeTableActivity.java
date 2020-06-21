@@ -18,6 +18,7 @@ import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -286,7 +287,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 if(dataSnapshot.getValue(String.class) == null || !dataSnapshot.getValue(String.class).equals("4")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
-                    builder.setTitle("사진 등록이 필요합니다.").setMessage("프로필에서 최소 5장의 사진을 업로드하세요.");
+                    builder.setTitle("사진 등록이 필요합니다.").setMessage("프로필에서 5장의 책상 사진을 업로드하세요.");
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
@@ -294,7 +295,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                             finish();
                         }
                     });
-                    builder.setNegativeButton("종료", new DialogInterface.OnClickListener() {
+                    builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                         @Override
                         public void onClick(DialogInterface dialog, int which) {
                             finish();

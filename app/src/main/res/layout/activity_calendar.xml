@@ -6,61 +6,66 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:focusable="true"
-    android:focusableInTouchMode="true"
-    tools:context=".MainActivity"
-    >
-
-    <com.applandeo.materialcalendarview.CalendarView
-        android:id="@+id/calendarView"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        app:type="one_day_picker"
-        app:eventsEnabled="true"        />
-
-
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:padding="5sp">
-
-        <EditText
-            android:id="@+id/edtDairy"
-            android:layout_width="match_parent"
-            android:layout_height="80sp"
-            android:background="#DDDDDD"
-            android:ems="10"
-            android:gravity="start|center_vertical"
-            android:inputType="text|textMultiLine|textCapSentences"
-            android:padding="7sp"
-            android:text="" />
-
-
-    </LinearLayout>
-
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:gravity="center"
-        android:orientation="vertical"
+        android:focusable="true"
+        android:focusableInTouchMode="true"
+        tools:context=".MainActivity"
         >
 
-        <Button
-            android:id="@+id/btnSave"
-            android:layout_width="100dp"
-            android:layout_height="50dp"
-            android:layout_gravity="center"
-            android:background="#00ff0000"
-            android:text="" />
+        <com.applandeo.materialcalendarview.CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            app:type="one_day_picker"
+            app:headerColor="@color/mainColor"
+            app:selectionColor="@color/colorPrimaryDark"
+            app:todayLabelColor="@color/colorPrimaryDark"
+            app:eventsEnabled="true"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            android:padding="5sp">
+
+            <EditText
+                android:id="@+id/edtDairy"
+                android:layout_width="match_parent"
+                android:layout_height="80sp"
+                android:background="#f9f5ea"
+                android:ems="10"
+                android:gravity="start|center_vertical"
+                android:inputType="text|textMultiLine|textCapSentences"
+                android:padding="7sp"
+                android:text=""
+                android:hint="일정을 입력해주세요."
+                />
+
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:orientation="vertical"
+            >
+
+            <Button
+                android:id="@+id/btnSave"
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_gravity="center"
+                android:background="#00ff0000"
+                android:text="" />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
 
 
 </ScrollView>

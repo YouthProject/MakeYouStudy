@@ -3,7 +3,9 @@ package com.android.MakeYouStudy;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -22,6 +24,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 
+
 public class SignUpActivity extends AppCompatActivity  {
 
     FirebaseAuth firebaseAuth;
@@ -29,6 +32,10 @@ public class SignUpActivity extends AppCompatActivity  {
     String password = "";
     EditText ed_singupeamil, ed_signuppassword;
     Button bt_newsignup, bt_backmain;
+
+    TextView textEmail;
+
+
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabase;// ...
     @Override
@@ -42,6 +49,7 @@ public class SignUpActivity extends AppCompatActivity  {
         ed_signuppassword=(EditText)findViewById(R.id.ed_signuppassword);
         bt_newsignup=(Button)findViewById(R.id.bt_newsignup);
         bt_backmain=(Button)findViewById(R.id.bt_backmain);
+        textEmail = (TextView)findViewById(R.id.tv_error_email);
 
 
         bt_newsignup.setOnClickListener(new View.OnClickListener() {
@@ -63,6 +71,29 @@ public class SignUpActivity extends AppCompatActivity  {
                 startActivity(intent);
             }
         });
+
+        ed_singupeamil.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
+
+            @Override
+            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
+
+            @Override
+            public void afterTextChanged(Editable s) {
+                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()){
+                    textEmail.setText("이메일 형식으로 입력해주세요.");    // 경고 메세지
+                    ed_singupeamil.setBackgroundResource(R.drawable.red_edittext);  // 적색 테두리 적용
+                }
+                else{
+                    textEmail.setText("");         //에러 메세지 제거
+                    ed_singupeamil.setBackgroundResource(R.drawable.white_edittext);  //테투리 흰색으로 변경
+                }
+            }
+        });
+
+
+
     }
     private boolean isValidEmail() {
         if (email.isEmpty()) {

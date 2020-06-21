@@ -15,6 +15,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.Toast;
@@ -134,12 +135,12 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
 
-                if(size < 4)
-                {
-                    dialogImageMatching();
-                }else {
+//                if(size < 4)
+//                {
+//                    dialogImageMatching();
+//                }else {
                     startActivityForResult(new Intent(getApplicationContext(), ImageMatchingActivity.class), IMAGE_MATCHING_ACTIVITY);
-                }
+//                }
 
             }
         });
@@ -258,36 +259,36 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         alert.show();
     }
 
-    public void dialogImageMatching(){
-        activity = this;
-
-        AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
-        alertdialog.setMessage("자신의 책상사진 5장을 등록해야 사용 가능합니다. 등록하시겠습니까?");
-
-        // 확인버튼 - 등록
-        alertdialog.setPositiveButton("등록하러가기", new DialogInterface.OnClickListener(){
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-            }
-        });
-
-        // 취소버튼
-        alertdialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-
-            @Override
-            public void onClick(DialogInterface dialog, int which) {
-                Toast.makeText(activity, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
-            }
-        });
-
-
-        AlertDialog alert = alertdialog.create();
-        alert.setTitle("사진을 등록하세요!");
-
-        alert.show();
-
-    }
+//    public void dialogImageMatching(){
+//        activity = this;
+//
+//        AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
+//        alertdialog.setMessage("자신의 책상사진 5장을 등록해야 사용 가능합니다. 등록하시겠습니까?");
+//
+//        // 확인버튼 - 등록
+//        alertdialog.setPositiveButton("등록하러가기", new DialogInterface.OnClickListener(){
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+//            }
+//        });
+//
+//        // 취소버튼
+//        alertdialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+//
+//            @Override
+//            public void onClick(DialogInterface dialog, int which) {
+//                Toast.makeText(activity, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
+//            }
+//        });
+//
+//
+//        AlertDialog alert = alertdialog.create();
+//        alert.setTitle("사진을 등록하세요!");
+//
+//        alert.show();
+//
+//    }
 
 //    public void checksize(){
 //        mdatabase.child("image").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {

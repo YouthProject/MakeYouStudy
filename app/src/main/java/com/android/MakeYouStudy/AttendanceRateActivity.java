@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
+import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -138,7 +139,7 @@ public class AttendanceRateActivity extends AppCompatActivity {
 
                 // PieChart
                 if(AllTotal == 0){
-                    Toast.makeText(AttendanceRateActivity.this, "시간표가 없어 출석률을 확인할 수 없습니다. 시간표를 추가해주세요.", Toast.LENGTH_SHORT).show();
+                    Toast.makeText(AttendanceRateActivity.this, "시간표가 없어 출석률을 확인할 수 없습니다. 시간표를 추가해주세요.", Toast.LENGTH_LONG).show();
                     startActivity(new Intent(getApplicationContext(), TimeTableActivity.class));
                     finish();
                 }else{

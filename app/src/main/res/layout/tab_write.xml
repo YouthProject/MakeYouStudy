@@ -5,49 +5,54 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    android:orientation="vertical"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
-
-    <EditText
-        android:id="@+id/edit_title_write"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:hint="제목을 입력하세요."
-        android:background="#e1f1cb"
-        android:layout_weight="5" />
-
-    <EditText
-        android:id="@+id/edit_contents_write"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:background="#efedbf"
-        android:lines="20"
-        android:hint="내용을 입력하세요."
-        android:gravity="top|left"
-        android:layout_weight="1" />
-
     <LinearLayout
+        xmlns:android="http://schemas.android.com/apk/res/android"
         android:orientation="vertical"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:layout_weight="5"
-        android:background="#e1f1cb">
+        android:layout_height="match_parent">
 
-        <Button
-            android:layout_width="150dp"
+
+        <EditText
+            android:id="@+id/edit_title_write"
+            android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text=""
-            android:layout_gravity="center"
-            android:id="@+id/save_btn_write"
-            android:layout_weight="1"
-            android:background="@drawable/ic_save"
-            />
+            android:hint="제목을 입력하세요."
+            android:background="#e1f1cb"
+            android:layout_weight="5" />
+
+        <EditText
+            android:id="@+id/edit_contents_write"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="#efedbf"
+            android:lines="20"
+            android:hint="내용을 입력하세요."
+            android:gravity="top|left"
+            android:layout_weight="1" />
+
+        <LinearLayout
+            android:orientation="vertical"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="5"
+            android:background="#e1f1cb">
+
+            <Button
+                android:layout_width="150dp"
+                android:layout_height="match_parent"
+                android:text=""
+                android:layout_gravity="center"
+                android:id="@+id/save_btn_write"
+                android:layout_weight="1"
+                android:background="@drawable/ic_save"
+                />
+
+        </LinearLayout>
 
     </LinearLayout>
-
-</LinearLayout>
 </ScrollView>
+
+
+
+
+

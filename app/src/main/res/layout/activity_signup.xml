@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
@@ -11,53 +11,86 @@
     >
 
 
-    <RelativeLayout
+    <LinearLayout
         android:id="@+id/as"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:orientation="vertical"
        >
 
         <ImageView
-            android:id="@+id/imas"
-            android:layout_width="300dp"
-            android:layout_height="150dp"
-            android:src="@drawable/loadinimage"
-            android:foregroundGravity="center"
+            android:layout_width="200dp"
+            android:layout_height="40dp"
+            android:layout_gravity="center"
+            android:background="@drawable/login_app_name" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:text=" 이메일"
+            android:paddingLeft="3dp"
             />
+
+
 
         <EditText
             android:id="@+id/ed_signupemail"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/imas"
+            android:layout_height="35dp"
             android:hint="example@example.com"
-            android:inputType="textPersonName" />
+            android:inputType="textPersonName"
+            android:paddingLeft="10dp"
+            android:background="@drawable/white_edittext"
+            />
 
+        <TextView
+            android:id="@+id/tv_error_email"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="#FF0000"
+            android:paddingLeft="5dp"
+            tools:text="테스트 " />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:text=" 비밀번호"
+            android:paddingLeft="3dp"
+            />
 
         <EditText
             android:id="@+id/ed_signuppassword"
             android:layout_width="300dp"
-            android:layout_height="wrap_content"
-            android:layout_below="@+id/ed_signupemail"
+            android:layout_height="35dp"
             android:inputType="textPassword"
             android:ems="10"
-            android:hint="****" />
+            android:hint="****"
+            android:paddingLeft="10dp"
+            android:background="@drawable/white_edittext"
+            />
+
+
 
         <Button
             android:id="@+id/bt_newsignup"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_below="@id/ed_signuppassword"
-            android:text="회원가입" />
+            android:layout_marginTop="10dp"
+            android:text="회원가입"
+            android:background="@color/mainColor"
+            />
 
         <Button
             android:id="@+id/bt_backmain"
             android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:layout_below="@+id/bt_newsignup"
-            android:text="로그인화면가기" />
+            android:text="로그인화면 가기"
+            android:background="@color/nullColor"
+            />
 
-    </RelativeLayout>
+    </LinearLayout>
 
 
-</RelativeLayout>
+</LinearLayout>

@@ -13,40 +13,53 @@
         android:layout_width="match_parent"
         android:layout_height="100dp"
         android:scaleType="fitXY"
-        android:background="@drawable/timetable_setting"
+        android:background="@drawable/setting_image"
         />
 
     <TextView
         android:id="@+id/te_textview"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:gravity="center"
         android:textSize="15sp"
         android:text="현재 로그인 된 계정 "
-        android:layout_marginBottom="15dp"
+        android:layout_marginBottom="10dp"
         />
 
 
     <Button
         android:id="@+id/takeapicture"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_toRightOf="@+id/bt_delect"
-        android:text="사진 찍기" />
+        android:background="@drawable/image_add"
+        android:text="" />
+
+    <ImageView
+        android:id="@+id/imageView2"
+        android:layout_width="300dp"
+        android:layout_height="350dp"
+        android:background="@drawable/image_add_2"
+        android:layout_gravity="center"
+        android:scaleType="fitXY" />
 
     <Button
         android:id="@+id/bt_logut"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="로그아웃"
+        android:layout_height="60dp"
+        android:text=""
         android:layout_below="@+id/te_textview"
+        android:background="@drawable/logout_image"
       />
 
     <Button
         android:id="@+id/bt_delect"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="60dp"
         android:layout_toRightOf="@+id/bt_logut"
-        android:text="회원 탈퇴" />
+        android:text=""
+        android:background="@drawable/delete_id"
+        />
 
 </LinearLayout>
 
