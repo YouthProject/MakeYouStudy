@@ -12,6 +12,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -88,14 +90,20 @@ public class DiaryActivity extends AppCompatActivity {
             public void onTabSelected(TabLayout.Tab tab) {
                 viewPager.setCurrentItem(tab.getPosition());
             }
+
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) { }
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
             @Override
-            public void onTabReselected(TabLayout.Tab tab) { }
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
     }
 
-    //다이어리 작성 내부 클라스
+
+
+    //다이어리 작성 내부클래스
     public static class Diary_Write extends Fragment {
         @Nullable
         @Override
@@ -112,9 +120,13 @@ public class DiaryActivity extends AppCompatActivity {
                     new Handler().postDelayed(new Runnable() {
                         public void run() {
                             save_btn.setEnabled(true);
-                            InsertDB();
                         }
-                    }, 1000);;
+                    }, 1000);
+                    if(edit_title.getText().toString().getBytes().length<=0&& edit_contents.getText().toString().getBytes().length<=0){
+
+                    }else{
+                        InsertDB();
+                    }
                 }
             });
             return view;
@@ -132,6 +144,8 @@ public class DiaryActivity extends AppCompatActivity {
             refresh_btn.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    if(edit_title.getText().toString().getBytes().length<=0&& edit_contents.getText().toString().getBytes().length<=0){
+
                     list_diary = (ListView) view.findViewById(R.id.list_diary);
                     data = showDB();
                     Log.d("TEST", data.toString());
@@ -151,7 +165,7 @@ public class DiaryActivity extends AppCompatActivity {
                         @Override
                         public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
                             AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                            alertDialog.setMessage(data.get(position).getTitle()+"을(를) 삭제하시겠습니까?");
+                            alertDialog.setMessage(data.get(position).getTitle() + "을(를) 삭제하시겠습니까?");
                             alertDialog.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
                                 @Override
                                 public void onClick(DialogInterface dialog, int which) {
@@ -170,6 +184,7 @@ public class DiaryActivity extends AppCompatActivity {
                             return true;
                         }
                     });
+                  }
                 }
             });
             if(flag == 1){
@@ -180,14 +195,17 @@ public class DiaryActivity extends AppCompatActivity {
         }
     }
 
+
     public static void InsertDB(){
         Calendar cal = Calendar.getInstance();
         Date date = cal.getTime();
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
         String writeTime = sdf.format(date);
-        // Firebase
-        mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid()).child(writeTime);
-        mDatabaseReference.setValue(edit_title.getText() + "/" + edit_contents.getText());
+        String getEdit=edit_contents.getText().toString();
+            // Firebase
+            mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid()).child(writeTime);
+            mDatabaseReference.setValue(edit_title.getText() + "/" + edit_contents.getText());
+        
         edit_title.setText("");
         edit_contents.setText("");
     }
