@@ -167,7 +167,7 @@ public class DiaryActivity extends AppCompatActivity {
                                 }
                             });
                             alertDialog.show();
-                            return false;
+                            return true;
                         }
                     });
                 }

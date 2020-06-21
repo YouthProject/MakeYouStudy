@@ -21,7 +21,7 @@
         <TextView
             android:layout_width="100dp"
             android:layout_height="wrap_content"
-            android:text="코드"
+            android:text="순번"
             android:id="@+id/textCode"
             android:gravity="center" />
 
