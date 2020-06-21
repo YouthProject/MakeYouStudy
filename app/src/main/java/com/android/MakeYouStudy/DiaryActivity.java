@@ -12,8 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.text.Editable;
-import android.text.TextWatcher;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -22,6 +21,8 @@ import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.Toast;
+
 import com.google.android.material.tabs.TabLayout;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -39,8 +40,8 @@ import java.util.Date;
 public class DiaryActivity extends AppCompatActivity {
 
     // view object
-    private  TabLayout tabLayout;
-    private  ViewPager viewPager;
+    private TabLayout tabLayout;
+    private ViewPager viewPager;
     public static EditText edit_title, edit_contents;
     public static Button save_btn;
     public static Button refresh_btn;
@@ -101,9 +102,7 @@ public class DiaryActivity extends AppCompatActivity {
         });
     }
 
-
-
-    //다이어리 작성 내부클래스
+    //다이어리 작성 내부 클라스
     public static class Diary_Write extends Fragment {
         @Nullable
         @Override
@@ -112,137 +111,155 @@ public class DiaryActivity extends AppCompatActivity {
             edit_title = (EditText) view.findViewById(R.id.edit_title_write);
             edit_contents = (EditText) view.findViewById(R.id.edit_contents_write);
             save_btn = (Button) view.findViewById(R.id.save_btn_write);
-            save_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    save_btn.setEnabled(false);
-                    // btn disabled 1sec
-                    new Handler().postDelayed(new Runnable() {
-                        public void run() {
-                            save_btn.setEnabled(true);
-                        }
-                    }, 1000);
-                    if(edit_title.getText().toString().getBytes().length<=0&& edit_contents.getText().toString().getBytes().length<=0){
 
-                    }else{
-                        InsertDB();
+
+                save_btn.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        save_btn.setEnabled(false);
+                        // btn disabled 1sec
+                        new Handler().postDelayed(new Runnable() {
+                            public void run() {
+                                save_btn.setEnabled(true);
+                               // InsertDB();
+
+                            }
+
+                        }, 1000);
+
+                        if(edit_title.getText().toString().getBytes().length<=0 && edit_contents.getText().toString().getBytes().length<=0)
+                        {
+
+                        }else {
+                            InsertDB();
+                        }
+
                     }
-                }
-            });
-            return view;
-        }
+                });
+
+                return view;
+
+
+            }
     }
 
-    //다이어리 리스트 내부 클래스
-    public static class Diary_List extends Fragment{
-        @Nullable
-        @Override
-        public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
-            final View view = inflater.inflate(R.layout.tab_list, container, false);
-            flag = 1;
-            refresh_btn = (Button) view.findViewById(R.id.refresh_btn_list);
-            refresh_btn.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    if(edit_title.getText().toString().getBytes().length<=0&& edit_contents.getText().toString().getBytes().length<=0){
 
-                    list_diary = (ListView) view.findViewById(R.id.list_diary);
-                    data = showDB();
-                    Log.d("TEST", data.toString());
-                    listAdapter = new DiaryListAdapter(getContext(), R.layout.list_layout, data);
 
-                    list_diary.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+        //다이어리 리스트 내부 클래스
+        public static class Diary_List extends Fragment {
+            @Nullable
+            @Override
+            public View onCreateView(final LayoutInflater inflater, @Nullable final ViewGroup container, @Nullable Bundle savedInstanceState) {
+                final View view = inflater.inflate(R.layout.tab_list, container, false);
+                flag = 1;
+                refresh_btn = (Button) view.findViewById(R.id.refresh_btn_list);
+
+                    refresh_btn.setOnClickListener(new View.OnClickListener() {
                         @Override
-                        public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                            Intent intent = new Intent(getContext(), Diary_Update.class);
-                            intent.putExtra("date", data.get(position).getDate());
-                            intent.putExtra("title", data.get(position).getTitle());
-                            intent.putExtra("contents", data.get(position).getContents());
-                            startActivity(intent);
+                        public void onClick(View v) {
+                            if (edit_title.getText().toString().getBytes().length >= 0 && edit_contents.getText().toString().getBytes().length >= 0) {
+
+
+                                list_diary = (ListView) view.findViewById(R.id.list_diary);
+                                data = showDB();
+                                Log.d("TEST", data.toString());
+                                listAdapter = new DiaryListAdapter(getContext(), R.layout.list_layout, data);
+
+                                list_diary.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                                    @Override
+                                    public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                                        Intent intent = new Intent(getContext(), Diary_Update.class);
+                                        intent.putExtra("date", data.get(position).getDate());
+                                        intent.putExtra("title", data.get(position).getTitle());
+                                        intent.putExtra("contents", data.get(position).getContents());
+                                        startActivity(intent);
+                                    }
+                                });
+                                list_diary.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+                                    @Override
+                                    public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
+                                        AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
+                                        alertDialog.setMessage(data.get(position).getTitle() + "을(를) 삭제하시겠습니까?");
+                                        alertDialog.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                String code = data.get(position).getDate();
+                                                deleteDB(code);
+                                                showDB();
+                                            }
+                                        });
+                                        alertDialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialog, int which) {
+                                                dialog.cancel();
+                                            }
+                                        });
+                                        alertDialog.show();
+                                        return true;
+                                    }
+                                });
+                            }
                         }
                     });
-                    list_diary.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
-                        @Override
-                        public boolean onItemLongClick(AdapterView<?> parent, View view, final int position, long id) {
-                            AlertDialog.Builder alertDialog = new AlertDialog.Builder(getContext());
-                            alertDialog.setMessage(data.get(position).getTitle() + "을(를) 삭제하시겠습니까?");
-                            alertDialog.setPositiveButton("삭제", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    String code = data.get(position).getDate();
-                                    deleteDB(code);
-                                    showDB();
-                                }
-                            });
-                            alertDialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                                @Override
-                                public void onClick(DialogInterface dialog, int which) {
-                                    dialog.cancel();
-                                }
-                            });
-                            alertDialog.show();
-                            return true;
-                        }
-                    });
-                  }
+
+                if (flag == 1) {
+                    return view;
+                } else {
+                    return null;
                 }
-            });
-            if(flag == 1){
-                return view;
-            }else{
+            }
+        }
+
+        public static void InsertDB() {
+            Calendar cal = Calendar.getInstance();
+            Date date = cal.getTime();
+            SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
+            String writeTime = sdf.format(date);
+            // Firebase
+            mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid()).child(writeTime);
+            mDatabaseReference.setValue(edit_title.getText()+ " / " +  edit_contents.getText());
+            edit_title.setText("");
+            edit_contents.setText("");
+        }
+
+        public static ArrayList<Diary> showDB() {
+            mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid());
+            if (mDatabaseReference != null) {
+                mFirebaseDatabase.getReference().child("diary").child(user.getUid()).addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        data.clear();
+                        list_diary.setAdapter(listAdapter);
+                        int code = 1;
+                        for (DataSnapshot snapshot : dataSnapshot.getChildren()) {
+                            String[] fbData = splitData(snapshot.getValue().toString());
+                            Diary diary = new Diary();
+                            diary.setCode(code);
+                            diary.setTitle(fbData[0]);
+                            diary.setContents(fbData[1]);
+                            diary.setDate(snapshot.getKey());
+                            data.add(diary);
+                            code += 1;
+                        }
+                        list_diary.setAdapter(listAdapter);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError databaseError) {
+                    }
+                });
+                return data;
+            } else {
                 return null;
             }
         }
-    }
 
+        public static void deleteDB(String date) {
+            mFirebaseDatabase.getReference().child("diary").child(user.getUid()).child(date).setValue(null);
+        }
 
-    public static void InsertDB(){
-        Calendar cal = Calendar.getInstance();
-        Date date = cal.getTime();
-        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd-HH:mm:ss");
-        String writeTime = sdf.format(date);
-        String getEdit=edit_contents.getText().toString();
-            // Firebase
-            mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid()).child(writeTime);
-            mDatabaseReference.setValue(edit_title.getText() + "/" + edit_contents.getText());
-        
-        edit_title.setText("");
-        edit_contents.setText("");
+        private static String[] splitData(String data) {
+            String[] splitText = data.split("/");
+            return splitText;
+        }
     }
-
-    public static ArrayList<Diary> showDB(){
-        mDatabaseReference = mFirebaseDatabase.getReference().child("diary").child(user.getUid());
-        if(mDatabaseReference != null){
-            mFirebaseDatabase.getReference().child("diary").child(user.getUid()).addValueEventListener(new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                    data.clear();
-                    list_diary.setAdapter(listAdapter);
-                    int code = 1;
-                    for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                        String[] fbData = splitData(snapshot.getValue().toString());
-                        Diary diary = new Diary();
-                        diary.setCode(code);
-                        diary.setTitle(fbData[0]);
-                        diary.setContents(fbData[1]);
-                        diary.setDate(snapshot.getKey());
-                        data.add(diary);
-                        code += 1;
-                    }
-                    list_diary.setAdapter(listAdapter);
-                }
-                @Override
-                public void onCancelled(@NonNull DatabaseError databaseError) {   }
-            });
-            return data;
-        }else{ return null; }
-    }
-
-    public static void deleteDB(String date){
-        mFirebaseDatabase.getReference().child("diary").child(user.getUid()).child(date).setValue(null);
-    }
-    private static String[] splitData(String data){
-        String[] splitText = data.split("/");
-        return splitText;
-    }
-}
