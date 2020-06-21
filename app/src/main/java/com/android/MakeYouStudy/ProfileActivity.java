@@ -47,8 +47,7 @@ public class ProfileActivity extends AppCompatActivity{
     GoogleSignInClient googleSignInClient;
     FirebaseAuth firebaseAuth;
     private TextView te_textview;
-    private Button bt_logout, bt_delect,bringimage,takeapicture;
-    ImageView takeimage,photoimage;
+    private Button bt_logout, bt_delect,takeapicture;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mdatabase = FirebaseDatabase.getInstance().getReference();
     CallbackManager callbackManager;
@@ -59,7 +58,6 @@ public class ProfileActivity extends AppCompatActivity{
     private String mImgOrient=null;
     private Uri filePath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    static final int PICK_IMAGE=2;
 
     //firebase에 자신의 책상 image 등록해주기 위함
     FirebaseStorage storage = FirebaseStorage.getInstance();
@@ -67,7 +65,6 @@ public class ProfileActivity extends AppCompatActivity{
     private FirebaseUser user;
     int position;
     int size;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,11 +75,8 @@ public class ProfileActivity extends AppCompatActivity{
         bt_logout = (Button) findViewById(R.id.bt_logut);
         bt_delect = (Button) findViewById(R.id.bt_delect);
 
-        bringimage=(Button)findViewById(R.id.bringimage);
-        takeimage=(ImageView)findViewById(R.id.takeimage);
         takeapicture=(Button)findViewById(R.id.takeapicture);
         firebaseAuth = FirebaseAuth.getInstance();
-        photoimage=(ImageView)findViewById(R.id.photoimage);
         user = firebaseAuth.getCurrentUser();
         te_textview.setText("반갑습니다.\n" + user.getEmail() + "으로 로그인 하였습니다.");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
@@ -120,28 +114,12 @@ public class ProfileActivity extends AppCompatActivity{
             }
         });
 
-        // 이미지 불러오기 버튼 리스너
-        bringimage.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                checksize(); // 이미지를 불러오기전에 size와 positon 초기화
-                Log.d("TTT", "size" + size + " / position" + position);
-
-                // 사진을 가져오는 Activity 실행
-                Intent intent = new Intent(Intent.ACTION_PICK);
-                intent.setType(android.provider.MediaStore.Images.Media.CONTENT_TYPE);
-                startActivityForResult(intent,PICK_IMAGE);
-
-            }
-        });
-
         //사진 찍기 리스너너
        takeapicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 checksize();
                 dispatchTakePictureIntent();
-
             }
         });
     }
@@ -158,27 +136,11 @@ public class ProfileActivity extends AppCompatActivity{
         // Check which request we're responding to
         super.onActivityResult(requestCode, resultCode, data);
 
-        if (requestCode == PICK_IMAGE) {
-            // Make sure the request was successful
-            if (resultCode == RESULT_OK) {
-                try {
-                    // 선택한 이미지에서 비트맵 생성
-                    InputStream in = getContentResolver().openInputStream(data.getData());
-                    Bitmap img = BitmapFactory.decodeStream(in);
-                    in.close();
-                    imageUpload(img);
-                } catch (Exception e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data.hasExtra("data")) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             filePath = data.getData();;
             if (bitmap != null) {
                 imageUpload(bitmap);
-                takeimage.setImageBitmap(bitmap);
             }
         }
     }
@@ -203,9 +165,7 @@ public class ProfileActivity extends AppCompatActivity{
                                     firebaseAuth.getInstance().signOut();
                                     Intent intent = new Intent(getApplicationContext(), LoginActivity.class);
                                     startActivity(intent);
-
                                 }
-
                             }
                         });
                 String cu = firebaseAuth.getUid();
@@ -285,6 +245,7 @@ public class ProfileActivity extends AppCompatActivity{
                 mdatabase.child("image").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                        Log.d(TAG, "CHECKSIZE가 실행");
                         if(dataSnapshot.getValue() == null){
                             Log.d("Checksize : ", "Uid child is null");
                             // 처음 등록할 때 size값과 position값을 초기화시켜준다.

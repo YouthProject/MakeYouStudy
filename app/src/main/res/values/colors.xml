@@ -4,4 +4,17 @@
     <color name="colorPrimaryDark">#3700B3</color>
     <color name="colorAccent">#03DAC5</color>
     <color name="highlight">#8ECBFF</color>
+
+
+    <color name="Mon">#8ECBFF</color>
+    <color name="Tue">#03DAC5</color>
+    <color name="Wed">#03DAC5</color>
+    <color name="Thu">#6200EE</color>
+    <color name="Fri">#03DAC5</color>
+    <color name="Sat">#3700B3</color>
+    <color name="Sun">#8ECBFF</color>
+
+    <color name="Check">#03DAC5</color>
+    <color name="Total">#8ECBFF</color>
+
 </resources>

@@ -173,7 +173,6 @@ public class AttendanceCheckActivity extends AppCompatActivity {
                     if(count>=3){ // count 가 3일 때 (사물인식 출석체크 3번 실패 시) count = 0으로 셋팅후 textRecognition 메소드 실행(text 인식 출석체크 Activity 실행)
                         count = 0;
                         Log.d("count_reset", ""+count);
-
                         textRecognition();
                     }
                 }
@@ -339,7 +338,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 int sum = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if(snapshot.getKey() == "AllCheck"){ break; }
+                    if(snapshot.getKey().equals("AllCheck")){ break; }
                     else if (snapshot.child("DayCheck").getValue(Integer.class)==null){
                         // DayCheck가 null일 때 0으로 초기화 시켜준다.
                         for (int i = 0; i < 7; i++){

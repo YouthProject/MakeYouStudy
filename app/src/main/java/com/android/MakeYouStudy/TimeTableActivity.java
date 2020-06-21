@@ -2,12 +2,14 @@ package com.android.MakeYouStudy;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.BroadcastReceiver;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.content.SharedPreferences;
@@ -84,6 +86,9 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         // initializing database
         mFirebaseDatabase = FirebaseDatabase.getInstance();
         mDatabaseReference = mFirebaseDatabase.getReference().child("timetable").child(user.getUid());
+
+
+        checkPictureCount();
 
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -267,5 +272,34 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     }
     public void initDaysTotal(){
         days = new int[]{0, 0, 0, 0, 0, 0, 0};
+    }
+
+    public void checkPictureCount(){
+        mFirebaseDatabase.getReference().child("image").child(user.getUid()).child("size").addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.getValue(String.class) == null || !dataSnapshot.getValue(String.class).equals("4")){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(context);
+                    builder.setTitle("사진 등록이 필요합니다.").setMessage("프로필에서 최소 5장의 사진을 업로드하세요.");
+                    builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
+                            finish();
+                        }
+                    });
+                    builder.setNegativeButton("종료", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            finish();
+                        }
+                    });
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
     }
 }
