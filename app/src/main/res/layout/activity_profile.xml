@@ -25,15 +25,29 @@
         android:text="현재 로그인 된 계정 "
         android:layout_marginBottom="10dp"
         />
-
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal">
 
     <Button
         android:id="@+id/takeapicture"
-        android:layout_width="match_parent"
+        android:layout_width="350dp"
         android:layout_height="60dp"
         android:layout_toRightOf="@+id/bt_delect"
-        android:background="@drawable/image_add"
+        android:background="@drawable/image_add2"
         android:text="" />
+
+    <ImageView
+        android:id="@+id/imageView3"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
+        android:background="@drawable/ic_red"
+        android:layout_gravity="center"
+        android:scaleType="fitXY" />
+
+</LinearLayout>
+
 
     <ImageView
         android:id="@+id/imageView2"
