@@ -27,6 +27,7 @@
         <activity android:name=".AttendanceRateActivity"/>
         <activity android:name=".Helper.InternetCheck" />
         <activity android:name=".ImageLabelActivity" />
+        <activity android:name=".ImageMatchingActivity"/>
         <activity android:name=".TextRecognitionActivity" />
         <activity android:name=".DiaryActivity" />
         <activity android:name=".Diary_Update" />

@@ -16,6 +16,7 @@ import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.google.firebase.auth.FirebaseAuth;
@@ -61,6 +62,8 @@ public class AttendanceCheckActivity extends AppCompatActivity {
     StorageReference storageRef;
     DatabaseReference mdatabase = FirebaseDatabase.getInstance().getReference();
 
+    ImageView imageView;
+
     int size;
 
     private DatabaseReference mDatabaseReference; // 데이터베이스의 주소를 저장합니다.
@@ -81,6 +84,9 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         randomText = getResources().getStringArray(R.array.random_text);
         rnd = new Random();
         this.context = this;
+
+        imageView = (ImageView)findViewById(R.id.imageView);
+ //       imageView.setImageResource(R.drawable.attendance_check);
 
         // AlarmService의 mediaPlayer제어를 위한 Intent
         sintent = new Intent(context, AlarmService.class);

@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -37,17 +38,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Manifest.permission.RECORD_AUDIO
     };
 
+    int index = (int) (Math.random() * 10);
+    int res = ran[index];
+
+    public static final int ran[]= {
+            R.drawable.good1, R.drawable.good2, R.drawable.good3,
+            R.drawable.good4, R.drawable.good5, R.drawable.good6,
+            R.drawable.good7, R.drawable.good8, R.drawable.good9, R.drawable.good10
+    };
+
     //firebase auth object
     private FirebaseAuth firebaseAuth;
 
     //view objects
-    private TextView textViewUserEmail;
     private Button buttonCalendar;
     private Button buttonTimeTable;
     private Button buttonDiary;
     private Button buttonProfile;
     private Button buttonML;
     private Button buttonAttendanceRate;
+    private ImageView imageViewGood;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -63,13 +73,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             }
         }
         //initializing views
-        textViewUserEmail = (TextView)findViewById(R.id.textviewUserEmail);
         buttonCalendar = (Button)findViewById(R.id.buttonCalendar);
         buttonTimeTable = (Button)findViewById(R.id.buttonTimeTable);
         buttonDiary = (Button)findViewById(R.id.buttonDiary);
         buttonProfile = (Button)findViewById(R.id.buttonProfile);
         buttonML = (Button)findViewById(R.id.buttonML);
         buttonAttendanceRate = (Button)findViewById(R.id.buttonAttendance);
+        imageViewGood = (ImageView)findViewById(R.id.good);
+
+        imageViewGood.setImageResource(res);
 
         // 유저가 로그인하지 않은 상태라면 LoginActivity 실행
         firebaseAuth = FirebaseAuth.getInstance();
@@ -79,7 +91,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         else{
             FirebaseUser user = firebaseAuth.getCurrentUser();
-            textViewUserEmail.setText("UserEmail : " + user.getEmail());
 
             //button event
             buttonCalendar.setOnClickListener(this);

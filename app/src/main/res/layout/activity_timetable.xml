@@ -7,12 +7,13 @@
     android:orientation="vertical"
     tools:context=".TimeTableActivity">
 
-    <TextView
-        android:id="@+id/textviewUserEmail"
+    <ImageView
+        android:id="@+id/imageView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="UserEmail :"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/timetable_image"
+        />
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -23,15 +24,19 @@
 
         <Button
             android:id="@+id/add_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Add" />
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:text=""
+            android:background="@drawable/ic_add"
+            />
 
         <Button
             android:id="@+id/clear_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="Clear" />
+            android:layout_width="120dp"
+            android:layout_height="40dp"
+            android:text=""
+            android:background="@drawable/ic_all_delete"
+            />
     </LinearLayout>
 
     <com.github.tlaabs.timetableview.TimetableView

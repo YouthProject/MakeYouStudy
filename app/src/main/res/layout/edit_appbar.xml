@@ -4,19 +4,22 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="horizontal"
+        android:gravity="center"
         >
         <Button
             android:id="@+id/delete_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
             android:visibility="gone"
-            android:text="delete"
+            android:text=""
+            android:background="@drawable/ic_delete"
             />
         <Button
             android:id="@+id/submit_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:text="submit"
+            android:layout_width="100dp"
+            android:layout_height="40dp"
+            android:text=""
+            android:background="@drawable/ic_ok"
             />
     </LinearLayout>
 

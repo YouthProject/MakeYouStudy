@@ -5,54 +5,81 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".MainActivity">
+    tools:context=".MainActivity"
+    android:background="#F7E3C3">
 
-    <TextView
-        android:id="@+id/textviewUserEmail"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="UserEmail : "
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:layout_height="60dp"
+        android:orientation="horizontal">
 
-    <Button
-        android:id="@+id/buttonCalendar"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show Calendar"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <ImageView
+            android:id="@+id/result"
+            android:layout_width="360dp"
+            android:layout_height="match_parent"
+            android:background="@drawable/app_name" />
 
-    <Button
-        android:id="@+id/buttonTimeTable"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show TimeTable"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        <Button
+            android:id="@+id/buttonProfile"
+            android:layout_width="55dp"
+            android:layout_height="55dp"
+            android:background="@drawable/ic_profile"
+            android:text="" />
+    </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonDiary"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show Diary"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 
-    <Button
-        android:id="@+id/buttonProfile"
+
+
+    <ImageView
+        android:id="@+id/good"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show Profile"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
+        android:layout_height="400dp"
+
+
+        />
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="100dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/buttonCalendar"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text=""
+            android:background="@drawable/ic_calendar2" />
+
+        <Button
+            android:id="@+id/buttonTimeTable"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text=""
+            android:background="@drawable/ic_timetable"
+             />
+
+        <Button
+            android:id="@+id/buttonDiary"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text=""
+            android:background="@drawable/ic_diary"
+            />
+
+        <Button
+            android:id="@+id/buttonAttendance"
+            android:layout_width="100dp"
+            android:layout_height="match_parent"
+            android:text=""
+            android:background="@drawable/ic_rate"
+             />
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/buttonML"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="Show ML"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
-
-    <Button
-        android:id="@+id/buttonAttendance"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show AttendanceRate"
         android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 </androidx.appcompat.widget.LinearLayoutCompat>

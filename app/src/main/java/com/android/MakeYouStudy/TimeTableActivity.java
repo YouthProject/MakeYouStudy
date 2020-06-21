@@ -57,7 +57,6 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     private PendingIntent pendingIntent;
 
     //view objects
-    private TextView textViewUserEmail;
     private Button addBtn;
     private Button clearBtn;
 
@@ -71,7 +70,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         setContentView(R.layout.activity_timetable);
 
         //initializing views
-        textViewUserEmail = (TextView)findViewById(R.id.textviewUserEmail);
+
 
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
@@ -79,7 +78,6 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         // AlarmManger Service
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-        textViewUserEmail.setText("UserEmail : " + user.getEmail());
 
         init();
 

@@ -68,9 +68,6 @@ public class DiaryActivity extends AppCompatActivity {
 
         data = new ArrayList<>();
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.toolbar);
-
-        setSupportActionBar(toolbar);
 
         tabLayout = (TabLayout) findViewById(R.id.tabLayout);
         tabLayout.addTab(tabLayout.newTab().setIcon(R.drawable.ic_create_white_48dp));

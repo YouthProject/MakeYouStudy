@@ -1,74 +1,52 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".ProfileActivity"
-    android:layout_gravity="center"
-    android:gravity="center">
+    android:orientation="vertical"
+    >
 
-    <RelativeLayout
-        android:id="@+id/profileRe"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content">
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="100dp"
+        android:scaleType="fitXY"
+        android:background="@drawable/timetable_setting"
+        />
+
     <TextView
         android:id="@+id/te_textview"
-        android:layout_width="300dp"
+        android:layout_width="match_parent"
         android:layout_height="40dp"
         android:textSize="15sp"
         android:text="현재 로그인 된 계정 "
-     />
+        android:layout_marginBottom="15dp"
+        />
+
+
+    <Button
+        android:id="@+id/takeapicture"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@+id/bt_delect"
+        android:text="사진 찍기" />
 
     <Button
         android:id="@+id/bt_logut"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="로그아웃"
         android:layout_below="@+id/te_textview"
       />
+
     <Button
-        android:layout_toRightOf="@+id/bt_logut"
         android:id="@+id/bt_delect"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="회원 탈퇴"
-        android:layout_marginTop="40dp"
-      />
+        android:layout_toRightOf="@+id/bt_logut"
+        android:text="회원 탈퇴" />
 
-    <Button
-        android:layout_toRightOf="@+id/bt_delect"
-        android:id="@+id/takeapicture"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="사진 찍기"
-        android:layout_marginTop="40dp"
-    />
+</LinearLayout>
 
-        <Button
-            android:layout_toRightOf="@+id/takeapicture"
-            android:id="@+id/bringimage"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="40dp"
-            android:text="갤러리"
-            />
-        <ImageView
-            android:layout_below="@id/bringimage"
-            android:id="@+id/takeimage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/loadinimage"
-            />
-
-        <ImageView
-            android:layout_below="@id/takeimage"
-            android:id="@+id/photoimage"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:src="@drawable/loadinimage"
-            />
-</RelativeLayout>
-
-
-</RelativeLayout>

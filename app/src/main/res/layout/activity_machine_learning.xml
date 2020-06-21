@@ -1,15 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:orientation="vertical"
     tools:context=".TextRecognitionActivity">
 
     <ImageView
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="400dp"
+        android:scaleType="fitXY"
+        android:src="@drawable/text_recognition_background"
         />
 
     <TextView
@@ -25,38 +28,38 @@
 
     <TextView
         android:id="@+id/text_display2"
-        android:layout_width="match_parent"
+        android:layout_width="391dp"
         android:layout_height="wrap_content"
-        android:layout_below="@+id/image_view"
-
-        android:layout_marginTop="62dp"
+        android:layout_below="@+id/text_display"
+        android:layout_gravity="center_horizontal"
+        android:layout_marginTop="1dp"
         android:maxLines="5"
         android:text=""
         android:textSize="26dp" />
 
+<LinearLayout
+    android:layout_marginTop="20dp"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_gravity="center"
+    >
+
     <Button
         android:id="@+id/capture_image_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_above="@+id/detect_text_image_btn"
+        android:layout_width="94dp"
+        android:layout_height="92dp"
+        android:layout_gravity="center_horizontal"
         android:layout_marginBottom="10dp"
-        android:background="@color/colorAccent"
-        android:text="Capture image"
+        android:background="@drawable/ic_camera"
+        android:text=""
         android:textAllCaps="false"
         android:textColor="@android:color/white"
-        android:textSize="17dp"
-        />
+        android:textSize="17dp" />
 
-    <Button
-        android:id="@+id/detect_text_image_btn"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_alignParentBottom="true"
-        android:background="@color/colorPrimary"
-        android:text="Detect Text"
-        android:textAllCaps="false"
-        android:textColor="@android:color/white"
-        android:textSize="17dp"
-        />
 
-</RelativeLayout>
+
+</LinearLayout>
+
+
+</LinearLayout>

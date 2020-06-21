@@ -5,34 +5,63 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context=".AttendanceCheckActivity">
+    tools:context=".AttendanceCheckActivity"
+    android:background="#F7E3C3">
 
-    <Button
-        android:id="@+id/btnCheck"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_margin="15dp"
-        android:text="출석체크" />
+    <ImageView
+    android:id="@+id/imageView"
+    android:layout_width="match_parent"
+    android:layout_height="452dp"
+    android:scaleType="fitXY"
+        android:src="@drawable/attendance_imageview" />
 
-    <Button
-        android:id="@+id/btnTextCheck"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Text Recognition" />
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="128dp"
+        android:layout_marginTop="20dp"
+        android:orientation="horizontal"
+        android:layout_gravity="center">
+
+        <Button
+            android:id="@+id/btnOpencv"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="7dp"
+            android:background="@drawable/btn_border"
+            android:drawableTop="@drawable/drawable_image_matching"
+            android:text="등록한 사진과 비교하기" />
+
+        <Button
+            android:id="@+id/btnCheck"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="7dp"
+            android:background="@drawable/btn_border"
+            android:drawableTop="@drawable/drawable_image_label"
+            android:text="책상 인식하기" />
+
+        <Button
+            android:id="@+id/btnTextCheck"
+            android:layout_width="120dp"
+            android:layout_height="120dp"
+            android:layout_gravity="center_horizontal"
+            android:layout_margin="7dp"
+            android:background="@drawable/btn_border"
+            android:drawableTop="@drawable/drawable_image_text"
+            android:text="" />
+
+
+    </LinearLayout>
 
     <Button
         android:id="@+id/btnSkip"
-        android:layout_width="200dp"
+        android:layout_width="126dp"
         android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
+        android:layout_gravity="right"
+        android:layout_margin="1dp"
+        android:background="#00ff0000"
         android:text="Skip" />
-
-    <Button
-        android:id="@+id/btnOpencv"
-        android:layout_width="200dp"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:text="Button" />
 </LinearLayout>

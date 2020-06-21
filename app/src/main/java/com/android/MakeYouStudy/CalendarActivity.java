@@ -139,12 +139,14 @@ public class CalendarActivity extends AppCompatActivity {
                     // 데이터가 없으면 일정이 없는 것 -> 일정을 쓰게 하기
                     Toast.makeText(getApplicationContext(), "일정 없는 날", Toast.LENGTH_SHORT).show();
                     edtDiary.setText("");
-                    btnSave.setText("새 일정 추가");
+                    //btnSave.setText("새 일정 추가");
+                    btnSave.setBackgroundResource(R.drawable.ic_newsave);
                 }else{
                     // mDatabaseReference 경로에 저장된 str을 받아온다.
                     Toast.makeText(getApplicationContext(), "일정 써둔 날", Toast.LENGTH_SHORT).show();
                     edtDiary.setText(str);
-                    btnSave.setText("수정하기");
+                    //btnSave.setText("수정하기");
+                    btnSave.setBackgroundResource(R.drawable.ic_fix);
                 }
             }
             @Override

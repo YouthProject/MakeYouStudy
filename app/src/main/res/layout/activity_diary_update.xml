@@ -36,16 +36,20 @@
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="저장"
+            android:text=""
             android:id="@+id/save_btn_update"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/ic_save"
+            />
 
         <Button
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:text="돌아가기"
+            android:text=""
             android:id="@+id/return_btn_update"
-            android:layout_weight="1" />
+            android:layout_weight="1"
+            android:background="@drawable/ic_back"
+            />
 
     </LinearLayout>
 

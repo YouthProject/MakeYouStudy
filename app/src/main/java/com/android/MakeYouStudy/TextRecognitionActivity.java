@@ -29,7 +29,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
     private FirebaseAuth firebaseAuth;
-    private Button captureImageBtn, detectTextBtn;
+    private Button captureImageBtn;
     private ImageView imageView;
     private TextView textView, textView2;
     private Bitmap imageBitmap;
@@ -47,7 +47,6 @@ public class TextRecognitionActivity extends AppCompatActivity {
         FirebaseUser user = firebaseAuth.getCurrentUser();
 
         captureImageBtn = findViewById(R.id.capture_image_btn);
-        detectTextBtn = findViewById(R.id.detect_text_image_btn);
         imageView = findViewById(R.id.image_view);
         textView = findViewById(R.id.text_display);
         textView2 = findViewById(R.id.text_display2);
@@ -63,12 +62,6 @@ public class TextRecognitionActivity extends AppCompatActivity {
             }
         });
 
-        detectTextBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                detectTextFromImage();
-            }
-        });
     }
 
     private void dispatchTakePictureIntent() {
