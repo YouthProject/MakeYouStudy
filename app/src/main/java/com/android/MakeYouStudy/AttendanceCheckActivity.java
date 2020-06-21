@@ -101,7 +101,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference().child("images").child(user.getUid());
 
-        checksize();
+//        checksize();
 
         btnCheck = (Button)findViewById(R.id.btnCheck);
         btnCheck.setOnClickListener(new View.OnClickListener() {
@@ -116,7 +116,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         btnTextCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                mediaPause();
+//                mediaPause();
                 textRecognition();
             }
         });
@@ -145,11 +145,11 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        checksize();
-    }
+//    @Override
+//    protected void onResume() {
+//        super.onResume();
+//        checksize();
+//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -158,50 +158,55 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         switch (requestCode) {
             case LABEL_ACTIVITY:
 
-                String label = data.getStringExtra("labeling");
+            String label = data.getStringExtra("labeling");
 
-                if(label.equals("Desk") || label.equals("Table") ){
-                    Toast.makeText(this, "Label 출석체크 완료 : "+label, Toast.LENGTH_SHORT).show();
-                    alarmOff();
-                    Log.d(TAG, "실행");
-                    finish();
-                }
-                else if(label.equals("BackPressed")){
-                    Toast.makeText(this, "Label 출석체크 취소", Toast.LENGTH_SHORT).show();
-                    mediaRestart();
-                }
-                else {
-                    Toast.makeText(this, "출석체크 실패 : "+label, Toast.LENGTH_SHORT).show();
-                    count++;
+            if(label.equals("Desk") || label.equals("Table") ){
+                Toast.makeText(this, "Label 출석체크 완료 : "+label, Toast.LENGTH_SHORT).show();
+                alarmOff();
+                checkDaysTotal(weeks);
+                Log.d(TAG, "실행");
+                finish();
+            }
+            else if(label.equals("BackPressed")){
+                Toast.makeText(this, "Label 출석체크 취소", Toast.LENGTH_SHORT).show();
+                mediaRestart();
+            }
+            else {
+                Toast.makeText(this, "출석체크 실패 : "+label, Toast.LENGTH_SHORT).show();
+                count++;
 
-                    Log.d("count_number", ""+count);
+                Log.d("count_number", ""+count);
 
-                    if(count>=3){ // count 가 3일 때 (사물인식 출석체크 3번 실패 시) count = 0으로 셋팅후 textRecognition 메소드 실행(text 인식 출석체크 Activity 실행)
-                        count = 0;
-                        Log.d("count_reset", ""+count);
-                        textRecognition();
-                    }
+                if(count>=3){ // count 가 3일 때 (사물인식 출석체크 3번 실패 시) count = 0으로 셋팅후 textRecognition 메소드 실행(text 인식 출석체크 Activity 실행)
+                    count = 0;
+                    Log.d("count_reset", ""+count);
+                    textRecognition();
                 }
-                break;
-            case TEXT_ACTIVITY :
-                boolean checkValue = data.getBooleanExtra("checkValue", false);
-                if(checkValue == true){
-                    Toast.makeText(this, "Text 출석체크 완료", Toast.LENGTH_SHORT).show();
-                    alarmOff();
-                    finish();
-                }else {
-                    Toast.makeText(this, "Text 출석체크 취소", Toast.LENGTH_SHORT).show();
-                    mediaRestart();
-                }
-                break;
-            case IMAGE_MATCHING_ACTIVITY :
-                boolean checkMatching = data.getBooleanExtra("checkMatching", false);
-                if(checkMatching == true){
-                    Toast.makeText(this, "ImageMatching 출석체크 완료", Toast.LENGTH_SHORT).show();
-                    finish();
-                }else {
-                    Toast.makeText(this, "ImageMatching 출석체크 취소", Toast.LENGTH_SHORT).show();
-                }
+            }
+            break;
+        case TEXT_ACTIVITY :
+            boolean checkValue = data.getBooleanExtra("checkValue", false);
+            if(checkValue == true){
+                Toast.makeText(this, "Text 출석체크 완료", Toast.LENGTH_SHORT).show();
+                alarmOff();
+                checkDaysTotal(weeks);
+                finish();
+            }else {
+                Toast.makeText(this, "Text 출석체크 취소", Toast.LENGTH_SHORT).show();
+                mediaRestart();
+            }
+            break;
+        case IMAGE_MATCHING_ACTIVITY :
+            boolean checkMatching = data.getBooleanExtra("checkMatching", false);
+            if(checkMatching == true){
+                Toast.makeText(this, "ImageMatching 출석체크 완료", Toast.LENGTH_SHORT).show();
+                alarmOff();
+                checkDaysTotal(weeks);
+                finish();
+            }else {
+                Toast.makeText(this, "ImageMatching 출석체크 취소", Toast.LENGTH_SHORT).show();
+                mediaRestart();
+            }
         }
     }
 
@@ -228,7 +233,6 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(activity, "결석처리 되었습니다.", Toast.LENGTH_SHORT).show();
                 alarmOff();
-                checkDaysTotal(weeks);
                 finish();
             }
         });
@@ -237,7 +241,8 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 Toast.makeText(activity, "출석처리 되었습니다.", Toast.LENGTH_SHORT).show();
-
+                alarmOff();
+                checkDaysTotal(weeks);
                 finish();
             }
         });
@@ -284,26 +289,26 @@ public class AttendanceCheckActivity extends AppCompatActivity {
 
     }
 
-    public void checksize(){
-        mdatabase.child("image").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-            @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue() == null){
-                    Log.d("Checksize : ", "Uid child is null");
-                    // 처음 등록할 때 size값과 position값을 초기화시켜준다.
-                    mdatabase.child("image").child(user.getUid()).child("size").setValue("0");
-                    mdatabase.child("image").child(user.getUid()).child("position").setValue("0");
-                    size = 0;
-
-                }else{
-                    size = Integer.parseInt(dataSnapshot.child("size").getValue(String.class));
-                }
-
-            }
-            @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) { }
-        });
-    }
+//    public void checksize(){
+//        mdatabase.child("image").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+//                if(dataSnapshot.getValue() == null){
+//                    Log.d("Checksize : ", "Uid child is null");
+//                    // 처음 등록할 때 size값과 position값을 초기화시켜준다.
+//                    mdatabase.child("image").child(user.getUid()).child("size").setValue("0");
+//                    mdatabase.child("image").child(user.getUid()).child("position").setValue("0");
+//                    size = 0;
+//
+//                }else{
+//                    size = Integer.parseInt(dataSnapshot.child("size").getValue(String.class));
+//                }
+//
+//            }
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError databaseError) { }
+//        });
+//    }
 
     // media를 pause하기위한 Service호출
     public void mediaPause(){
@@ -330,7 +335,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         // AlarmReceiver
         Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
         intent.putExtra("state","off");
-        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reqCode, intent, PendingIntent.FLAG_UPDATE_CURRENT);
+        PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), reqCode, intent, PendingIntent.FLAG_CANCEL_CURRENT);
         alarmManager.cancel(pendingIntent);
         sendBroadcast(intent);
         Log.d("ReqTest", reqCode + " 의 pendingintent 알람이 해제되었습니다.");

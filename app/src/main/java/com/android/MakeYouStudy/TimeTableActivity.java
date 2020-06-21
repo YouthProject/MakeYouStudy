@@ -63,6 +63,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     private TimetableView timetable;
 
     private int[] days;
+    private int count;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -91,16 +92,18 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                String value = dataSnapshot.getValue(String.class);
-                if (value != null){
-                    timetable.load(value);
-                    AddAlarm(value);
+                // count가 null이 아닐 때 알람삭제
+                if(dataSnapshot.child("count").getValue(Integer.class) != null){
+                    count = dataSnapshot.child("count").getValue(Integer.class);
+                    Alarmoff(count);
+                }
+                if(dataSnapshot.child("table").getValue(String.class) != null){
+                    timetable.load(dataSnapshot.child("table").getValue(String.class));
+                    AddAlarm(dataSnapshot.child("table").getValue(String.class));
                 }
             }
             @Override
-            public void onCancelled(@NonNull DatabaseError databaseError) {
-
-            }
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
     }
 
@@ -142,7 +145,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
             case R.id.clear_btn:
                 timetable.removeAll();
                 // save data to db
-                mDatabaseReference.setValue(timetable.createSaveData());
+                mDatabaseReference.child("table").setValue(timetable.createSaveData());
                 break;
         }
     }
@@ -156,7 +159,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                     ArrayList<Schedule> item = (ArrayList<Schedule>) data.getSerializableExtra("schedules");
                     timetable.add(item);
                     // save data to db
-                    mDatabaseReference.setValue(timetable.createSaveData());
+                    mDatabaseReference.child("table").setValue(timetable.createSaveData());
                 }
                 break;
             case REQUEST_EDIT:
@@ -166,14 +169,14 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                     ArrayList<Schedule> item = (ArrayList<Schedule>) data.getSerializableExtra("schedules");
                     timetable.edit(idx, item);
                     // save data to db
-                    mDatabaseReference.setValue(timetable.createSaveData());
+                    mDatabaseReference.child("table").setValue(timetable.createSaveData());
                 }
                 /** Edit -> Delete */
                 else if (resultCode == EditActivity.RESULT_OK_DELETE) {
                     int idx = data.getIntExtra("idx", -1);
                     timetable.remove(idx);
                     // save data to db
-                    mDatabaseReference.setValue(timetable.createSaveData());
+                    mDatabaseReference.child("table").setValue(timetable.createSaveData());
                 }
                 break;
         }
@@ -192,6 +195,8 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
 
     // Parse json and add Alarm
     public void AddAlarm(String json){
+
+        int alarmCount = 0; // Alarm의 requestcode확인을 위한 변수
         // 시간 설정
         Calendar calendar = Calendar.getInstance();
         // timetable_checked의 Total값 초기화
@@ -202,6 +207,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         JsonArray arr1 = obj1.getAsJsonArray("sticker");
 
         for(int i = 0; i < arr1.size(); i++){
+            alarmCount = i;
             JsonObject obj2 = (JsonObject)arr1.get(i);
             JsonArray arr2 = (JsonArray)obj2.get("schedule");
             for(int k = 0; k < arr2.size(); k++){
@@ -240,8 +246,8 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 intent.putExtra("weekday", obj3.get("day").getAsInt());
                 intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
                 intent.putExtra("reqCode", i);
-                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_UPDATE_CURRENT);
-
+                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                Log.d("Alarm이 등록되었습니다.", "제발" + i);
                 // 알람 설정, API 별로 alarmManger.set 함수 구별
                 if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
                     if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
@@ -257,6 +263,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 }
             }
         }
+        mDatabaseReference.child("count").setValue(alarmCount); // AlarmCount 저장
         daysUpdate();
     }
 
@@ -270,6 +277,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     }
     public void initDaysTotal(){
         days = new int[]{0, 0, 0, 0, 0, 0, 0};
+
     }
 
     public void checkPictureCount(){
@@ -299,5 +307,15 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+    }
+
+    public void Alarmoff(int tmpcount){
+        for(int i = 0; i <= tmpcount; i++){
+            Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+            intent.putExtra("state","reset");
+            PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+            alarmManager.cancel(pendingIntent);
+            Log.d("ReqTest", i + " 의 pendingintent 알람이 해제되었습니다.");
+        }
     }
 }

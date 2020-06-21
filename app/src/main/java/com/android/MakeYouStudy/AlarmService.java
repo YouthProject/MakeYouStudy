@@ -51,7 +51,7 @@ public class AlarmService extends Service {
             Intent intent1 = new Intent(getApplicationContext(), AttendanceCheckActivity.class);
             intent1.putExtra("reqCode", reqCode);
             intent1.putExtra("weekday", weeks);
-            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent1, PendingIntent.FLAG_UPDATE_CURRENT);
+            PendingIntent pendingIntent = PendingIntent.getActivity(getApplicationContext(), 0, intent1, PendingIntent.FLAG_CANCEL_CURRENT);
 
             // Foreground 에서 실행되면 Notification 을 보여줘야 됨
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {

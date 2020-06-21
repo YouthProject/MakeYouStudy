@@ -216,7 +216,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
 
-                            Intent intent = new Intent(getApplicationContext(), ProfileActivity.class);
+                            Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
 
 
@@ -261,7 +261,7 @@ public class LoginActivity extends AppCompatActivity {
                         if (task.isSuccessful()) {
                             // 로그인 성공
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
 
                         } else {
@@ -323,7 +323,7 @@ public class LoginActivity extends AppCompatActivity {
 
                             ///여기 위까지 db0501
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
-                            Intent intent=new Intent(getApplicationContext(),ProfileActivity.class);
+                            Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
 
                         } else {

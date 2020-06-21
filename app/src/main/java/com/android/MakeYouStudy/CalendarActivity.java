@@ -58,7 +58,6 @@ public class CalendarActivity extends AppCompatActivity {
         mFirebaseDatabase = FirebaseDatabase.getInstance();
 
         //뷰에 있는 위젯들 리턴받기기
-        viewDatePick=(TextView)findViewById(R.id.viewDatePick);
         edtDiary=(EditText)findViewById(R.id.edtDairy);
         btnSave=(Button)findViewById(R.id.btnSave);
 

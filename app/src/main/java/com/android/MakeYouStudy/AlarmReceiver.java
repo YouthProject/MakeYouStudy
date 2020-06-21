@@ -46,6 +46,9 @@ public class AlarmReceiver extends BroadcastReceiver {
             }
             return;
         }
+        else if(state.equals("reset")){
+            Log.d(TAG, "reset " + reqCode + " 가 해제 되었습니다.");
+        }
         else if(weeks != nweeks){ // 오늘이 설정한 요일이 아닐 때
             // Log 확인용
             Log.d("not days", "체크한 요일이 아닙니다.");
@@ -73,7 +76,7 @@ public class AlarmReceiver extends BroadcastReceiver {
                 Intent intent2 = new Intent(context, AttendanceCheckActivity.class);
                 intent2.putExtra("reqCode", reqCode);
                 intent2.putExtra("weekday", weeks);
-                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_UPDATE_CURRENT);
+                PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
                 pendingIntent.send();
                 Log.d(TAG, "Activity 실행");
             } catch (PendingIntent.CanceledException e) {

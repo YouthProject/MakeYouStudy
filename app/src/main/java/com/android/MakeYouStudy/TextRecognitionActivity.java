@@ -16,8 +16,6 @@ import android.widget.Toast;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.ml.vision.FirebaseVision;
 import com.google.firebase.ml.vision.common.FirebaseVisionImage;
 import com.google.firebase.ml.vision.text.FirebaseVisionText;
@@ -28,7 +26,6 @@ import java.util.List;
 public class TextRecognitionActivity extends AppCompatActivity {
 
     static final int REQUEST_IMAGE_CAPTURE = 1;
-    private FirebaseAuth firebaseAuth;
     private Button captureImageBtn;
     private ImageView imageView;
     private TextView textView, textView2;
@@ -42,9 +39,6 @@ public class TextRecognitionActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_machine_learning);
-
-        firebaseAuth = FirebaseAuth.getInstance();
-        FirebaseUser user = firebaseAuth.getCurrentUser();
 
         captureImageBtn = findViewById(R.id.capture_image_btn);
         imageView = findViewById(R.id.image_view);
@@ -61,7 +55,6 @@ public class TextRecognitionActivity extends AppCompatActivity {
                 dispatchTakePictureIntent();
             }
         });
-
     }
 
     private void dispatchTakePictureIntent() {
@@ -78,6 +71,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
             Bundle extras = data.getExtras();
             imageBitmap = (Bitmap) extras.get("data");
             imageView.setImageBitmap(imageBitmap);
+            detectTextFromImage();
         }
     }
 
@@ -106,13 +100,14 @@ public class TextRecognitionActivity extends AppCompatActivity {
             Toast.makeText(this, "No Text Found in image.", Toast.LENGTH_SHORT);
         }
         else {
+            String text = "";
             for(FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks())
             {
-                String text = block.getText();
+                text = block.getText();
                 textView2.setText( "Text in Image : "+text);
                 Log.d("What is text : ", text );
-                check(text, data);
             }
+            check(text, data);
         }
     }
 
@@ -120,11 +115,8 @@ public class TextRecognitionActivity extends AppCompatActivity {
         if(text.equals(data)){
             checkValue = true;
             Intent intent = new Intent();
-
             intent.putExtra("checkValue", checkValue);
-
             setResult(RESULT_OK, intent);
-
             finish();
         }
         else {
