@@ -121,7 +121,7 @@ public class DiaryActivity extends AppCompatActivity {
                         new Handler().postDelayed(new Runnable() {
                             public void run() {
                                 save_btn.setEnabled(true);
-                               // InsertDB();
+
 
                             }
 
