@@ -36,7 +36,6 @@ public class CalendarActivity extends AppCompatActivity {
     private FirebaseDatabase mFirebaseDatabase; // 데이터베이스에 접근할 수 있는 진입점 클래스입니다.
     private FirebaseUser user;
 
-    TextView viewDatePick; //선택한 날짜를 보여주는 textview
     EditText edtDiary;// 선태한 날짜의 일정을 쓰거나 기존에 저자된 일기가 있다면 보여주고 수정하는 영역
     Button btnSave; //선택된 날짜의 파일이름
 
@@ -75,8 +74,6 @@ public class CalendarActivity extends AppCompatActivity {
         checkYear = todayYear;
         checkMonth = todayMonth;
         checkDay = todayDay;
-
-        //날짜
 
         // 첫시작 할 때 일정이 있으면 캘린더에 표시해주기
         mFirebaseDatabase.getReference().child("calendar").child(user.getUid()).addValueEventListener(new ValueEventListener () {
