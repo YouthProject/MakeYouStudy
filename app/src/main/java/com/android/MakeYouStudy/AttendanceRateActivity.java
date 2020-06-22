@@ -8,7 +8,6 @@ import android.content.Intent;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.util.Log;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import com.github.mikephil.charting.animation.Easing;
@@ -62,8 +61,8 @@ public class AttendanceRateActivity extends AppCompatActivity {
         pieChart.setNoDataText("Loading...");
         barChart.setNoDataText("Loading...");
 
-        ArrayList<BarEntry> Daycheck = new ArrayList<BarEntry>();
-        ArrayList<PieEntry> yValues = new ArrayList<PieEntry>();
+        ArrayList<BarEntry> Daycheck = new ArrayList<>();
+        ArrayList<PieEntry> yValues = new ArrayList<>();
         final String[] weekdays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
 //        final int[] weekColor = {ContextCompat.getColor(this, R.color.Mon),R.color.Mon, R.color.Tue, R.color.Wed, R.color.Thu, R.color.Fri, R.color.Sat, R.color.Sun};
         final int[] weekColor = {
@@ -85,64 +84,76 @@ public class AttendanceRateActivity extends AppCompatActivity {
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
                 float AllCheck = 0;
                 float AllTotal = 0;
-                for(DataSnapshot snapshot : dataSnapshot.getChildren()){
-                    if(snapshot.getKey().equals("AllCheck")){
-                        AllCheck = snapshot.getValue(Float.class);
-                    }else if(snapshot.getKey().equals("AllTotal")){
-                        AllTotal = snapshot.getValue(Float.class) - AllCheck;
-                    }else{
-                        float percent = snapshot.child("DayCheck").getValue(Float.class) / snapshot.child("DayTotal").getValue(Float.class) * 100;
-                        if(Float.isNaN(percent)){
-                            Daycheck.add(new BarEntry(Integer.parseInt(snapshot.getKey()), 0));
-                        }else{
-                            Daycheck.add(new BarEntry(Integer.parseInt(snapshot.getKey()), percent));
-                        }
-                        Log.d("이게왜", Integer.parseInt(snapshot.getKey()) + " 는 "+snapshot.child("DayCheck").getValue(Float.class) / snapshot.child("DayTotal").getValue(Float.class) * 100+"");
-                    }
-                }
-
-                XAxis xAxis = barChart.getXAxis();
-                YAxis yLAxis = barChart.getAxisLeft();
-                YAxis yRAxis = barChart.getAxisRight();
-
-                // Y축 오른쪽 비활성화
-                yRAxis.setDrawLabels(false);
-                yRAxis.setDrawAxisLine(false);
-                yRAxis.setDrawGridLines(false);
-
-                // Y축 왼쪽 설정
-                yLAxis.setDrawLabels(false);
-                yLAxis.setDrawAxisLine(false);
-                yLAxis.setAxisMaximum(100f);
-
-                // X축 설정
-                xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // x값 표시 위치
-                xAxis.setDrawGridLines(false); // x축 GridLine
-                xAxis.setDrawAxisLine(false);
-                xAxis.setTextSize(15f);
-                xAxis.setValueFormatter(new IndexAxisValueFormatter(weekdays));
-
-                barChart.getDescription().setEnabled(false); // 그래프 제목 삭제
-                barChart.getLegend().setDrawInside(false);
-                barChart.getLegend().setEnabled(false); // 그래프 범례 삭제
-
-                barChart.setPinchZoom(false);
-                barChart.setScaleEnabled(false);
-                barChart.setDoubleTapToZoomEnabled(false);
-                barChart.animateY(1500, Easing.EaseOutBounce);
-
-                BarDataSet bardataset = new BarDataSet(Daycheck, "");
-                BarData barData = new BarData(bardataset);
-                bardataset.setColors(weekColor);
-
-                barChart.setData(barData);
-
-                // PieChart
-                if(AllTotal == 0){
-                    Toast.makeText(AttendanceRateActivity.this, "시간표가 없어 출석률을 확인할 수 없습니다. 시간표를 추가해주세요.", Toast.LENGTH_LONG).show();
+// || dataSnapshot.child("AllTotal").getValue(Integer.class) == 0
+                if(dataSnapshot.child("AllTotal").getValue(Integer.class) == null){
+                    Toast.makeText(AttendanceRateActivity.this, "시간표가 없어 출석률을 확인할 수 없습니다. 시간표를 추가해주세요.", Toast.LENGTH_SHORT).show();
+                    startActivity(new Intent(getApplicationContext(), TimeTableActivity.class));
+                    finish();
+                }else if(dataSnapshot.child("AllTotal").getValue(Integer.class) == 0){
+                    Toast.makeText(AttendanceRateActivity.this, "시간표가 없어 출석률을 확인할 수 없습니다. 시간표를 추가해주세요.", Toast.LENGTH_SHORT).show();
                     startActivity(new Intent(getApplicationContext(), TimeTableActivity.class));
                     finish();
                 }else{
+                    for(DataSnapshot snapshot : dataSnapshot.getChildren()){
+                        if(snapshot.getKey().equals("AllCheck")){
+                            if(snapshot.getValue(Integer.class)!=null) {
+                                AllCheck = snapshot.getValue(Float.class);
+                            }
+                        }else if(snapshot.getKey().equals("AllTotal")){
+
+                            AllTotal = snapshot.getValue(Integer.class) - AllCheck;
+                        }else{
+                            if (snapshot.child("DayTotal").getValue(Integer.class) == 0){
+                                Daycheck.add(new BarEntry(Integer.parseInt(snapshot.getKey()), 0));
+                                Log.d("TAG_1", snapshot.getKey() + " : " + 0);
+                            }else{
+                                Float percent = snapshot.child("DayCheck").getValue(Float.class) / snapshot.child("DayTotal").getValue(Float.class) * 100;
+                                Daycheck.add(new BarEntry(Integer.parseInt(snapshot.getKey()), percent));
+                                Log.d("TAG_2", snapshot.getKey() + " : " + snapshot.child("DayCheck").getValue(Float.class) +" / " + snapshot.child("DayTotal").getValue(Float.class) + " : " + percent);
+                            }
+                        }
+                    }
+                    for (int i =0; i<7; i++){
+                        Log.d("TAG_3", Daycheck.get(i) + "");
+                    }
+
+                    XAxis xAxis = barChart.getXAxis();
+                    YAxis yLAxis = barChart.getAxisLeft();
+                    YAxis yRAxis = barChart.getAxisRight();
+
+                    // Y축 오른쪽 비활성화
+                    yRAxis.setDrawLabels(false);
+                    yRAxis.setDrawAxisLine(false);
+                    yRAxis.setDrawGridLines(false);
+
+                    // Y축 왼쪽 설정
+                    yLAxis.setDrawLabels(false);
+                    yLAxis.setDrawAxisLine(false);
+                    yLAxis.setAxisMaximum(100f);
+
+                    // X축 설정
+                    xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // x값 표시 위치
+                    xAxis.setDrawGridLines(false); // x축 GridLine
+                    xAxis.setDrawAxisLine(false);
+                    xAxis.setTextSize(15f);
+                    xAxis.setValueFormatter(new IndexAxisValueFormatter(weekdays));
+
+                    barChart.getDescription().setEnabled(false); // 그래프 제목 삭제
+                    barChart.getLegend().setDrawInside(false);
+                    barChart.getLegend().setEnabled(false); // 그래프 범례 삭제
+
+                    barChart.setPinchZoom(false);
+                    barChart.setScaleEnabled(false);
+                    barChart.setDoubleTapToZoomEnabled(false);
+                    barChart.animateY(1500, Easing.EaseOutBounce);
+
+                    BarDataSet bardataset = new BarDataSet(Daycheck, "");
+                    BarData barData = new BarData(bardataset);
+                    bardataset.setColors(weekColor);
+
+                    barChart.setData(barData);
+
+                    // PieChart
                     pieChart.setUsePercentValues(true);
                     pieChart.getDescription().setEnabled(false);
                     pieChart.setExtraOffsets(5, 5, 5, 5);

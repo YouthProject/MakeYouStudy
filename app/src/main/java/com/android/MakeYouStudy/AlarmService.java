@@ -10,6 +10,7 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Build;
 import android.os.IBinder;
+import android.os.Vibrator;
 import android.util.Log;
 
 import androidx.annotation.Nullable;
@@ -19,6 +20,7 @@ import androidx.core.app.NotificationCompat;
 public class AlarmService extends Service {
 
     private MediaPlayer mediaPlayer;
+    private Vibrator vibrator;
     private boolean isRunning;
     private int pausePosition; // mediaPlayer pause 시점 저장
 
@@ -28,6 +30,7 @@ public class AlarmService extends Service {
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
+        vibrator = (Vibrator)getSystemService(Context.VIBRATOR_SERVICE);
 
         String state = intent.getStringExtra("state");
         int reqCode = intent.getIntExtra("reqCode", -1);
@@ -39,6 +42,8 @@ public class AlarmService extends Service {
             // 알람음 재생 OFF, 알람음 시작 상태
             this.mediaPlayer = MediaPlayer.create(this, R.raw.alarm);
             this.mediaPlayer.start();
+            // 진동 재생
+            this.vibrator.vibrate(new long[]{500, 1000, 500, 1000}, 0);
 
             this.isRunning = true;
 
@@ -74,6 +79,7 @@ public class AlarmService extends Service {
             this.mediaPlayer.stop();
             this.mediaPlayer.reset();
             this.mediaPlayer.release();
+            this.vibrator.cancel();
 
             this.isRunning = false;
 
@@ -87,11 +93,13 @@ public class AlarmService extends Service {
             if(mediaPlayer!=null){
                 this.mediaPlayer.pause();
                 pausePosition = mediaPlayer.getCurrentPosition();
+                this.vibrator.cancel();
             }
         } else if (state.equals("restart")){
             if(!mediaPlayer.isPlaying()){
                 mediaPlayer.seekTo(pausePosition);
                 mediaPlayer.start();
+                this.vibrator.vibrate(new long[]{500, 1000, 500, 1000}, 0);
             }
         }
         return START_NOT_STICKY;
@@ -101,9 +109,11 @@ public class AlarmService extends Service {
     private String createNotificationChannel() {
         String channelId = "Alarm";
         String channelName = getString(R.string.app_name);
+        String description = getString(R.string.channel_description);
 
         NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_NONE);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+        channel.setDescription(description);
         channel.setSound(null, null);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 

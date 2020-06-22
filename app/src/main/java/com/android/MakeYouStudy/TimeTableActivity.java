@@ -7,21 +7,15 @@ import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.AlarmManager;
 import android.app.PendingIntent;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.IntentFilter;
-import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
-import android.preference.PreferenceManager;
+import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.TextView;
-import android.widget.Toast;
 
 import com.github.tlaabs.timetableview.Schedule;
 import com.github.tlaabs.timetableview.TimetableView;
@@ -71,24 +65,18 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_timetable);
 
-        //initializing views
-
-
+        // initializing database
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
+        mFirebaseDatabase = FirebaseDatabase.getInstance();
+        mDatabaseReference = mFirebaseDatabase.getReference().child("timetable").child(user.getUid());
 
         // AlarmManger Service
         alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
 
-
         init();
-
-        // initializing database
-        mFirebaseDatabase = FirebaseDatabase.getInstance();
-        mDatabaseReference = mFirebaseDatabase.getReference().child("timetable").child(user.getUid());
-
-
-        checkPictureCount();
+        checkPictureCount(); // 사진이 저장되어있는지 확인
+        dayCheckZero(); // TimeTable을 처음 사용할 때 dayCheck값 0으로 초기화
 
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
@@ -96,7 +84,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 // count가 null이 아닐 때 알람삭제
                 if(dataSnapshot.child("count").getValue(Integer.class) != null){
                     count = dataSnapshot.child("count").getValue(Integer.class);
-                    Alarmoff(count);
+                    alarmOff(count);
                 }
                 if(dataSnapshot.child("table").getValue(String.class) != null){
                     timetable.load(dataSnapshot.child("table").getValue(String.class));
@@ -144,9 +132,23 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 startActivityForResult(i,REQUEST_ADD);
                 break;
             case R.id.clear_btn:
-                timetable.removeAll();
-                // save data to db
-                mDatabaseReference.child("table").setValue(timetable.createSaveData());
+                AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setTitle("주의하세요!").setMessage("전체 삭제는 모든 시간표와 출석률을\n 초기화 합니다.");
+                builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        timetable.removeAll();
+                        // save data to db
+                        mDatabaseReference.child("table").setValue(timetable.createSaveData());
+                        dayCheckinit();
+                    }
+                });
+                builder.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) { }
+                });
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
                 break;
         }
     }
@@ -238,30 +240,52 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 calendar.set(Calendar.MINUTE, obj4.get("minute").getAsInt());
                 calendar.set(Calendar.SECOND, 0);
                 // 현재시간보다 이전이면 다음날로 설정해 계속 알람이 울리는 오류를 해결
-                if (calendar.before(Calendar.getInstance())){
-                    calendar.add(Calendar.DATE, 1);
+                if (!calendar.before(Calendar.getInstance())){
+                    // Receiver 설정
+                    Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                    intent.putExtra("weekday", obj3.get("day").getAsInt());
+                    intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
+                    intent.putExtra("reqCode", i);
+                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                    Log.d("Alarm이 등록되었습니다.", "제발" + i);
+                    // 알람 설정, API 별로 alarmManger.set 함수 구별
+                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                            // API 19이상 API 23미만
+                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                        }else{
+                            // API 19미만
+                            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                        }
+                    }else{
+                        // API 23이상
+                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                    }
                 }
 
-                // Receiver 설정
-                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                intent.putExtra("weekday", obj3.get("day").getAsInt());
-                intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
-                intent.putExtra("reqCode", i);
-                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                Log.d("Alarm이 등록되었습니다.", "제발" + i);
-                // 알람 설정, API 별로 alarmManger.set 함수 구별
-                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                        // API 19이상 API 23미만
-                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                    }else{
-                        // API 19미만
-                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                    }
-                }else{
-                    // API 23이상
-                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                }
+//                if (calendar.before(Calendar.getInstance())){
+//                    calendar.add(Calendar.DATE, 1);
+//                }
+//                // Receiver 설정
+//                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+//                intent.putExtra("weekday", obj3.get("day").getAsInt());
+//                intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
+//                intent.putExtra("reqCode", i);
+//                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+//                Log.d("Alarm이 등록되었습니다.", "제발" + i);
+//                // 알람 설정, API 별로 alarmManger.set 함수 구별
+//                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+//                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+//                        // API 19이상 API 23미만
+//                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+//                    }else{
+//                        // API 19미만
+//                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+//                    }
+//                }else{
+//                    // API 23이상
+//                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+//                }
             }
         }
         mDatabaseReference.child("count").setValue(alarmCount); // AlarmCount 저장
@@ -310,7 +334,32 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    public void Alarmoff(int tmpcount){
+    // 강제로 출석체크확인 값을 0으로 초기화
+    public void dayCheckinit(){
+        for (int i = 0; i < 7; i++){
+            mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child(i + "").child("DayCheck").setValue(0);
+        }
+        mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child("AllCheck").setValue(0);
+    }
+
+    // 초기 TimeTable 실행시 출석체크확인값을 0으로 초기화
+    public void dayCheckZero(){
+        mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+                if(dataSnapshot.child("0").child("DayCheck").getValue(Integer.class) == null){
+                    for(int i = 0; i < 7; i++){
+                        mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child(i + "").child("DayCheck").setValue(0);
+                    }
+                    mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child("AllCheck").setValue(0);
+                }
+            }
+            @Override
+            public void onCancelled(@NonNull DatabaseError databaseError) { }
+        });
+    }
+
+    public void alarmOff(int tmpcount){
         for(int i = 0; i <= tmpcount; i++){
             Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
             intent.putExtra("state","reset");

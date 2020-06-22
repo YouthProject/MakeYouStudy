@@ -15,7 +15,7 @@
     <string name="facebook_app_id">553770972225868</string>
     <string name="fb_login_protocol_scheme">fb553770972225868</string>
 
-
+    <string name="channel_description">공부할 시간이에요~ 출석체크를 해주세요!</string>
 
     <string-array name="my_header_title">
         <item></item>

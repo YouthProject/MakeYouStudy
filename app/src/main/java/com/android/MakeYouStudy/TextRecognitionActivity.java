@@ -89,7 +89,6 @@ public class TextRecognitionActivity extends AppCompatActivity {
             @Override
             public void onFailure(@NonNull Exception e) {
                 Toast.makeText(TextRecognitionActivity.this, "Error: "+ e.getMessage(), Toast.LENGTH_SHORT).show();
-
                 Log.d("Error: ", e.getMessage());
             }
         });
@@ -98,14 +97,13 @@ public class TextRecognitionActivity extends AppCompatActivity {
     private void displayTextFromImage(FirebaseVisionText firebaseVisionText) {
         List<FirebaseVisionText.TextBlock> blockList = firebaseVisionText.getTextBlocks();
         if(blockList.size() == 0){
-            Toast.makeText(this, "No Text Found in image.", Toast.LENGTH_SHORT);
+            textView2.setText("사진에서 단어가 인식되지 않았습니다. 다시 촬영해주세요.");
         }
         else {
             String text = "";
             for(FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks())
             {
                 text = block.getText();
-                textView2.setText( "Text in Image : "+text);
                 Log.d("What is text : ", text );
             }
             check(text, data);
@@ -122,7 +120,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
         }
         else {
             checkValue = false;
-            Toast.makeText(this, "다시 촬영(작성)해주세요." , Toast.LENGTH_SHORT).show();
+            textView2.setText("인식한 단어가 일치하지 않습니다. 다시 촬영해주세요.");
         }
     }
 

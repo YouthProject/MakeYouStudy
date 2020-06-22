@@ -351,12 +351,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
                 int sum = 0;
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     if(snapshot.getKey().equals("AllCheck")){ break; }
-                    else if (snapshot.child("DayCheck").getValue(Integer.class)==null){
-                        // DayCheck가 null일 때 0으로 초기화 시켜준다.
-                        for (int i = 0; i < 7; i++){
-                            mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child(i + "").child("DayCheck").setValue(dayschecked[i]);
-                        }
-                    } else{
+                    else{
                         Log.d(TAG, "datasanashot" + snapshot.getKey());
                         dayschecked[Integer.parseInt(snapshot.getKey())] = snapshot.child("DayCheck").getValue(Integer.class);
                     }
@@ -371,7 +366,5 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
-
-
     }
 }

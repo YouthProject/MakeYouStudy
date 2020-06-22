@@ -39,7 +39,7 @@
         android:text="" />
 
     <ImageView
-        android:id="@+id/imageView3"
+        android:id="@+id/imageViewCount"
         android:layout_width="60dp"
         android:layout_height="60dp"
         android:background="@drawable/ic_red"

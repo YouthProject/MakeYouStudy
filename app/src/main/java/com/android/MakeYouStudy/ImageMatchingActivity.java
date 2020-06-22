@@ -262,7 +262,7 @@ public class ImageMatchingActivity extends AppCompatActivity  {
     //firebase에 책상 image upload method
     public void imageUpload(Bitmap bmpImage){
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
-        bmpImage.compress(Bitmap.CompressFormat.JPEG, 70, baos);
+        bmpImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data1 = baos.toByteArray();
 
         StorageReference filepath = storageRef.child(position+"");

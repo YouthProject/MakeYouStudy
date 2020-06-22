@@ -6,6 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.AdapterView;
@@ -19,6 +20,7 @@ import com.github.tlaabs.timetableview.Schedule;
 import com.github.tlaabs.timetableview.Time;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
 public class EditActivity extends AppCompatActivity implements  View.OnClickListener{
     public static final int RESULT_OK_ADD = 1;
@@ -35,6 +37,7 @@ public class EditActivity extends AppCompatActivity implements  View.OnClickList
     private Spinner daySpinner;
     private TextView startTv;
     private TextView endTv;
+    private Calendar calendar;
 
     //request mode
     private int mode;
@@ -64,10 +67,10 @@ public class EditActivity extends AppCompatActivity implements  View.OnClickList
         endTv = findViewById(R.id.end_time);
 
         //set the default time
+        calendar = Calendar.getInstance();
         schedule = new Schedule();
-        schedule.setStartTime(new Time(10,0));
-        schedule.setEndTime(new Time(13,30));
-
+        schedule.setStartTime(new Time(calendar.get(Calendar.HOUR_OF_DAY),calendar.get(Calendar.MINUTE) + 5));
+        schedule.setEndTime(new Time(calendar.get(Calendar.HOUR_OF_DAY ) + 1,calendar.get(Calendar.MINUTE) + 5));
         checkMode();
         initView();
     }
@@ -77,8 +80,10 @@ public class EditActivity extends AppCompatActivity implements  View.OnClickList
         mode = i.getIntExtra("mode",TimeTableActivity.REQUEST_ADD);
 
         if(mode == TimeTableActivity.REQUEST_EDIT){
-            loadScheduleData();
+            loadScheduleData(RESULT_OK_EDIT);
             deleteBtn.setVisibility(View.VISIBLE);
+        }else if(mode == TimeTableActivity.REQUEST_ADD){
+            loadScheduleData(0);
         }
     }
 
@@ -165,20 +170,35 @@ public class EditActivity extends AppCompatActivity implements  View.OnClickList
         }
     }
 
-    private void loadScheduleData(){
-        Intent i = getIntent();
-        editIdx = i.getIntExtra("idx",-1);
-        ArrayList<Schedule> schedules = (ArrayList<Schedule>)i.getSerializableExtra("schedules");
-        schedule = schedules.get(0);
-        subjectEdit.setText(schedule.getClassTitle());
-        classroomEdit.setText(schedule.getClassPlace());
-        professorEdit.setText(schedule.getProfessorName());
+    private void loadScheduleData(int mode){
+        if(mode == RESULT_OK_EDIT){
+            Intent i = getIntent();
+            editIdx = i.getIntExtra("idx",-1);
+            ArrayList<Schedule> schedules = (ArrayList<Schedule>)i.getSerializableExtra("schedules");
+            schedule = schedules.get(0);
+            subjectEdit.setText(schedule.getClassTitle());
+            classroomEdit.setText(schedule.getClassPlace());
+            professorEdit.setText(schedule.getProfessorName());
+        }
         daySpinner.setSelection(schedule.getDay());
+        startTv.setText(schedule.getStartTime().getHour()+":"+schedule.getStartTime().getMinute());
+        endTv.setText(schedule.getEndTime().getHour()+":"+schedule.getEndTime().getMinute());
     }
 
     private void inputDataProcessing(){
         schedule.setClassTitle(subjectEdit.getText().toString());
         schedule.setClassPlace(classroomEdit.getText().toString());
         schedule.setProfessorName(professorEdit.getText().toString());
+    }
+    // timetable.setHeaderHighlight를 위한 DayOfWeek 계산
+    private int doDayOfWeek(){
+        Calendar cal = Calendar.getInstance();
+        int nWeek = cal.get(Calendar.DAY_OF_WEEK);
+        if(nWeek==1){
+            nWeek = 7;
+        }else{
+            nWeek -= 1;
+        }
+        return nWeek;
     }
 }

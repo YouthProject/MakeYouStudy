@@ -45,19 +45,14 @@ import java.io.InputStream;
 public class ProfileActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
 
-    GoogleSignInClient googleSignInClient;
+    public static final int UP_COUNT = 1;
+    public static final int GET_SIZE = 2;
+
     FirebaseAuth firebaseAuth;
     private TextView te_textview;
     private Button bt_logout, bt_delect,takeapicture;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+    private ImageView imageViewcount;
     DatabaseReference mdatabase = FirebaseDatabase.getInstance().getReference();
-    CallbackManager callbackManager;
-
-    private final int REQ_CODE_SELECT_IMAGE=1000;
-    private String mImgPath=null;
-    private String mImgTitle=null;
-    private String mImgOrient=null;
-    private Uri filePath;
     static final int REQUEST_IMAGE_CAPTURE = 1;
 
     //firebase에 자신의 책상 image 등록해주기 위함
@@ -75,6 +70,7 @@ public class ProfileActivity extends AppCompatActivity{
         te_textview = (TextView) findViewById(R.id.te_textview);
         bt_logout = (Button) findViewById(R.id.bt_logut);
         bt_delect = (Button) findViewById(R.id.bt_delect);
+        imageViewcount = (ImageView)findViewById(R.id.imageViewCount);
 
         takeapicture=(Button)findViewById(R.id.takeapicture);
         firebaseAuth = FirebaseAuth.getInstance();
@@ -85,21 +81,9 @@ public class ProfileActivity extends AppCompatActivity{
         String cu = firebaseAuth.getUid();
 
         storageRef = storage.getReference().child("images").child(user.getUid());
+        checksize(GET_SIZE);
 
-        // test listall
-        storageRef.listAll().addOnSuccessListener(new OnSuccessListener<ListResult>() {
-            @Override
-            public void onSuccess(ListResult listResult) {
-                for (StorageReference item : listResult.getItems()){
-                    Log.d("item", item.toString());
-                }
-            }
-        }).addOnFailureListener(new OnFailureListener() {
-            @Override
-            public void onFailure(@NonNull Exception e) {
 
-            }
-        });
 
         // 로그아웃 버튼 리스너
         bt_logout.setOnClickListener(new View.OnClickListener() {
@@ -119,7 +103,7 @@ public class ProfileActivity extends AppCompatActivity{
        takeapicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checksize();
+                checksize(UP_COUNT);
                 dispatchTakePictureIntent();
             }
         });
@@ -139,7 +123,6 @@ public class ProfileActivity extends AppCompatActivity{
 
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data.hasExtra("data")) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
-            filePath = data.getData();;
             if (bitmap != null) {
                 imageUpload(bitmap);
             }
@@ -242,7 +225,7 @@ public class ProfileActivity extends AppCompatActivity{
 
 
     // image database가 null인지 확인 후 null이면 초기화
-    public void checksize(){
+    public void checksize(int mode){
                 mdatabase.child("image").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
@@ -250,14 +233,21 @@ public class ProfileActivity extends AppCompatActivity{
                         if(dataSnapshot.getValue() == null){
                             Log.d("Checksize : ", "Uid child is null");
                             // 처음 등록할 때 size값과 position값을 초기화시켜준다.
-                            mdatabase.child("image").child(user.getUid()).child("size").setValue("0");
-                            mdatabase.child("image").child(user.getUid()).child("position").setValue("0");
-                            size = 0;
-                            position = 0;
+                            if(mode == UP_COUNT){
+                                mdatabase.child("image").child(user.getUid()).child("size").setValue("0");
+                                mdatabase.child("image").child(user.getUid()).child("position").setValue("0");
+                                size = 0;
+                                position = 0;
+                            }
                         }else{
                             size = Integer.parseInt(dataSnapshot.child("size").getValue(String.class));
                             position = Integer.parseInt(dataSnapshot.child("position").getValue(String.class));
-                            countPosition();
+                            if(mode == UP_COUNT){
+                                countPosition();
+                            }
+                            if(size > 3){
+                                imageViewcount.setImageDrawable(getDrawable(R.drawable.ic_green));
+                            }
                         }
                     }
             @Override
