@@ -83,7 +83,7 @@ public class CalendarActivity extends AppCompatActivity {
                     int[] date = splitDate(key);
                     Calendar event_calendar = Calendar.getInstance();
                     event_calendar.set(date[0], date[1], date[2]);
-                    EventDay event = new EventDay(event_calendar, R.drawable.ic_dog);
+                    EventDay event = new EventDay(event_calendar, R.drawable.ic_sprout);
                     events.add(event);
                 }
                 calendarView.setEvents(events);
