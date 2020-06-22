@@ -51,7 +51,7 @@ public class LoginActivity extends AppCompatActivity {
     private String email = "";
     private String password = "";
     private EditText ed_eamil, ed_password;
-    private Button btn_login, btn_signup, bt_find, bt_test,testbutton,goobtn;
+    private Button btn_login, btn_signup, bt_find,facebookbtnimage,googlbtnimage;
 
     private static final int RC_SIGN_IN = 900;
     private GoogleSignInClient googleSignInClient;
@@ -75,14 +75,26 @@ public class LoginActivity extends AppCompatActivity {
         btn_login = (Button) findViewById(R.id.bt_login);
         btn_signup = (Button) findViewById(R.id.bt_signup);
         bt_find = (Button) findViewById(R.id.bt_find);
-    testbutton=(Button)findViewById(R.id.testbutton);
-    goobtn=(Button)findViewById(R.id.goobtn);
+        facebookbtnimage=(Button)findViewById(R.id.facebookbtnimage);
+        googlbtnimage=(Button)findViewById(R.id.googlbtnimage);
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton = findViewById(R.id.login_button);
         LoginButton finalLoginButton = loginButton;
+        //buttonGoogle = findViewById(R.id.btn_googleSignIn);
+
+        googlbtnimage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                        Intent signInIntent = googleSignInClient.getSignInIntent();
+                        startActivityForResult(signInIntent, RC_SIGN_IN);
+                        revokeAccess();
 
 
-        testbutton.setOnClickListener(new View.OnClickListener() {
+
+            }
+        });
+        facebookbtnimage.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             finalLoginButton.performClick();
@@ -99,7 +111,7 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-        buttonGoogle = findViewById(R.id.btn_googleSignIn);
+
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
 
 
@@ -133,17 +145,10 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         });
-        goobtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                buttonGoogle.performClick();
-
-            }
-        });
 
 
-        buttonGoogle.setOnClickListener(new View.OnClickListener() {
+
+       /* buttonGoogle.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
@@ -153,7 +158,7 @@ public class LoginActivity extends AppCompatActivity {
 
 
             }
-        });
+        });*/
 
         //로그인 버튼 클릭시 파이어베이스 eamil 로그인 시작
         btn_login.setOnClickListener(new View.OnClickListener() {
@@ -186,40 +191,19 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // 로그인 성공
-
-                            //db 0501
                             FirebaseUser user = firebaseAuth.getCurrentUser();
-
-
                             String cu = firebaseAuth.getUid();
-
                             String name = user.getDisplayName();
-
-
                             String email = user.getEmail();
-
-
                             Log.v("알림", "현재로그인한 유저 " + cu);
-
                             Log.v("알림", "현재로그인한 이메일 " + email);
-
                             Log.v("알림", "유저 이름 " + name);
-
                             //이 부분이 DB에 데이터 저장
-
                             userinfo userdata = new userinfo(name, email);
-
                             mDatabase.child("users").child(cu).setValue(userdata);
-
-                            ////////////////////여기 위까지 db 0501
-
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
-
                             Intent intent = new Intent(getApplicationContext(), MainActivity.class);
                             startActivity(intent);
-
-
                         } else {
                             // 로그인 실패
                             Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
@@ -298,30 +282,15 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // 로그인 성공
-                            ///db 0501
                             FirebaseUser user = firebaseAuth.getCurrentUser();
                             String cu = firebaseAuth.getUid();
-
                             String name = user.getDisplayName();
-
                             String email = user.getEmail();
-
                             Log.v("알림", "현재로그인한 유저 " + cu);
-
                             Log.v("알림", "현재로그인한 이메일 " + email);
-
                             Log.v("알림", "유저 이름 " + name);
-
-
-
-                            //이 부분이 DB에 데이터 저장
-
                             userinfo userdata = new userinfo(name, email);
-
                             mDatabase.child("users").child(cu).setValue(userdata);
-
-                            ///여기 위까지 db0501
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
