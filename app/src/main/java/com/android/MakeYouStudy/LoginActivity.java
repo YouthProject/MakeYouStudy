@@ -99,9 +99,11 @@ public class LoginActivity extends AppCompatActivity {
         facebookbtnimage.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v)
-        {   access();
+        {
             finalLoginButton.performClick();
+
         }
+
           });
         bt_find.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -291,6 +293,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
     }
+    //구글 로그아웃
     private void revokeAccess() {
 
         googleSignInClient.revokeAccess()
@@ -302,7 +305,7 @@ public class LoginActivity extends AppCompatActivity {
                 });
 
     }
-
+  //페이스북 로그아웃
     private void access(){
         firebaseAuth.getCurrentUser().unlink(PROVIDER_ID)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
