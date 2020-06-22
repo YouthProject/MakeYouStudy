@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.android.MakeYouStudy">
 
 
@@ -22,40 +23,70 @@
         android:label="@string/app_name"
         android:roundIcon="@mipmap/ic_launcher_mys_round"
         android:supportsRtl="true"
+        tools:ignore="LockedOrientationActivity"
 
         android:theme="@style/AppTheme">
-        <activity android:name=".EditActivity"></activity>
-        <activity android:name=".AttendanceCheckActivity"></activity>
-        <activity android:name=".AttendanceRateActivity"/>
-        <activity android:name=".Helper.InternetCheck" />
-        <activity android:name=".ImageLabelActivity" />
-        <activity android:name=".ImageMatchingActivity"/>
-        <activity android:name=".TextRecognitionActivity" />
-        <activity android:name=".DiaryActivity"/>
+        <activity
+            android:name=".EditActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".AttendanceCheckActivity"
+            android:screenOrientation="portrait"></activity>
+        <activity
+            android:name=".AttendanceRateActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Helper.InternetCheck"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ImageLabelActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".ImageMatchingActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".TextRecognitionActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".DiaryActivity"
+            android:screenOrientation="portrait"/>
 
-        <activity android:name=".Diary_Update" />
-        <activity android:name=".TimeTableActivity" />
-        <activity android:name=".CalendarActivity" />
-        <activity android:name=".Loading">
+        <activity
+            android:name=".Diary_Update"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".TimeTableActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".CalendarActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".Loading"
+            android:screenOrientation="portrait">
             <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
-
-
-        <activity android:name=".MainActivity">
+        <activity
+            android:name=".MainActivity"
+            android:screenOrientation="portrait">
             <meta-data
                 android:name="com.google.firebase.ml.vision.DEPENDENCIES"
                 android:value="ocr" />
-
-
         </activity>
-        <activity android:name=".ProfileActivity" />
-        <activity android:name=".FindActivity" />
-        <activity android:name=".LoginActivity" />
-        <activity android:name=".SignUpActivity" />
+        <activity
+            android:name=".ProfileActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".FindActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".LoginActivity"
+            android:screenOrientation="portrait"/>
+        <activity
+            android:name=".SignUpActivity"
+            android:screenOrientation="portrait"/>
         <meta-data
             android:name="com.facebook.sdk.ApplicationId"
             android:value="@string/facebook_app_id" />
@@ -63,10 +94,12 @@
         <activity
             android:name="com.facebook.FacebookActivity"
             android:configChanges="keyboard|keyboardHidden|screenLayout|screenSize|orientation"
-            android:label="@string/app_name" />
+            android:label="@string/app_name"
+            android:screenOrientation="portrait"/>
         <activity
             android:name="com.facebook.CustomTabActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
 
