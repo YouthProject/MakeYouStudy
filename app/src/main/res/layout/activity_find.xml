@@ -5,7 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.android.MakeYouStudy.FindActivity">
+    tools:context="com.android.MakeYouStudy.FindActivity"
+    android:background="#FFFFFF">
 
     <ImageView
         android:id="@+id/imageView"

@@ -42,6 +42,8 @@ import com.google.firebase.storage.UploadTask;
 import java.io.ByteArrayOutputStream;
 import java.io.InputStream;
 
+import dmax.dialog.SpotsDialog;
+
 public class ProfileActivity extends AppCompatActivity{
     private static final String TAG = "MainActivity";
 
@@ -61,6 +63,7 @@ public class ProfileActivity extends AppCompatActivity{
     private FirebaseUser user;
     int position;
     int size;
+    android.app.AlertDialog waitingDialog;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -83,6 +86,10 @@ public class ProfileActivity extends AppCompatActivity{
         storageRef = storage.getReference().child("images").child(user.getUid());
         checksize(GET_SIZE);
 
+        waitingDialog = new SpotsDialog.Builder().
+                setContext(this)
+                .setMessage("Please waiting...")
+                .setCancelable(false).build();
 
 
         // 로그아웃 버튼 리스너
@@ -196,6 +203,8 @@ public class ProfileActivity extends AppCompatActivity{
 
     //firebase에 책상 image upload method
     public void imageUpload(Bitmap bmpImage){
+        waitingDialog.show();
+
         ByteArrayOutputStream baos = new ByteArrayOutputStream();
         bmpImage.compress(Bitmap.CompressFormat.JPEG, 100, baos);
         byte[] data1 = baos.toByteArray();
@@ -206,14 +215,19 @@ public class ProfileActivity extends AppCompatActivity{
         uploadTask.addOnFailureListener(new OnFailureListener() {
             @Override
             public void onFailure(@NonNull Exception exception) {
-                // Handle unsuccessful uploads
+
+                if(waitingDialog.isShowing())
+                    waitingDialog.dismiss();
+
                 Toast.makeText(ProfileActivity.this, "이미지 등록에 실패하였습니다.", Toast.LENGTH_SHORT).show();
             }
         }).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.
-                // ...
+
+                if(waitingDialog.isShowing())
+                    waitingDialog.dismiss();
+
                 Log.d("Upload : ", "Success");
                 Toast.makeText(ProfileActivity.this, "이미지가 성공적으로 등록되었습니다.", Toast.LENGTH_SHORT).show();
                 Log.d("TEST", "SIZE : " + size + "POSITION : " + position);

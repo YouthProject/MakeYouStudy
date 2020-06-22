@@ -116,15 +116,16 @@ public class ImageMatchingActivity extends AppCompatActivity  {
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
-        super.onActivityResult(requestCode, resultCode, data);
-        if (requestCode == 0 && resultCode == RESULT_OK) {
-            Bundle extras = data.getExtras();
-            capturebmp = (Bitmap) extras.get("data");
-            CheckSuccess = false;
-            count = 0;
+            super.onActivityResult(requestCode, resultCode, data);
+            if (requestCode == 0 && resultCode == RESULT_OK) {
+                Bundle extras = data.getExtras();
+                capturebmp = (Bitmap) extras.get("data");
+                CheckSuccess = false;
+                count = 0;
 
-            imageDownload();
-        }
+                imageDownload();
+
+            }
     }
 
     public void imageDownload(){
@@ -140,12 +141,11 @@ public class ImageMatchingActivity extends AppCompatActivity  {
                         @Override
                         public void onSuccess(byte[] bytes) {
                             waitingDialog.show();
-                            Log.d("TAGjt", "GetSuccess");
                             bitmap = BitmapFactory.decodeByteArray(bytes, 0, bytes.length);
 
                             matching(capturebmp);
                             count++;
-                            Log.d("count :" , count+"");
+
                             if(count== 5){
                                 if(CheckSuccess == true){
                                     if(waitingDialog.isShowing()){
@@ -168,7 +168,6 @@ public class ImageMatchingActivity extends AppCompatActivity  {
                         @Override
                         public void onFailure(@NonNull Exception exception) {
                             // Handle any errors
-                            Log.d("TAGjt", "GetFailed");
                             Log.e("TAGjt1", exception.toString());
                         }
                     });
@@ -214,8 +213,7 @@ public class ImageMatchingActivity extends AppCompatActivity  {
                 metric_val = Imgproc.compareHist(hist_1, hist_2, Imgproc.HISTCMP_BHATTACHARYYA);// 0이 일치
                 if(metric_val < 0.4) {
                     CheckSuccess = true;
-
-                }else { CheckSuccess = false; }
+                }
 
 
             } catch (Exception e) {
