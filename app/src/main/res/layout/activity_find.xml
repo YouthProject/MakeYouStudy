@@ -29,11 +29,12 @@
 
     <Button
         android:id="@+id/but_findpassword"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="63dp"
+        android:layout_width="135dp"
+        android:layout_height="51dp"
         android:layout_gravity="center"
-        android:text="등록된 이메일로 전송"
+        android:layout_marginTop="63dp"
+        android:background="@drawable/send"
+        android:text=""
         app:layout_constraintEnd_toEndOf="@+id/findemail"
         app:layout_constraintStart_toStartOf="@+id/findemail"
         app:layout_constraintTop_toBottomOf="@+id/findemail" />

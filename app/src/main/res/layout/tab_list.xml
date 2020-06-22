@@ -6,10 +6,12 @@
     android:layout_height="match_parent">
 
     <Button
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="목록 보기"
-        android:id="@+id/refresh_btn_list" />
+        android:id="@+id/refresh_btn_list"
+        android:layout_width="305dp"
+        android:layout_height="45dp"
+        android:layout_gravity="center"
+        android:background="@drawable/list"
+        android:text="" />
 
     <LinearLayout
         android:orientation="horizontal"

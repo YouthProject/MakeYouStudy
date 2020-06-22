@@ -15,16 +15,16 @@
         <EditText
             android:id="@+id/edit_title_write"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="30dp"
             android:hint="제목을 입력하세요."
-            android:background="#e1f1cb"
+            android:background="@color/mainColor"
             android:layout_weight="5" />
 
         <EditText
             android:id="@+id/edit_contents_write"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:background="#efedbf"
+            android:background="@color/lightyellow"
             android:lines="20"
             android:hint="내용을 입력하세요."
             android:gravity="top|left"
@@ -35,7 +35,7 @@
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="5"
-            android:background="#e1f1cb">
+            android:background="@color/mainColor">
 
             <Button
                 android:layout_width="150dp"

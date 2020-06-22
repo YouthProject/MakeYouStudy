@@ -11,7 +11,8 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:text="DETECT"></Button>
+        android:background="@drawable/detect"
+        android:text=""></Button>
 
     <com.wonderkiln.camerakit.CameraView
         android:id="@+id/camera_view"

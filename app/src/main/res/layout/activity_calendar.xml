@@ -36,7 +36,7 @@
                 android:id="@+id/edtDairy"
                 android:layout_width="match_parent"
                 android:layout_height="80sp"
-                android:background="#f9f5ea"
+                android:background="@color/lightyellow"
                 android:ems="10"
                 android:gravity="start|center_vertical"
                 android:inputType="text|textMultiLine|textCapSentences"
