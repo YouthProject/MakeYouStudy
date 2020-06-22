@@ -60,8 +60,6 @@ public class CalendarActivity extends AppCompatActivity {
         //뷰에 있는 위젯들 리턴받기기
         edtDiary=(EditText)findViewById(R.id.edtDairy);
         btnSave=(Button)findViewById(R.id.btnSave);
-
-
         CalendarView calendarView = (CalendarView) findViewById(R.id.calendarView);
         List<EventDay> events = new ArrayList<> ();
 
@@ -76,10 +74,10 @@ public class CalendarActivity extends AppCompatActivity {
         checkMonth = todayMonth;
         checkDay = todayDay;
 
-        // 첫시작 할 때 일정이 있으면 캘린더에 표시해주기
+        // 첫시작 할 때 일정이 있으면 캘린더에 dot(강아지발자국)으로 표시해주기
         mFirebaseDatabase.getReference().child("calendar").child(user.getUid()).addValueEventListener(new ValueEventListener () {
             @Override
-            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
+            public void onDataChange(@NonNull DataSnapshot dataSnapshot) { //일정데이터가 변경될 때 onDataChange함수 발생
                 for (DataSnapshot snapshot : dataSnapshot.getChildren()){
                     String key = snapshot.getKey();
                     int[] date = splitDate(key);
@@ -152,19 +150,19 @@ public class CalendarActivity extends AppCompatActivity {
     //일정 저장하는 메소드
     @SuppressLint("WrongConstant")
     private void saveDiary(String readDay){
-        try{
+        try{ //일정이 저장될때 try문 발생.
             mDatabaseReference = mFirebaseDatabase.getReference().child("calendar").child(user.getUid()).child(readDay);
             String content =edtDiary.getText().toString();
-            // filebase/diary/userUid/date save
+            // filebase/calendar/userUid/date save
             mDatabaseReference.setValue(content);
-
-            Toast.makeText(getApplicationContext(),"일정 저장됨",Toast.LENGTH_SHORT).show();
-        }catch (Exception e){
+            //일정이 저장되면 토스메세지로 "일정 저장 됨"
+            Toast.makeText(getApplicationContext(),"일정 저장 완료",Toast.LENGTH_SHORT).show();
+        } catch (Exception e){             //예외처리.
             e.printStackTrace();
             Toast.makeText(getApplicationContext(),"오류발생",Toast.LENGTH_SHORT).show();
         }
     }
-
+    //문자열을 int로 변환한다.
     private int[] splitDate(String date){
         String[] splitText = date.split("-");
         int[] result_date = {Integer.parseInt(splitText[0]), Integer.parseInt(splitText[1]), Integer.parseInt(splitText[2])};
