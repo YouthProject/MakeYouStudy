@@ -313,7 +313,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         mFirebaseDatabase.getReference().child("image").child(user.getUid()).child("size").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                if(dataSnapshot.getValue(String.class) == null || !dataSnapshot.getValue(String.class).equals("4")){
+                if(dataSnapshot.getValue(String.class) == null || !dataSnapshot.getValue(String.class).equals("5")){
                     AlertDialog.Builder builder = new AlertDialog.Builder(context);
                     builder.setTitle("사진 등록이 필요합니다.").setMessage("프로필에서 5장의 책상 사진을 업로드하세요.");
                     builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {

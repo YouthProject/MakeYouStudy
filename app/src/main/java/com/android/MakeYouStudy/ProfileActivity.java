@@ -249,21 +249,20 @@ public class ProfileActivity extends AppCompatActivity{
                         if(dataSnapshot.getValue() == null){
                             Log.d("Checksize : ", "Uid child is null");
                             // 처음 등록할 때 size값과 position값을 초기화시켜준다.
-                            if(mode == UP_COUNT){
-                                mdatabase.child("image").child(user.getUid()).child("size").setValue("0");
-                                mdatabase.child("image").child(user.getUid()).child("position").setValue("0");
-                                size = 0;
-                                position = 0;
-                            }
+                            mdatabase.child("image").child(user.getUid()).child("size").setValue("0");
+                            mdatabase.child("image").child(user.getUid()).child("position").setValue("0");
+                            size = 0;
+                            position = 0;
                         }else{
                             size = Integer.parseInt(dataSnapshot.child("size").getValue(String.class));
                             position = Integer.parseInt(dataSnapshot.child("position").getValue(String.class));
-                            if(mode == UP_COUNT){
-                                countPosition();
-                            }
-                            if(size > 3){
-                                imageViewcount.setImageDrawable(getDrawable(R.drawable.ic_green));
-                            }
+
+                        }
+                        if(mode == UP_COUNT){
+                            countPosition();
+                        }
+                        if(size > 4){
+                            imageViewcount.setImageDrawable(getDrawable(R.drawable.ic_green));
                         }
                     }
             @Override
@@ -272,7 +271,7 @@ public class ProfileActivity extends AppCompatActivity{
     }
     // user별 database에 저장된 현재 position값 계산
     public void countPosition(){
-        if(size < 4){ size++; }
+        if(size < 5){ size++; }
         if(position > 3){ position = 0; } else{ position++; }
     }
 }

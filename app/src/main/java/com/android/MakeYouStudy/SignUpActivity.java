@@ -118,12 +118,13 @@ public class SignUpActivity extends AppCompatActivity  {
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
                             // 회원가입 성공
-                            Toast.makeText(SignUpActivity.this, "성공", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(SignUpActivity.this, "Make You Study에 오신 것을 환영합니다.", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             String cu = firebaseAuth.getUid();
                             userinfo userdata = new userinfo(email, password);
                             mDatabase.child("users").child(cu).setValue(userdata);
+                            finish();
                         } else {
                             // 회원가입 실패
                             Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();

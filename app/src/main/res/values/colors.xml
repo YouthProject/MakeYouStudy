@@ -9,16 +9,16 @@
     <color name="lightyellow">#f9f5ea</color>
 
 
-    <color name="Mon">#8ECBFF</color>
-    <color name="Tue">#03DAC5</color>
-    <color name="Wed">#03DAC5</color>
-    <color name="Thu">#6200EE</color>
-    <color name="Fri">#03DAC5</color>
-    <color name="Sat">#3700B3</color>
-    <color name="Sun">#8ECBFF</color>
+    <color name="Mon">#FAD480</color>
+    <color name="Tue">#E4AB2C</color>
+    <color name="Wed">#E99909</color>
+    <color name="Thu">#C47844</color>
+    <color name="Fri">#BC4B11</color>
+    <color name="Sat">#8F3211</color>
+    <color name="Sun">#E37D4E</color>
 
-    <color name="Check">#03DAC5</color>
-    <color name="Total">#8ECBFF</color>
+    <color name="Check">#F7E3C3</color>
+    <color name="Total">#DDB897</color>
 
     <color name="attendanceBG">#E3F9FF</color>
 </resources>

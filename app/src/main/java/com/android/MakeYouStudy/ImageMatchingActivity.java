@@ -301,7 +301,7 @@ public class ImageMatchingActivity extends AppCompatActivity  {
     }
     // user별 database에 저장된 현재 position값 계산
     public void countPosition(){
-        if(size < 4){ size++; }
+        if(size < 5){ size++; }
         if(position > 3){ position = 0; } else{ position++; }
     }
 
