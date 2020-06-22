@@ -80,7 +80,10 @@ public class LoginActivity extends AppCompatActivity {
         LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
         loginButton = findViewById(R.id.login_button);
         LoginButton finalLoginButton = loginButton;
-        //buttonGoogle = findViewById(R.id.btn_googleSignIn);
+
+
+
+
 
         googlbtnimage.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -89,9 +92,6 @@ public class LoginActivity extends AppCompatActivity {
                         Intent signInIntent = googleSignInClient.getSignInIntent();
                         startActivityForResult(signInIntent, RC_SIGN_IN);
                         revokeAccess();
-
-
-
             }
         });
         facebookbtnimage.setOnClickListener(new View.OnClickListener() {
@@ -99,7 +99,7 @@ public class LoginActivity extends AppCompatActivity {
         public void onClick(View v) {
             finalLoginButton.performClick();
         }
-    });
+          });
 
 
         bt_find.setOnClickListener(new View.OnClickListener() {
@@ -118,55 +118,27 @@ public class LoginActivity extends AppCompatActivity {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
-
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
-
         callbackManager = CallbackManager.Factory.create();
-       // LoginButton loginButton = (LoginButton) findViewById(R.id.login_button);
-      //  loginButton = findViewById(R.id.login_button);
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
                 handleFacebookAccessToken(loginResult.getAccessToken());
-
-
             }
-
             @Override
             public void onCancel() {
-
-
             }
-
             @Override
             public void onError(FacebookException error) {
-
-
             }
         });
-
-
-
-       /* buttonGoogle.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                Intent signInIntent = googleSignInClient.getSignInIntent();
-                startActivityForResult(signInIntent, RC_SIGN_IN);
-                revokeAccess();
-
-
-            }
-        });*/
-
         //로그인 버튼 클릭시 파이어베이스 eamil 로그인 시작
         btn_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email = ed_eamil.getText().toString();
                 password = ed_password.getText().toString();
-
                 if (isValidEmail() && isValidPasswd()) {
                     loginUser(email, password);
                 }
@@ -181,7 +153,6 @@ public class LoginActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
     }
 
     private void handleFacebookAccessToken( final AccessToken accessToken){
@@ -198,7 +169,6 @@ public class LoginActivity extends AppCompatActivity {
                             Log.v("알림", "현재로그인한 유저 " + cu);
                             Log.v("알림", "현재로그인한 이메일 " + email);
                             Log.v("알림", "유저 이름 " + name);
-                            //이 부분이 DB에 데이터 저장
                             userinfo userdata = new userinfo(name, email);
                             mDatabase.child("users").child(cu).setValue(userdata);
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
