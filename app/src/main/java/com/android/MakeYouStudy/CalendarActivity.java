@@ -44,7 +44,6 @@ public class CalendarActivity extends AppCompatActivity {
     int checkYear;
     int checkMonth;
     int checkDay;
-    private int widget;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -74,7 +73,7 @@ public class CalendarActivity extends AppCompatActivity {
         checkMonth = todayMonth;
         checkDay = todayDay;
 
-        // 첫시작 할 때 일정이 있으면 캘린더에 dot(강아지발자국)으로 표시해주기
+        // 첫시작 할 때 일정이 있으면 캘린더에 dot(새싹)으로 표시해주기
         mFirebaseDatabase.getReference().child("calendar").child(user.getUid()).addValueEventListener(new ValueEventListener () {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) { //일정데이터가 변경될 때 onDataChange함수 발생
