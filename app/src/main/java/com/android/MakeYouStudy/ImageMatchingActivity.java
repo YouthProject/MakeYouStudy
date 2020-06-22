@@ -124,8 +124,6 @@ public class ImageMatchingActivity extends AppCompatActivity  {
             count = 0;
 
             imageDownload();
-
-            Log.d("TAGjt", "tkffuwnj");
         }
     }
 

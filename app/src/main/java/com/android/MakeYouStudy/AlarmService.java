@@ -113,8 +113,9 @@ public class AlarmService extends Service {
 
         NotificationChannel channel = new NotificationChannel(channelId, channelName, NotificationManager.IMPORTANCE_NONE);
         NotificationManager manager = (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
-        channel.setDescription(description);
+        channel.setDescription("안녕하세요");
         channel.setSound(null, null);
+        channel.setShowBadge(true);
         channel.setLockscreenVisibility(Notification.VISIBILITY_PRIVATE);
 
         manager.createNotificationChannel(channel);

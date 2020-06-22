@@ -103,7 +103,6 @@ public class ProfileActivity extends AppCompatActivity{
        takeapicture.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                checksize(UP_COUNT);
                 dispatchTakePictureIntent();
             }
         });
@@ -120,10 +119,11 @@ public class ProfileActivity extends AppCompatActivity{
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         super.onActivityResult(requestCode, resultCode, data);
-
+        checksize(GET_SIZE);
         if (requestCode == REQUEST_IMAGE_CAPTURE && resultCode == Activity.RESULT_OK && data.hasExtra("data")) {
             Bitmap bitmap = (Bitmap) data.getExtras().get("data");
             if (bitmap != null) {
+                checksize(UP_COUNT);
                 imageUpload(bitmap);
             }
         }

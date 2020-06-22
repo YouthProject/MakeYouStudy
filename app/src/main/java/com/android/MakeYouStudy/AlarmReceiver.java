@@ -50,9 +50,6 @@ public class AlarmReceiver extends BroadcastReceiver {
             Log.d(TAG, "reset " + reqCode + " 가 해제 되었습니다.");
         }
         else if(weeks != nweeks){ // 오늘이 설정한 요일이 아닐 때
-            // Log 확인용
-            Log.d("not days", "체크한 요일이 아닙니다.");
-            Toast.makeText(context, "체크한 요일이 아닙니다.", Toast.LENGTH_SHORT).show();
             return;
         }
         else if(weeks == nweeks) { // 오늘이 설정한 요일 일 때
@@ -90,9 +87,6 @@ public class AlarmReceiver extends BroadcastReceiver {
                 sCpuWakeLock.release();
                 sCpuWakeLock = null;
             }
-
-            Toast.makeText(context, "알람~!!", Toast.LENGTH_SHORT).show();
-            Log.e("Alarm","알람입니다.");
         }
     }
 

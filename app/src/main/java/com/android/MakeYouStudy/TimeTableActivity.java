@@ -16,6 +16,7 @@ import android.provider.Settings;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.github.tlaabs.timetableview.Schedule;
 import com.github.tlaabs.timetableview.TimetableView;
@@ -163,6 +164,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                     timetable.add(item);
                     // save data to db
                     mDatabaseReference.child("table").setValue(timetable.createSaveData());
+                    Toast.makeText(this, "시간표가 추가 되었습니다.", Toast.LENGTH_SHORT).show();
                 }
                 break;
             case REQUEST_EDIT:
@@ -173,6 +175,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                     timetable.edit(idx, item);
                     // save data to db
                     mDatabaseReference.child("table").setValue(timetable.createSaveData());
+                    Toast.makeText(this, "시간표가 수정 되었습니다.", Toast.LENGTH_SHORT).show();
                 }
                 /** Edit -> Delete */
                 else if (resultCode == EditActivity.RESULT_OK_DELETE) {
@@ -180,6 +183,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                     timetable.remove(idx);
                     // save data to db
                     mDatabaseReference.child("table").setValue(timetable.createSaveData());
+                    Toast.makeText(this, "시간표가 삭제 되었습니다.", Toast.LENGTH_SHORT).show();
                 }
                 break;
         }

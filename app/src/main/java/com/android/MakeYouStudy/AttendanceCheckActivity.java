@@ -117,7 +117,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         btnTextCheck.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                mediaPause();
+                mediaPause();
                 textRecognition();
             }
         });
@@ -126,6 +126,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         btnSkip.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                mediaPause();
                 dialogSkip();
             }
         });
@@ -134,14 +135,8 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         btnOpencv.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
-//                if(size < 4)
-//                {
-//                    dialogImageMatching();
-//                }else {
-                    startActivityForResult(new Intent(getApplicationContext(), ImageMatchingActivity.class), IMAGE_MATCHING_ACTIVITY);
-//                }
-
+                mediaPause();
+                startActivityForResult(new Intent(getApplicationContext(), ImageMatchingActivity.class), IMAGE_MATCHING_ACTIVITY);
             }
         });
     }
@@ -175,7 +170,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             else {
                 Toast.makeText(this, "출석체크 실패 : "+label, Toast.LENGTH_SHORT).show();
                 count++;
-
+                mediaRestart();
                 Log.d("count_number", ""+count);
 
                 if(count>=3){ // count 가 3일 때 (사물인식 출석체크 3번 실패 시) count = 0으로 셋팅후 textRecognition 메소드 실행(text 인식 출석체크 Activity 실행)
@@ -252,64 +247,13 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             public void onClick(DialogInterface dialog, int id)
             {
                 Toast.makeText(activity, "'취소'버튼을 누르셨습니다.", Toast.LENGTH_SHORT).show();
+                mediaRestart();
             }
         });
         AlertDialog alert = alertdialog.create();
         alert.setTitle("Skip");
         alert.show();
     }
-
-//    public void dialogImageMatching(){
-//        activity = this;
-//
-//        AlertDialog.Builder alertdialog = new AlertDialog.Builder(activity);
-//        alertdialog.setMessage("자신의 책상사진 5장을 등록해야 사용 가능합니다. 등록하시겠습니까?");
-//
-//        // 확인버튼 - 등록
-//        alertdialog.setPositiveButton("등록하러가기", new DialogInterface.OnClickListener(){
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-//            }
-//        });
-//
-//        // 취소버튼
-//        alertdialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-//
-//            @Override
-//            public void onClick(DialogInterface dialog, int which) {
-//                Toast.makeText(activity, "취소 되었습니다.", Toast.LENGTH_SHORT).show();
-//            }
-//        });
-//
-//
-//        AlertDialog alert = alertdialog.create();
-//        alert.setTitle("사진을 등록하세요!");
-//
-//        alert.show();
-//
-//    }
-
-//    public void checksize(){
-//        mdatabase.child("image").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-//                if(dataSnapshot.getValue() == null){
-//                    Log.d("Checksize : ", "Uid child is null");
-//                    // 처음 등록할 때 size값과 position값을 초기화시켜준다.
-//                    mdatabase.child("image").child(user.getUid()).child("size").setValue("0");
-//                    mdatabase.child("image").child(user.getUid()).child("position").setValue("0");
-//                    size = 0;
-//
-//                }else{
-//                    size = Integer.parseInt(dataSnapshot.child("size").getValue(String.class));
-//                }
-//
-//            }
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError databaseError) { }
-//        });
-//    }
 
     // media를 pause하기위한 Service호출
     public void mediaPause(){
