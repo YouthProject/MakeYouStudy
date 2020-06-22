@@ -18,10 +18,6 @@ public class DiaryListAdapter extends BaseAdapter {
     private ArrayList<Diary> data;
     private LayoutInflater inflater;
 
-    //파이어베이스
-    private DatabaseReference mDatabaseReference;
-    private FirebaseDatabase mFirebaseDatabase;
-
     public DiaryListAdapter(Context ctx, int layout, ArrayList<Diary> data) {
         this.ctx = ctx;
         this.layout = layout;

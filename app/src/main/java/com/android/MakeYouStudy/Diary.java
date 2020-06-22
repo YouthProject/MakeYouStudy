@@ -8,11 +8,6 @@ public class Diary {
     private String title;
     private String date;
     private String contents;
-    //파이어베이스
-    private DatabaseReference mDatabaseReference;
-    private FirebaseDatabase mFirebaseDatabase;
-
-
 
 
     public int getCode() {
