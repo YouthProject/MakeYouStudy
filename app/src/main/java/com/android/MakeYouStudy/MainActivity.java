@@ -81,7 +81,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonML = (Button)findViewById(R.id.buttonML);
         buttonAttendanceRate = (Button)findViewById(R.id.buttonAttendance);
         imageViewGood = (ImageView)findViewById(R.id.good);
-
         imageViewGood.setImageResource(res);
 
         // 유저가 로그인하지 않은 상태라면 LoginActivity 실행

@@ -99,6 +99,8 @@ public class ProfileActivity extends AppCompatActivity{
                 logoutDialog();
             }
         });
+
+        //회원탈퇴 리스너
         bt_delect.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -122,7 +124,7 @@ public class ProfileActivity extends AppCompatActivity{
 
     }
 
-    @Override //갤러리에서 이미지 불러온 후 이미지를 저장
+    @Override //사진촬영후 사진 저장
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         // Check which request we're responding to
         super.onActivityResult(requestCode, resultCode, data);

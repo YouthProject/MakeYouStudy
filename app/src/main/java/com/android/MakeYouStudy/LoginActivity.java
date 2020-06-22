@@ -6,7 +6,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.ContactsContract;
+import android.text.Editable;
 import android.text.TextUtils;
+import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -47,7 +50,7 @@ import static com.google.firebase.auth.FirebaseAuthProvider.PROVIDER_ID;
 
 public class LoginActivity extends AppCompatActivity {
 
-    FirebaseAuth firebaseAuth;
+    private FirebaseAuth firebaseAuth;
     private String email = "";
     private String password = "";
     private EditText ed_eamil, ed_password;
@@ -56,13 +59,16 @@ public class LoginActivity extends AppCompatActivity {
     private static final int RC_SIGN_IN = 900;
     private GoogleSignInClient googleSignInClient;
     private SignInButton buttonGoogle;
-    FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+    //getInstance를 사용하여 데이터베이스의 인스턴스를 검색하고, 쓰려는 위치를 참조
+    private FirebaseDatabase database = FirebaseDatabase.getInstance();
+    //데이터 베이스에서 데이터를 읽거나 쓰기 위해 DataReference의 인스턴스 선언
     private DatabaseReference mDatabase;
 
 
     private CallbackManager callbackManager;
-         private LoginStatusCallback loginStatusCallback;
-
+    private LoginStatusCallback loginStatusCallback;
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -81,27 +87,22 @@ public class LoginActivity extends AppCompatActivity {
         loginButton = findViewById(R.id.login_button);
         LoginButton finalLoginButton = loginButton;
 
-
-
-
-
         googlbtnimage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
                         Intent signInIntent = googleSignInClient.getSignInIntent();
                         startActivityForResult(signInIntent, RC_SIGN_IN);
                         revokeAccess();
             }
         });
+
         facebookbtnimage.setOnClickListener(new View.OnClickListener() {
         @Override
-        public void onClick(View v) {
+        public void onClick(View v)
+        {   access();
             finalLoginButton.performClick();
         }
           });
-
-
         bt_find.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -111,14 +112,16 @@ public class LoginActivity extends AppCompatActivity {
         });
 
 
-
         GoogleSignInOptions googleSignInOptions = new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-
-
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build();
         googleSignInClient = GoogleSignIn.getClient(this, googleSignInOptions);
+
+
+
+
+
         callbackManager = CallbackManager.Factory.create();
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
@@ -139,13 +142,26 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = ed_eamil.getText().toString();
                 password = ed_password.getText().toString();
+
+                if(email.matches(emailPattern))
+                {
+
+                }else
+                    {
+                    Toast.makeText(LoginActivity.this,"이메일 형식 오류 입니다 다시 입력해 주세요.",Toast.LENGTH_SHORT).show();
+                }
+
+                if(password.getBytes().length<6){
+                    Toast.makeText(LoginActivity.this,"비밀번호가 6자리 미만입니다 6자리 이상 입력해주세요",Toast.LENGTH_SHORT).show();
+                }
                 if (isValidEmail() && isValidPasswd()) {
                     loginUser(email, password);
                 }
 
+
             }
         });
-        //회원가입 버튼 클릭시 eamilsignup.xml 화면으로 전환
+        //회원가입 버튼 클릭시 activity_SingUp 화면으로 전환
         btn_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -154,7 +170,7 @@ public class LoginActivity extends AppCompatActivity {
             }
         });
     }
-
+     //페이스북에서 받아온 토큰으로 로그인 진행
     private void handleFacebookAccessToken( final AccessToken accessToken){
         AuthCredential credential = FacebookAuthProvider.getCredential(accessToken.getToken());
         firebaseAuth.signInWithCredential(credential)
@@ -219,6 +235,7 @@ public class LoginActivity extends AppCompatActivity {
                             startActivity(intent);
 
                         } else {
+
                             // 로그인 실패
                             Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
                         }
@@ -241,7 +258,6 @@ public class LoginActivity extends AppCompatActivity {
 
             }
         }
-        callbackManager.onActivityResult(requestCode,resultCode,data);
     }
     private void firebaseAuthWithGoogle(GoogleSignInAccount acct) {
 

@@ -32,6 +32,7 @@ public class FindActivity extends AppCompatActivity{
 
         String eamilAddress=findeamil.getText().toString();
 
+        //버튼 클릭시 회원가입시 등록하 이메일로 메일을 보내서 재인증함.
         but_findpasssword.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {

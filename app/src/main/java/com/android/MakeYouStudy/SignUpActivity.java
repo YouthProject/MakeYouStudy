@@ -32,17 +32,13 @@ public class SignUpActivity extends AppCompatActivity  {
     String password = "";
     EditText ed_singupeamil, ed_signuppassword;
     Button bt_newsignup, bt_backmain;
-
     TextView textEmail;
-
-
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabase;// ...
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_signup);
-
         firebaseAuth = FirebaseAuth.getInstance();
         mDatabase = FirebaseDatabase.getInstance().getReference();
         ed_singupeamil=(EditText)findViewById(R.id.ed_signupemail);
@@ -51,13 +47,15 @@ public class SignUpActivity extends AppCompatActivity  {
         bt_backmain=(Button)findViewById(R.id.bt_backmain);
         textEmail = (TextView)findViewById(R.id.tv_error_email);
 
-
+        //아이디와 비밀번호 작성 후 클릭시 회원가입 진행 후 메인 화면으로 전환
         bt_newsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email=ed_singupeamil.getText().toString();
                 password=ed_signuppassword.getText().toString();
-
+                if(password.getBytes().length<6){
+                    Toast.makeText(SignUpActivity.this,"비밀번호가 6자리 미만입니다 6자리 이상 입력해주세요",Toast.LENGTH_SHORT).show();
+                }
                 if(isValidEmail() && isValidPasswd()) {
                     createUser(email, password);
                 }
@@ -91,9 +89,6 @@ public class SignUpActivity extends AppCompatActivity  {
                 }
             }
         });
-
-
-
     }
     private boolean isValidEmail() {
         if (email.isEmpty()) {
@@ -105,19 +100,17 @@ public class SignUpActivity extends AppCompatActivity  {
             return true;
         }
     }
-
     // 비밀번호 유효성 검사
     private boolean isValidPasswd() {
         if (password.isEmpty()) {
             // 비밀번호 공백
-            Toast.makeText(SignUpActivity.this,"패스워드가 공백입니다.",Toast.LENGTH_SHORT);
+            Toast.makeText(SignUpActivity.this, "패스워드가 공백입니다.", Toast.LENGTH_SHORT);
             return false;
-
         } else {
             return true;
         }
-    }
 
+    }
     private void createUser(final String email, final String password) {
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
@@ -128,23 +121,14 @@ public class SignUpActivity extends AppCompatActivity  {
                             Toast.makeText(SignUpActivity.this, "성공", Toast.LENGTH_SHORT).show();
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
-
                             String cu = firebaseAuth.getUid();
-
                             userinfo userdata = new userinfo(email, password);
-
                             mDatabase.child("users").child(cu).setValue(userdata);
-
-
-
                         } else {
                             // 회원가입 실패
                             Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
                         }
-
                     }
-                });   FirebaseUser user = firebaseAuth.getCurrentUser();
-
-
+                });
     }
 }
