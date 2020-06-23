@@ -32,9 +32,10 @@ public class SignUpActivity extends AppCompatActivity  {
     String password = "";
     EditText ed_singupeamil, ed_signuppassword;
     Button bt_newsignup, bt_backmain;
-    TextView textEmail;
+    TextView tv_error_email,tv_error_password;
     FirebaseDatabase database = FirebaseDatabase.getInstance();
     DatabaseReference mDatabase;// ...
+    String emailPattern = "[a-zA-Z0-9._-]+@[a-z]+\\.+[a-z]+";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -45,16 +46,34 @@ public class SignUpActivity extends AppCompatActivity  {
         ed_signuppassword=(EditText)findViewById(R.id.ed_signuppassword);
         bt_newsignup=(Button)findViewById(R.id.bt_newsignup);
         bt_backmain=(Button)findViewById(R.id.bt_backmain);
-        textEmail = (TextView)findViewById(R.id.tv_error_email);
-
+        tv_error_email = (TextView)findViewById(R.id.tv_error_email);
+        tv_error_password=(TextView)findViewById(R.id.tv_error_password);
         //아이디와 비밀번호 작성 후 클릭시 회원가입 진행 후 메인 화면으로 전환
         bt_newsignup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 email=ed_singupeamil.getText().toString();
                 password=ed_signuppassword.getText().toString();
+                if(email.matches(emailPattern))
+                {
+                    tv_error_email.setText("");         //에러 메세지 제거
+                    ed_singupeamil.setBackgroundResource(R.drawable.white_edittext);  //테투리 흰색으로 변경
+                }
+                else {
+                    tv_error_email.setText("이메일 형식으로 입력해주세요.");
+                    ed_singupeamil.setBackgroundResource(R.drawable.red_edittext);  // 적색 테두리 적용
+                }
+
                 if(password.getBytes().length<6){
-                    Toast.makeText(SignUpActivity.this,"비밀번호가 6자리 미만입니다 6자리 이상 입력해주세요",Toast.LENGTH_SHORT).show();
+                    tv_error_password.setText("비밀번호가 6자리 미만입니다 6자리 이상 입력해주세요.");
+                    ed_signuppassword.setBackgroundResource(R.drawable.red_edittext);  // 적색 테두리 적용
+
+
+                }
+                else{
+                    tv_error_password.setText("");         //에러 메세지 제거
+                    ed_signuppassword.setBackgroundResource(R.drawable.white_edittext);  //테투리 흰색으로 변경
+
                 }
                 if(isValidEmail() && isValidPasswd()) {
                     createUser(email, password);
@@ -62,31 +81,12 @@ public class SignUpActivity extends AppCompatActivity  {
 
             }
         });
+
         bt_backmain.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent=new Intent(getApplication(),LoginActivity.class);
                 startActivity(intent);
-            }
-        });
-
-        ed_singupeamil.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence charSequence, int i, int i1, int i2) { }
-
-            @Override
-            public void onTextChanged(CharSequence charSequence, int i, int i1, int i2) {}
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                if(!android.util.Patterns.EMAIL_ADDRESS.matcher(s.toString()).matches()){
-                    textEmail.setText("이메일 형식으로 입력해주세요.");    // 경고 메세지
-                    ed_singupeamil.setBackgroundResource(R.drawable.red_edittext);  // 적색 테두리 적용
-                }
-                else{
-                    textEmail.setText("");         //에러 메세지 제거
-                    ed_singupeamil.setBackgroundResource(R.drawable.white_edittext);  //테투리 흰색으로 변경
-                }
             }
         });
     }

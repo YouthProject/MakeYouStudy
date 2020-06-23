@@ -144,18 +144,6 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 email = ed_eamil.getText().toString();
                 password = ed_password.getText().toString();
-
-                if(email.matches(emailPattern))
-                {
-
-                }else
-                    {
-                    Toast.makeText(LoginActivity.this,"이메일 형식 오류 입니다 다시 입력해 주세요.",Toast.LENGTH_SHORT).show();
-                }
-
-                if(password.getBytes().length<6){
-                    Toast.makeText(LoginActivity.this,"비밀번호가 6자리 미만입니다 6자리 이상 입력해주세요",Toast.LENGTH_SHORT).show();
-                }
                 if (isValidEmail() && isValidPasswd()) {
                     loginUser(email, password);
                 }
@@ -240,7 +228,7 @@ public class LoginActivity extends AppCompatActivity {
                         } else {
 
                             // 로그인 실패
-                            Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();
+                            Toast.makeText(LoginActivity.this, "이메일/비밀번호를 확인해 주세요", Toast.LENGTH_SHORT).show();
                         }
                     }
                 });
