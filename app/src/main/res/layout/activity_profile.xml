@@ -23,7 +23,6 @@
         android:gravity="center"
         android:textSize="15sp"
         android:text="현재 로그인 된 계정 "
-        android:layout_marginBottom="10dp"
         />
 <LinearLayout
     android:layout_width="match_parent"

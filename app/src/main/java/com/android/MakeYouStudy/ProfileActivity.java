@@ -78,7 +78,7 @@ public class ProfileActivity extends AppCompatActivity{
         takeapicture=(Button)findViewById(R.id.takeapicture);
         firebaseAuth = FirebaseAuth.getInstance();
         user = firebaseAuth.getCurrentUser();
-        te_textview.setText("반갑습니다.\n" + user.getEmail() + "으로 로그인 하였습니다.");
+        te_textview.setText(user.getEmail() + "으로 로그인 하였습니다.");
         FirebaseDatabase database = FirebaseDatabase.getInstance();
         final DatabaseReference mDatabase;
         String cu = firebaseAuth.getUid();

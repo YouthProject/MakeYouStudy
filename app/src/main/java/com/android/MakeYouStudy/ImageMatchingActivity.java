@@ -211,7 +211,7 @@ public class ImageMatchingActivity extends AppCompatActivity  {
                 Core.normalize(hist_2, hist_2, 0, 1, Core.NORM_MINMAX);
 
                 metric_val = Imgproc.compareHist(hist_1, hist_2, Imgproc.HISTCMP_BHATTACHARYYA);// 0이 일치
-                if(metric_val < 0.4) {
+                if(metric_val < 0.2) {
                     CheckSuccess = true;
                 }
 

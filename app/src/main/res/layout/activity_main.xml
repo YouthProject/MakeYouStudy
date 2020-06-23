@@ -14,7 +14,7 @@
 
         <ImageView
             android:id="@+id/result"
-            android:layout_width="360dp"
+            android:layout_width="355dp"
             android:layout_height="match_parent"
             android:background="@drawable/app_name" />
 
@@ -27,21 +27,19 @@
             android:text="" />
     </LinearLayout>
 
-
-
-
     <ImageView
         android:id="@+id/good"
         android:layout_width="match_parent"
         android:layout_height="400dp"
-
-
+        android:layout_marginTop="5dp"
         />
+
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="100dp"
         android:orientation="horizontal"
-        android:layout_gravity="center">
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp">
 
         <Button
             android:id="@+id/buttonCalendar"
@@ -76,10 +74,4 @@
 
     </LinearLayout>
 
-    <Button
-        android:id="@+id/buttonML"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="Show ML"
-        android:textAppearance="@style/TextAppearance.AppCompat.Large" />
 </androidx.appcompat.widget.LinearLayoutCompat>

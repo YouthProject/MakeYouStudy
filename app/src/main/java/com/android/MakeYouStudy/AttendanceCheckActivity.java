@@ -64,8 +64,8 @@ public class AttendanceCheckActivity extends AppCompatActivity {
     DatabaseReference mdatabase = FirebaseDatabase.getInstance().getReference();
 
     ImageView imageView;
+    private long pressedTime;
 
-    int size;
 
     private DatabaseReference mDatabaseReference; // 데이터베이스의 주소를 저장합니다.
     private FirebaseDatabase mFirebaseDatabase; // 데이터베이스에 접근할 수 있는 진입점 클래스입니다.
@@ -87,7 +87,6 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         this.context = this;
 
         imageView = (ImageView)findViewById(R.id.imageView);
- //       imageView.setImageResource(R.drawable.attendance_check);
 
         // AlarmService의 mediaPlayer제어를 위한 Intent
         sintent = new Intent(context, AlarmService.class);
@@ -102,7 +101,6 @@ public class AttendanceCheckActivity extends AppCompatActivity {
         storage = FirebaseStorage.getInstance();
         storageRef = storage.getReference().child("images").child(user.getUid());
 
-//        checksize();
 
         btnCheck = (Button)findViewById(R.id.btnCheck);
         btnCheck.setOnClickListener(new View.OnClickListener() {
@@ -140,12 +138,6 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             }
         });
     }
-
-//    @Override
-//    protected void onResume() {
-//        super.onResume();
-//        checksize();
-//    }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
@@ -310,5 +302,23 @@ public class AttendanceCheckActivity extends AppCompatActivity {
             @Override
             public void onCancelled(@NonNull DatabaseError databaseError) { }
         });
+    }
+
+    @Override
+    public void onBackPressed() {
+        //super.onBackPressed();
+        if ( pressedTime == 0){
+            Toast.makeText(this, "한번 더 누르면 결석 처리됩니다.", Toast.LENGTH_SHORT).show();
+            pressedTime = System.currentTimeMillis();
+        }else {
+            int seconds = (int) (System.currentTimeMillis() - pressedTime);
+
+            if(seconds > 2000){
+                pressedTime = 0;
+            }else {
+                alarmOff();
+                finish();
+            }
+        }
     }
 }

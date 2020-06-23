@@ -103,10 +103,11 @@ public class TextRecognitionActivity extends AppCompatActivity {
             String text = "";
             for(FirebaseVisionText.TextBlock block : firebaseVisionText.getTextBlocks())
             {
-                text = block.getText();
+                text = block.getText().toLowerCase();
                 Log.d("What is text : ", text );
+                check(text, data);
             }
-            check(text, data);
+
         }
     }
 
@@ -120,7 +121,7 @@ public class TextRecognitionActivity extends AppCompatActivity {
         }
         else {
             checkValue = false;
-            textView2.setText("인식한 단어가 일치하지 않습니다. 다시 촬영해주세요.");
+            textView2.setText("인식 단어는 " + text);
         }
     }
 

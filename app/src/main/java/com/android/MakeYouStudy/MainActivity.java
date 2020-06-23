@@ -56,7 +56,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private Button buttonTimeTable;
     private Button buttonDiary;
     private Button buttonProfile;
-    private Button buttonML;
     private Button buttonAttendanceRate;
     private ImageView imageViewGood;
 
@@ -78,7 +77,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         buttonTimeTable = (Button)findViewById(R.id.buttonTimeTable);
         buttonDiary = (Button)findViewById(R.id.buttonDiary);
         buttonProfile = (Button)findViewById(R.id.buttonProfile);
-        buttonML = (Button)findViewById(R.id.buttonML);
         buttonAttendanceRate = (Button)findViewById(R.id.buttonAttendance);
         imageViewGood = (ImageView)findViewById(R.id.good);
         imageViewGood.setImageResource(res);
@@ -97,7 +95,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             buttonTimeTable.setOnClickListener(this);
             buttonDiary.setOnClickListener(this);
             buttonProfile.setOnClickListener(this);
-            buttonML.setOnClickListener(this);
             buttonAttendanceRate.setOnClickListener(this);
         }
     }
@@ -115,9 +112,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
         if(view == buttonProfile){
             startActivity(new Intent(getApplicationContext(), ProfileActivity.class));
-        }
-        if(view == buttonML){
-            startActivity(new Intent(getApplicationContext(), AttendanceCheckActivity.class));
         }
         if(view == buttonAttendanceRate){
             startActivity(new Intent(getApplicationContext(), AttendanceRateActivity.class));
