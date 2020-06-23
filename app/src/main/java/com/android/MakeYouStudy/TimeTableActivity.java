@@ -12,7 +12,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.provider.Settings;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -31,7 +31,6 @@ import com.google.gson.JsonArray;
 import com.google.gson.JsonObject;
 import com.google.gson.JsonParser;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -79,10 +78,10 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         checkPictureCount(); // 사진이 저장되어있는지 확인
         dayCheckZero(); // TimeTable을 처음 사용할 때 dayCheck값 0으로 초기화
 
+        //
         mDatabaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot dataSnapshot) {
-                // count가 null이 아닐 때 알람삭제
                 if(dataSnapshot.child("count").getValue(Integer.class) != null){
                     count = dataSnapshot.child("count").getValue(Integer.class);
                     alarmOff(count);
@@ -97,6 +96,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    // Activity 실행시 객체 초기화 메서드
     private void init(){
         int nWeek = doDayOfWeek();
 
@@ -109,6 +109,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         initView();
     }
 
+    // OnClickListener 등록 메서드
     private void initView(){
         addBtn.setOnClickListener(this);
         clearBtn.setOnClickListener(this);
@@ -126,6 +127,13 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
 
     @Override
     public void onClick(View v) {
+        addBtn.setEnabled(false);
+        // btn disabled 1sec
+        new Handler().postDelayed(new Runnable() {
+            public void run() {
+                addBtn.setEnabled(true);
+            }
+        }, 1000);
         switch (v.getId()){
             case R.id.add_btn:
                 Intent i = new Intent(this,EditActivity.class);
@@ -200,7 +208,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         return nWeek;
     }
 
-    // Parse json and add Alarm
+    // Json파일을
     public void AddAlarm(String json){
 
         int alarmCount = 0; // Alarm의 requestcode확인을 위한 변수
@@ -243,7 +251,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 calendar.set(Calendar.HOUR_OF_DAY, obj4.get("hour").getAsInt());
                 calendar.set(Calendar.MINUTE, obj4.get("minute").getAsInt());
                 calendar.set(Calendar.SECOND, 0);
-                // 현재시간보다 이전이면 다음날로 설정해 계속 알람이 울리는 오류를 해결
+                // 현재시간보다 이전이면 계속 알람이 울리는 문제를 해결
                 if (!calendar.before(Calendar.getInstance())){
                     // Receiver 설정
                     Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
@@ -251,7 +259,6 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                     intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
                     intent.putExtra("reqCode", i);
                     pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                    Log.d("Alarm이 등록되었습니다.", "제발" + i);
                     // 알람 설정, API 별로 alarmManger.set 함수 구별
                     if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
                         if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
@@ -266,36 +273,13 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                         alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                     }
                 }
-
-//                if (calendar.before(Calendar.getInstance())){
-//                    calendar.add(Calendar.DATE, 1);
-//                }
-//                // Receiver 설정
-//                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-//                intent.putExtra("weekday", obj3.get("day").getAsInt());
-//                intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
-//                intent.putExtra("reqCode", i);
-//                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-//                Log.d("Alarm이 등록되었습니다.", "제발" + i);
-//                // 알람 설정, API 별로 alarmManger.set 함수 구별
-//                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-//                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-//                        // API 19이상 API 23미만
-//                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//                    }else{
-//                        // API 19미만
-//                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//                    }
-//                }else{
-//                    // API 23이상
-//                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-//                }
             }
         }
         mDatabaseReference.child("count").setValue(alarmCount); // AlarmCount 저장
         daysUpdate();
     }
 
+    // timetable의 출석률을 days배열값으로 바꿔주는 메서드
     public void daysUpdate(){
         int sum = 0;
         for(int i = 0; i < 7; i++) {
@@ -304,11 +288,14 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         }
         mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child("AllTotal").setValue(sum);
     }
+
+    // days 변수 0으로 초기화하는 메서드
     public void initDaysTotal(){
         days = new int[]{0, 0, 0, 0, 0, 0, 0};
 
     }
 
+    // 출석체크의 이미지매칭을 위한 사진갯수를 확인하는 메서드
     public void checkPictureCount(){
         mFirebaseDatabase.getReference().child("image").child(user.getUid()).child("size").addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -338,7 +325,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
-    // 강제로 출석체크확인 값을 0으로 초기화
+    // 출석률을 0으로 만들어주는 메서드
     public void dayCheckinit(){
         for (int i = 0; i < 7; i++){
             mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child(i + "").child("DayCheck").setValue(0);
@@ -346,7 +333,7 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).child("AllCheck").setValue(0);
     }
 
-    // 초기 TimeTable 실행시 출석체크확인값을 0으로 초기화
+    // 출석률을 초기화해주는 메서드
     public void dayCheckZero(){
         mFirebaseDatabase.getReference().child("timetable_checked").child(user.getUid()).addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -363,13 +350,13 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
         });
     }
 
+    // 모든 알람을 삭제하는 메서드
     public void alarmOff(int tmpcount){
         for(int i = 0; i <= tmpcount; i++){
             Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
             intent.putExtra("state","reset");
             PendingIntent pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
             alarmManager.cancel(pendingIntent);
-            Log.d("ReqTest", i + " 의 pendingintent 알람이 해제되었습니다.");
         }
     }
 }

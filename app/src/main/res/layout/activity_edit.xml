@@ -42,7 +42,7 @@
             android:layout_width="390dp"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
-            android:hint="Professor" />
+            android:hint="Memo" />
 
         <include layout="@layout/time_box"/>
 

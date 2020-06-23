@@ -8,7 +8,6 @@ import android.net.ConnectivityManager;
 import android.os.Build;
 import android.os.PowerManager;
 import android.util.Log;
-import android.widget.Toast;
 
 import java.util.Calendar;
 
@@ -27,15 +26,11 @@ public class AlarmReceiver extends BroadcastReceiver {
         int weeks = intent.getIntExtra("weekday", -1);
         int reqCode = intent.getIntExtra("reqCode", -1);
         String state = intent.getStringExtra("state");
-        Log.d(TAG,"설정 요일 : " + weeks);
-        Log.d(TAG, "실제 요일 : " + nweeks);
-        Log.d("reqTest", "리시버가 받은 reqcode" + reqCode);
 
         Intent sIntent = new Intent(context, AlarmService.class);
 
         if(state.equals("off")){ // 삭제 버튼을 클릭했을 때
-            // Log 확인용
-            Log.d("off button", "off button 클릭");
+
             sIntent.putExtra("state", "off");
             sIntent.putExtra("reqCode", reqCode);
             // Oreo(26) 버전 이후부터는 Background 에서 실행을 금지하기 때문에 Foreground 에서 실행해야 함
@@ -75,10 +70,9 @@ public class AlarmReceiver extends BroadcastReceiver {
                 intent2.putExtra("weekday", weeks);
                 PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent2, PendingIntent.FLAG_CANCEL_CURRENT);
                 pendingIntent.send();
-                Log.d(TAG, "Activity 실행");
+
             } catch (PendingIntent.CanceledException e) {
                 e.printStackTrace();
-                Log.d(TAG, "Activity 실행 오류");
             }
 
             // acquire 함수를 사용하였으면 꼭 release를 해주어야 한다.

@@ -6,9 +6,7 @@ import android.app.TimePickerDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.AdapterView;
 import android.widget.Button;
 import android.widget.EditText;
@@ -189,16 +187,5 @@ public class EditActivity extends AppCompatActivity implements  View.OnClickList
         schedule.setClassTitle(subjectEdit.getText().toString());
         schedule.setClassPlace(classroomEdit.getText().toString());
         schedule.setProfessorName(professorEdit.getText().toString());
-    }
-    // timetable.setHeaderHighlight를 위한 DayOfWeek 계산
-    private int doDayOfWeek(){
-        Calendar cal = Calendar.getInstance();
-        int nWeek = cal.get(Calendar.DAY_OF_WEEK);
-        if(nWeek==1){
-            nWeek = 7;
-        }else{
-            nWeek -= 1;
-        }
-        return nWeek;
     }
 }

@@ -64,7 +64,6 @@ public class AttendanceRateActivity extends AppCompatActivity {
         ArrayList<BarEntry> Daycheck = new ArrayList<>();
         ArrayList<PieEntry> yValues = new ArrayList<>();
         final String[] weekdays = {"Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"};
-//        final int[] weekColor = {ContextCompat.getColor(this, R.color.Mon),R.color.Mon, R.color.Tue, R.color.Wed, R.color.Thu, R.color.Fri, R.color.Sat, R.color.Sun};
         final int[] weekColor = {
                 ContextCompat.getColor(this, R.color.Mon),
                 ContextCompat.getColor(this, R.color.Tue),
@@ -112,9 +111,6 @@ public class AttendanceRateActivity extends AppCompatActivity {
                                 Log.d("TAG_2", snapshot.getKey() + " : " + snapshot.child("DayCheck").getValue(Float.class) +" / " + snapshot.child("DayTotal").getValue(Float.class) + " : " + percent);
                             }
                         }
-                    }
-                    for (int i =0; i<7; i++){
-                        Log.d("TAG_3", Daycheck.get(i) + "");
                     }
 
                     XAxis xAxis = barChart.getXAxis();
