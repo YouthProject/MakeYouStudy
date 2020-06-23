@@ -9,7 +9,6 @@ import android.graphics.Bitmap;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.Toast;
 
@@ -69,14 +68,10 @@ public class ImageLabelActivity extends AppCompatActivity {
 
         cameraView.addCameraKitListener(new CameraKitEventListener() {
             @Override
-            public void onEvent(CameraKitEvent cameraKitEvent) {
-
-            }
+            public void onEvent(CameraKitEvent cameraKitEvent) { }
 
             @Override
-            public void onError(CameraKitError cameraKitError) {
-
-            }
+            public void onError(CameraKitError cameraKitError) { }
 
             @Override
             public void onImage(CameraKitImage cameraKitImage) {
@@ -89,9 +84,7 @@ public class ImageLabelActivity extends AppCompatActivity {
             }
 
             @Override
-            public void onVideo(CameraKitVideo cameraKitVideo) {
-
-            }
+            public void onVideo(CameraKitVideo cameraKitVideo) { }
         });
 
         btnDetect.setOnClickListener(new View.OnClickListener(){
@@ -136,26 +129,10 @@ public class ImageLabelActivity extends AppCompatActivity {
                 }
                 else
                 {
-                    FirebaseVisionCloudImageLabelerOptions options =
-                            new FirebaseVisionCloudImageLabelerOptions.Builder()
-                                    .setConfidenceThreshold(0.8f) // 감지된 Label의 신뢰도 설정. 이 값보다 높은 신뢰도의 label만 반환됨
-                                    .build();
-                    FirebaseVisionImageLabeler detector =
-                            FirebaseVision.getInstance().getCloudImageLabeler(options);
-
-                    detector.processImage(image)
-                            .addOnSuccessListener(new OnSuccessListener<List<FirebaseVisionImageLabel>>() {
-                                @Override
-                                public void onSuccess(List<FirebaseVisionImageLabel> firebaseVisionLabels) {
-                                    processDataResult(firebaseVisionLabels);
-                                }
-                            })
-                            .addOnFailureListener(new OnFailureListener() {
-                                @Override
-                                public void onFailure(@NonNull Exception e) {
-                                    Log.d("EDMTERROR", e.getMessage());
-                                }
-                            });
+                    Toast.makeText(ImageLabelActivity.this, "인터넷을 체크하고 다시 촬영해주세요.", Toast.LENGTH_LONG).show();
+                    if(waitingDialog.isShowing()) {
+                        waitingDialog.dismiss();
+                    }
                 }
             }
         });
@@ -183,25 +160,11 @@ public class ImageLabelActivity extends AppCompatActivity {
             setResult(RESULT_OK, intent);
             finish();
         }
-        if(waitingDialog.isShowing())
+        if(waitingDialog.isShowing()) {
             waitingDialog.dismiss();
-    }
-
-    private void processDataResult(List<FirebaseVisionImageLabel> firebaseVisionLabels) {
-        for(FirebaseVisionImageLabel label : firebaseVisionLabels)
-        {
-            String labeling = label.getText();
-
-            Intent intent = new Intent();
-            intent.putExtra("labeling", labeling);
-
-            setResult(RESULT_OK, intent);
-            finish();
         }
-
-        if(waitingDialog.isShowing())
-            waitingDialog.dismiss();
     }
+
 
     //뒤로가기 버튼 두번클릭시 종료
     @Override

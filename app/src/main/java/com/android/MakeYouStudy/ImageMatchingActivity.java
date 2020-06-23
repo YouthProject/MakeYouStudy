@@ -63,7 +63,6 @@ public class ImageMatchingActivity extends AppCompatActivity  {
 
     FirebaseAuth firebaseAuth;
     private FirebaseUser user;
-//    DatabaseReference mdatabase = FirebaseDatabase.getInstance().getReference();
     FirebaseStorage storage = FirebaseStorage.getInstance();
     StorageReference storageRef;
     DatabaseReference mdatabase = FirebaseDatabase.getInstance().getReference();
@@ -234,7 +233,6 @@ public class ImageMatchingActivity extends AppCompatActivity  {
             public void onClick(DialogInterface dialog, int which) {
                 checksize();
                 imageUpload(capturebmp);
-                //Toast.makeText(activity, "등록 되었습니다.", Toast.LENGTH_SHORT).show();
             }
         });
 

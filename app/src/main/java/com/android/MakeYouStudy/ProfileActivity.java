@@ -138,8 +138,6 @@ public class ProfileActivity extends AppCompatActivity{
         }
     }
 
-
-
     public void Dialog () {
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
         builder.setTitle("회원 탈퇴");

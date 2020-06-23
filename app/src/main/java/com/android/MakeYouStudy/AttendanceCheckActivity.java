@@ -179,7 +179,7 @@ public class AttendanceCheckActivity extends AppCompatActivity {
                 alarmOff();
                 checkDaysTotal(weeks);
                 finish();
-            }else {
+            } else {
                 Toast.makeText(this, "Text 출석체크 취소", Toast.LENGTH_SHORT).show();
                 mediaRestart();
             }
@@ -305,20 +305,20 @@ public class AttendanceCheckActivity extends AppCompatActivity {
     }
 
     @Override
-    public void onBackPressed() {
-        //super.onBackPressed();
-        if ( pressedTime == 0){
-            Toast.makeText(this, "한번 더 누르면 결석 처리됩니다.", Toast.LENGTH_SHORT).show();
-            pressedTime = System.currentTimeMillis();
-        }else {
-            int seconds = (int) (System.currentTimeMillis() - pressedTime);
+public void onBackPressed() {
+    //super.onBackPressed();
+    if ( pressedTime == 0){
+        Toast.makeText(this, "한번 더 누르면 결석 처리됩니다.", Toast.LENGTH_SHORT).show();
+        pressedTime = System.currentTimeMillis();
+    }else {
+        int seconds = (int) (System.currentTimeMillis() - pressedTime);
 
-            if(seconds > 2000){
-                pressedTime = 0;
-            }else {
-                alarmOff();
-                finish();
-            }
+        if(seconds > 2000){
+            pressedTime = 0;
+        }else {
+            alarmOff();
+            finish();
         }
     }
+}
 }
