@@ -20,12 +20,15 @@
 ### 3. 기능 구현
 - [각 액티비티기능 설명](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B0%81-%EC%95%A1%ED%8B%B0%EB%B9%84%ED%8B%B0-%EA%B8%B0%EB%8A%A5-%EC%84%A4%EB%AA%85)
 - [권한 허용 알림 및 로그인](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B6%8C%ED%95%9C-%ED%97%88%EC%9A%A9-%EC%95%8C%EB%A6%BC-%EB%B0%8F-%EB%A1%9C%EA%B7%B8%EC%9D%B8)
+- [로딩과 메인화면]()
 - [Random wise saying](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#random-wise-saying)
+- [로그인/비밀번호 찾기/ 회원가입]()
+- [프로필 및 설정]()
 - [Calendar](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#calendar)
 - [Timetable](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#timetable)
 - [Diary](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#diary)
-- [Attendance Check]
-- [Attendance Rate]
+- [Attendance Check]()
+- [Attendance Rate]()
  
  
 ###  4. 차별성
@@ -512,8 +515,17 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 # 5. 실용성 
 
 사람들은 초등학생부터 성인이 되고 난 후에도 자신의 미래 혹은 자기계발을 하기 위해 끊임없이 공부한다. 하지만 사람들은 스스로 다짐하고 실천으로 옮길려고 해도 공부하는 습관을 기르기는 생각보다 어렵다.
-
 이 어플리케이션은 출석체크, 공부 명언, Calendar, Timetable, Diary 등 다양한 기능들을 통해서 습관을 기르고 계획적으로 공부를 할 수 있어 공부를 하는 사람들에게 유용하게 자주 쓰일 것이다.
+
+또한 실용성을 입증하기위해서 앱스토어에 MakeYouStudy를 등록하였다. 등록한 후 사람들이 유용하게 자주 쓰인다는 것을 어플의 다운로드 수로 입증할 예정이였다.
+
+하지만 현재 "코로나19" 로 인하여 앱스토어에 등록하는 시간이 길어지고 있어 이부분은 보여주지 못하였다.
+아래는 앱스토어에 등록을 요청한 상태임을 알려주는 사진이다.
+
+![앱스토어 등록](https://user-images.githubusercontent.com/62635984/85518966-c99c2280-b63b-11ea-8197-69a1cb1741df.png)
+
+
+## 시
 
 # 6. 시장성
 
