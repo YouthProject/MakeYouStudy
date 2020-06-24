@@ -78,7 +78,7 @@ OpenCV를 Android Studio에서 사용하기 위해서는 다음 2가지가 필�
 
 <br>
 
-1. Tools → SDK Manager를 클릭한다.
+1. Tools → SDK Manager를 클릭한다. <br>
 ![1-1](https://user-images.githubusercontent.com/50138845/85480567-34793980-b5fb-11ea-9072-e2c85c90cb76.jpg)
 
 <br>
