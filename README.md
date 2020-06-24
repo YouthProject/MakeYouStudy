@@ -1,11 +1,37 @@
 # MakeYouStudy
 MakeYouStudy/App Project
 # 다운받기 전 필요한 부분
-- openCV(NDK 다운?)
-- 안드로이드 스튜디오 3.4.0 이상의 버전
-[Download link] ([http://developer.android.com/studio/index.html](http://developer.android.com/studio/index.html))
-- API: 21이상
 
+## OpenCV 사용 전 필수 설치 사항
+
+### OpenCV 
+: Open Source Computer Vision의 약자로 다양한 영상/동영상 처리에 사용할 수 있는 오픈소스 라이브러리
+- 이 라이브러리를 통해 얼굴 감지 및 인식, 물체 식별, 움직임 추적 등에 사용할 수 있다.
+- OpenCV는 C++로 작성되었고, STL과 템플릿 기반의 인터페이스를 가지고 있다.
+- C++, Python, Java, MATLAB의 인터페이스를 갖추고 있고, Windows, Linux, Android 및 Mac OS를 지원한다.
+
+OpenCV를 Android Studio에서 사용하기 위해서는 다음 2가지가 필요하다.
+
+- NDK 
+: 안드로이드에서 JAVA코드와 C/C++ 코드를 같이 사용할 수 있게 한다.
+- CMake
+: C/C++ 코드를 컴파일하여 네이티브 라이브러리 파일로 만들기 위해 사용된다.
+
+1. Tools → SDK Manager를 클릭한다.
+![1-1](https://user-images.githubusercontent.com/50138845/85480567-34793980-b5fb-11ea-9072-e2c85c90cb76.jpg)
+2. SDK Manager에서 Android SDK → SDK Tools를 클릭 후 Show Package Details를 클릭한다.
+![1-2](https://user-images.githubusercontent.com/50138845/85481335-98503200-b5fc-11ea-97f6-ffa9204d0961.jpg)
+3. NDK (Side by side)에서 20.0.5594570 버전을 선택하고, 
+CMake에서 3.10.2.4988404 버전을 선택하여 Apply를 클릭한다.
+![1-3](https://user-images.githubusercontent.com/50138845/85481381-ac942f00-b5fc-11ea-8007-38ee50ae6b3d.jpg)
+4. 해당 버전을 알맞게 선택했는지 확인 후, 맞다면 OK 버튼을 클릭한다.
+![1-4](https://user-images.githubusercontent.com/50138845/85481563-04cb3100-b5fd-11ea-87b1-4ae004c0dd7f.jpg)
+5. 다운로드가 완료되면 Finish를 클릭한다.
+![1-5](https://user-images.githubusercontent.com/50138845/85481585-0eed2f80-b5fd-11ea-8038-6b02f24eb52a.jpg)
+
+### 안드로이드 스튜디오 3.4.0 이상의 버전
+[Download link] ([http://developer.android.com/studio/index.html](http://developer.android.com/studio/index.html))
+### API: 21이상
 
 #  목차
 ### 1. 소개
@@ -15,7 +41,6 @@ MakeYouStudy/App Project
 - 앱 사용방법
 
 ### 2. 사전 설정 및 환경 구축
-- 라이브러리 설정
 - Firebase 
 - Github
 
@@ -99,6 +124,9 @@ make you study는 새 학기가 시작되어서 공부를 하고 싶다는 학�
 - 출석체크 인정 시 
 - 당일 출석률 채워짐
 
+다음은 Make You Study의 시연영상이다.
+> [Make You Study의 시연영상](링크)
+
 ##  앱 사용 방법
 1. 회원가입 및 로그인을 합니다.
 2. 출석체크 
@@ -112,8 +140,237 @@ make you study는 새 학기가 시작되어서 공부를 하고 싶다는 학�
 5. 설정에서 계정을 관리 할 수 있습니다.
  
 #  2. 사전 설정 및 환경 구축 
-##   라이브러리 설정
 ##   Firebase 
+<h1>파이어 베이스 연동 </h1>
+
+[파이어베이스](https://console.firebase.google.com/) 사이트에 접속해서 프로젝트추가 합니다 안드로이드 앱을 추가하여 시작 합니다. 
+
+![8](https://user-images.githubusercontent.com/62867182/85451850-40ea9b80-b5d5-11ea-82f4-5d6dc8d7083e.PNG)
+
+<br>
+
+우리는 Google 로그인을 사용 하므로 '디버그 서명 인증서 SHA-1'을 알아야 합니다.
+
+<'SHA-1'은 안드로이드 스튜디오 오른쪽에 있는 Gradle -> Tasks->android->signInReport를 클릭 하면 알 수 있습니다.>
+![0-1](https://user-images.githubusercontent.com/62867182/85451382-c457bd00-b5d4-11ea-88f5-379d1ab61baa.PNG)
+
+<br>
+
+
+구성 파일을 다운로드 한뒤 , 생성된 프로젝트 파일->app 폴더 에다가 저장 합니다.
+![9](https://user-images.githubusercontent.com/62867182/85451759-2dd7cb80-b5d5-11ea-83be-f1d89eb02eb8.PNG)
+
+<br>
+
+Gralde의 moudle 부분에 작성 합니다.
+
+![11](https://user-images.githubusercontent.com/62867182/85451780-30d2bc00-b5d5-11ea-962c-863661a6d822.PNG)
+![12](https://user-images.githubusercontent.com/62867182/85451784-316b5280-b5d5-11ea-978d-f3ad0262be16.PNG)
+
+
+<br>
+
+
+![13](https://user-images.githubusercontent.com/62867182/85451788-3203e900-b5d5-11ea-896d-dd6d152a1896.PNG)
+<h4>Android Studio에 Firebase 추가 완료하였습니다</h4>
+
+<br>
+
+<h1>파이어베이스 Authentication 설정하기</h1>
+우리는 이메일/비밀번호 로그인과 , 구글 로그인 , 페이스북 로그인을 사용 하는데,  Authentication의 Sign-in method의  3가지 로그인 방법을 활성화 시킵니다.
+이메일/비밀번호 로그인, 구글 로그인은 파이어베이스 사이트에서 해결 할 수 있지만,  페이스북 로그인은 페이스북 개발자 사이트에 접속을 해서 연결 시켜야 합니다.
+
+<h1>페이스북 연동하기  </h1>
+
+[페이스북 개발자 ](https://developers.facebook.com/) 사이트 접속해서 로그인을 한 뒤 '새 앱 추가'를 합니다.
+ 제품 추가에서 페이스북 로그인을 선택 합니다. 로그인 플랫폼 선택에서 안드로이드를 클릭 합니다.
+ 
+ <br>
+ 
+Android용 Facebook SDK 다운로드는 생략 하고 순서대로 진행 합니다
+
+<br>
+
+<h4>   builde.gralde(Module:app)</h4>
+
+  `implementation 'com.facebook.android: facebook-android-sdk:[4,5)')`  
+     컴파일문을 추가하여 최신 버전의 SDK를 컴파일합니다.
+
+<br>
+
+
+<h4>패키지 이름과 기본액티비티 클래스 이름을 등록합니다. <h4>
+
+![3](https://user-images.githubusercontent.com/62867182/85455092-8a88b580-b5d8-11ea-8aaf-3d8ca29fcd7d.PNG)
+
+<br>
+
+<h4>키 해시를 생성 해야 합니다.</h4>
+
+![4](https://user-images.githubusercontent.com/62867182/85455093-8a88b580-b5d8-11ea-9e6c-b0cc428bf0cd.PNG)
+
+<br>
+
+<h4>키 해시 구하는 방법입니다</h4>
+
+![키해시 최종](https://user-images.githubusercontent.com/62867182/85453211-996e6880-b5d6-11ea-948e-ef053c161888.PNG)
+
+<br>
+
+<h4>리소스 및 메니페스트를 수정 합니다.</h4>
+
+![6](https://user-images.githubusercontent.com/62867182/85455085-88bef200-b5d8-11ea-8122-06d0b634e576.PNG)
+
+<br>
+
+<h4>단계별 진행이  완료 되면 왼쪽 메뉴 중 기본 설정에 들어가면  앱 ID , 앱 시크릿 코드 를 알 수 있습니다.</h4>
+
+![22](https://user-images.githubusercontent.com/62867182/85455646-139fec80-b5d9-11ea-8ad9-88c459a7c2dc.PNG)
+ 
+ 앱 ID와 앱 시크릿 코드는 파이어베이스 페이스북 로그인 활성화에 사용됩니다. 파이어베이스 페이스북 로그인method에 붙려 넣기를 진행합니다.
+
+<br>
+
+<h4>OAuth 리디렉션 URI를 Facebook 앱 구성에 추가 해야 합니다.  URL를 복사한 다음에 페이스북로그인 설정 에서 OAuth 리디렉션 URI에 기입 해야 합니다</h4>
+
+![23](https://user-images.githubusercontent.com/62867182/85455649-14d11980-b5d9-11ea-9f10-eccd36bfacda.PNG)
+
+
+<br>
+
+
+[ 페이스북 개발자(페이스북 로그인)](https://developers.facebook.com/docs/facebook-login/android/) 에 들어가서 추가 설정을 진행 합니다.
+
+![으니지](https://user-images.githubusercontent.com/62867182/85456245-b5bfd480-b5d9-11ea-9273-cf5a46a22cfa.PNG)
+
+<h4>파이어베이스의 로그인 설정이 완료가 되었습니다.<h4>
+
+---
+
+<h1>파이어베이스 Builder.gradle  </h1>
+
+``implementation 'com.google.firebase:firebase-auth:19.3.1'``
+[FirebaseAuth](https://firebase.google.com/docs/auth/android/start)
+``implementation 'com.google.firebase:firebase-database:19.1.0'``
+[Firebase realtimedabase](https://firebase.google.com/docs/database/android/start)
+``implementation 'com.google.firebase:firebase-firestore:21.2.1'``
+[Firebase cloudestore ](https://firebase.google.com/docs/firestore/quickstart)
+
+
+<h1>파이어베이스  Authentication</h1>
+
+파이어베이스  Authentication과 관련된 선언은 ``FirebaseAuth`` 와 `` FirebaseUser`` 입니다
+``FirebaseAuth``의 인스턴스를 선언하는 방법입니다
+```java
+private  FirebaseAuth mAuth;
+```
+
+인스턴스의 초기화는 방법입니다.
+```java 
+mAuth =  FirebaseAuth.getInstance();
+```
+현재 로그인한사용자를 가져올 때 권장하는 방법은  `getCurrentUser`  메서드를 호출하는 것입니다.
+```java 
+FirebaseUser currentUser = mAuth.getCurrentUser();
+```
+
+ 로그인한 사용자가 없으면  `getCurrentUser`는 null을 반환합니다.
+활동을 초기화할 때 사용자가 현재 로그인되어 있는지 확인합니다.
+
+
+<h1>파이어베이스 realtime database</h1>
+
+ 데이터베이스에 쓰기
+`getInstance()`를 사용하여 데이터베이스의 인스턴스를 검색하고, 쓰려는 위치를 참조합니다
+```java
+FirebaseDatabase database =  FirebaseDatabase.getInstance();  
+```
+
+데이터베이스에서 읽기
+
+실시간으로 앱 데이터를 업데이트하려면 방금 만든 참조에 ``ValueEventListener()``를 추가 해야한다.
+onDataChange() 메서드는 리스너가 연결될 때 한 번 트리거된 후 하위 항목을 포함한 데이터가 변경될 때마다 다시 트리거됩니다.
+```java 
+// Read from the database  
+myRef.addValueEventListener(new  ValueEventListener()  {
+  @Override
+    public  void onDataChange(DataSnapshot dataSnapshot)  {
+      // This method is called once with the initial value and again 
+       // whenever data at this location is updated.  String value = dataSnapshot.getValue(String.class); 
+        Log.d(TAG,  "Value is: "  + value);
+          }
+            @Override
+              public  void onCancelled(DatabaseError error)
+                {  // Failed to read value
+                  Log.w(TAG,  "Failed to read value.", error.toException());
+                    }  
+});
+ ``` 
+
+DatabaseReference 가져오기
+
+데이터베이스에 데이터를 쓰려면  `DatabaseReference`의 인스턴스가 필요합니다.
+```java 
+private  DatabaseReference mDatabase;  
+mDatabase =  FirebaseDatabase.getInstance().getReference();
+```
+ 데이터 읽기 및 쓰기
+기본 쓰기 작업은  ``setValue()``  코드를 사용하여 지정된 참조에 데이터를 저장하고 해당 경로의 기존 데이터를 모두 바꿉니다
+```java
+@IgnoreExtraProperties  
+public  class  User  { 
+ public  String username;
+   public  String email;  public  User()  { 
+    // Default constructor required for calls to 
+    DataSnapshot.getValue(User.class)  }
+      public  User(String username,  String email)  {
+        this.username = username;  
+        this.email = email;  }  
+  
+}'
+private  void writeNewUser(String userId,  String name,  String email)  {
+  User user =  new  User(name, email); 
+  mDatabase.child("users").child(userId).setValue(user);  
+}
+```
+
+<br>
+
+<H1>Firebase Storage</h1>
+
+스토리지 버킷에 액세스하는 첫 단계는 `FirebaseStorage`의 인스턴스를 만드는 것입니다.
+```java 
+FirebaseStorage storage =  FirebaseStorage.getInstance();
+```
+<br>
+
+파일 업로드, 다운로드, 삭제, 메타데이터 가져오기 또는 업데이트를 하려면 참조를 만듭니다. 참조는 클라우드의 파일을 가리키는 포인터라고 생각할 수 있습니다. 참조는 메모리에 부담을 주지 않으므로 얼마든지 많이 만들 수 있으며 여러 작업에서 재사용할 수도 있습니다.
+
+참조를 만들려면  `FirebaseStorage`  싱글톤 인스턴스를 사용하고 이 인스턴스의  `getReference()`  메서드를 호출합니다.
+```java
+// Create a storage reference from our app  
+StorageReference storageRef = storage.getReference();
+```
+<br>
+
+ 메모리 데이터에서 업로드
+`putBytes()`  메서드는 Cloud Storage에 파일을 업로드하는 가장 간단한 방법입니다.  `putBytes()`는  `byte[]`를 취하고  `UploadTask`를 반환하며 이 반환 객체를 사용하여 업로드를 관리하고 상태를 모니터링할 수 있습니다.
+
+
+```java
+// Get the data from an ImageView as bytes  
+imageView.setDrawingCacheEnabled(true);  
+imageView.buildDrawingCache();  
+Bitmap bitmap =  ((BitmapDrawable) imageView.getDrawable()).getBitmap();  
+ByteArrayOutputStream baos =  new  ByteArrayOutputStream();  
+bitmap.compress(Bitmap.CompressFormat.JPEG,  100, baos);  
+byte[] data = baos.toByteArray();  
+  
+UploadTask uploadTask = mountainsRef.putBytes(data);  
+uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  void onFailure(@NonNull  Exception exception)  {  // Handle unsuccessful uploads  }  
+}).addOnSuccessListener(new  OnSuccessListener<UploadTask.TaskSnapshot>()  {  @Override  public  void onSuccess(UploadTask.TaskSnapshot taskSnapshot)  {  // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.  // ...  }  
+});
+```
 ##  Github
 
 #  3. 기능구현
@@ -192,8 +449,3 @@ make you study는 새 학기가 시작되어서 공부를 하고 싶다는 학�
 - 자기계발의 효과를 극대화 할 수 있다.
 
 # 7. 결론 
-
-# 8. 참고자료
-- Calendar: [Material Calendar](https://github.com/Applandeo/Material-Calendar-View)
-
--
