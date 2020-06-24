@@ -373,7 +373,7 @@ FirebaseUser currentUser = mAuth.getCurrentUser();
 
 데이터를 읽고 ,쓰기 위해서 권한을 설정 해야 한다.
 
-ime 규칙](https://user-images.githubusercontent.com/62867182/85529224-cdce3d00-b647-11ea-8c57-702a5b766ab0.PNG)
+![realtime 규칙](https://user-images.githubusercontent.com/62867182/85529224-cdce3d00-b647-11ea-8c57-702a5b766ab0.PNG)
 
 
 
