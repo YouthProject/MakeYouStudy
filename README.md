@@ -20,14 +20,12 @@
 ### 3. 기능 구현
 - [각 액티비티기능 설명](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B0%81-%EC%95%A1%ED%8B%B0%EB%B9%84%ED%8B%B0-%EA%B8%B0%EB%8A%A5-%EC%84%A4%EB%AA%85)
 - [권한 허용 알림](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EA%B6%8C%ED%95%9C-%ED%97%88%EC%9A%A9-%EC%95%8C%EB%A6%BC)
-- [로딩과 메인화면]
-> [로딩화면](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A1%9C%EB%94%A9-%ED%99%94%EB%A9%B4)
-> [메인화면](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A9%94%EC%9D%B8-%ED%99%94%EB%A9%B4)
+- [로딩](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A1%9C%EB%94%A9-%ED%99%94%EB%A9%B4)
+ / [메인화면](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A9%94%EC%9D%B8-%ED%99%94%EB%A9%B4)
 - [Random wise saying](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#random-wise-saying)
-- [로그인/비밀번호 찾기/ 회원가입]
-> [로그인](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A1%9C%EA%B7%B8%EC%9D%B8)
-> [비밀번호 찾기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%B0%BE%EA%B8%B0)
-> [회원가입](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85)
+- [로그인](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A1%9C%EA%B7%B8%EC%9D%B8)
+ / [비밀번호 찾기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%B0%BE%EA%B8%B0)
+ / [회원가입](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85)
 - [프로필(설정)](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%ED%94%84%EB%A1%9C%ED%95%84-%EC%84%A4%EC%A0%95)
 - [Calendar](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#calendar)
 - [Timetable](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#timetable)
@@ -94,8 +92,8 @@ OpenCV를 Android Studio에서 사용하기 위해서는 다음 2가지가 필�
 
 <br>
 
-3. NDK (Side by side)에서 20.0.5594570 버전을 선택하고, 
-CMake에서 3.10.2.4988404 버전을 선택하여 Apply를 클릭한다.
+3. NDK (Side by side)에서 **20.0.5594570 버전**을 선택하고, 
+CMake에서 **3.10.2.4988404 버전**을 선택하여 Apply를 클릭한다.
 ![1-3](https://user-images.githubusercontent.com/50138845/85481381-ac942f00-b5fc-11ea-8007-38ee50ae6b3d.jpg)
 
 <br>
