@@ -17,7 +17,7 @@
 - [Firebase](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#firebase)
 
 
-### 3. 기능 구현
+### 3. 기능 구현 - [별도첨부](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain)
 - [각 액티비티기능 설명](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B0%81-%EC%95%A1%ED%8B%B0%EB%B9%84%ED%8B%B0-%EA%B8%B0%EB%8A%A5-%EC%84%A4%EB%AA%85)
 - [권한 허용 알림](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EA%B6%8C%ED%95%9C-%ED%97%88%EC%9A%A9-%EC%95%8C%EB%A6%BC)
 - [로딩](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A1%9C%EB%94%A9-%ED%99%94%EB%A9%B4)
