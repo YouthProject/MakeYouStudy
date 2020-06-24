@@ -332,7 +332,7 @@ Android용 Facebook SDK 다운로드는 생략 하고 순서대로 진행한다.
 
 ![으니지](https://user-images.githubusercontent.com/62867182/85456245-b5bfd480-b5d9-11ea-9273-cf5a46a22cfa.PNG)
 
-<h4>파이어베이스의 로그인 설정이 완료<h4>
+<h4>파이어베이스의 로그인 설정 완료<h4>
 
 
 
@@ -579,7 +579,7 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 
 # 9. 결론 
 
-공부에 대한 의지는 항상 충분하지만, 의지와는 다르게 스마트폰, 침대와 같은 유혹들에 빠져 공부를 시작하지 못하는 경우가 많다.<br>
+공부에 대한 의지는 충분하지만, 의지와는 다르게 스마트폰, 침대와 같은 유혹들에 빠져 공부를 시작하지 못하는 경우가 많다.<br>
 이러한 문제를 개선해주기 위해 Make You Study는 다짐에서 실천까지 갈 수 있도록 큰 도움을 줄 출석체크 기능을 제공한다. <br>
 중요한 기능을 담당하고 있는 출석체크의 경우, 안정성과 완성도를 높이고자 OpenCV를 적용한 기능을 구현하였다.<br>
 OpenCV에서 제공하는 많은 기능들 중, 가장 안정적이고 Make You Study에 가장 잘 어울리는 것을 찾고자 여러 Test를 거쳤다. <br>
