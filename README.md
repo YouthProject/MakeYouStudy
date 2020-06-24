@@ -49,7 +49,7 @@
 ###  7. 수익화 방안  
 > [수익화방안](https://github.com/JJinTae/MakeYouStudy#7-%EC%88%98%EC%9D%B5%ED%99%94-%EB%B0%A9%EC%95%88-1)
 ### 8. 기대효과
-> [기대효과](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#7-%EC%88%98%EC%9D%B5%ED%99%94-%EB%B0%A9%EC%95%88-1)
+> [기대효과](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#8-%EA%B8%B0%EB%8C%80%ED%9A%A8%EA%B3%BC-1)
 ### 9. 결론
 > [결론](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#9-%EA%B2%B0%EB%A1%A0-1)
 
