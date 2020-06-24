@@ -57,7 +57,7 @@ CMake에서 3.10.2.4988404 버전을 선택하여 Apply를 클릭한다.
 ###  4. 평가요소
 - 차별성  > [차별성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%B0%A8%EB%B3%84%EC%84%B1)
 - 실용성  > [실용성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%A4%EC%9A%A9%EC%84%B1)  
-- 시장성  > [시장성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%9C%EC%9E%A5%EC%84%B15)
+- 시장성  > [시장성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%9C%EC%9E%A5%EC%84%B1)
 
 ###  5. 수익화 방안  
 > [수익화방안 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#5-%EC%88%98%EC%9D%B5%ED%99%94-%EB%B0%A9%EC%95%88-1)
