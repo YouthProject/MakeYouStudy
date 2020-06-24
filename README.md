@@ -58,7 +58,7 @@
 # 다운받기 전 필요한 부분
 
 - 안드로이드 스튜디오 3.4.0 이상의 버전
->[Android Studio Download] ([http://developer.android.com/studio/index.html](http://developer.android.com/studio/index.html))
+>[Android Studio Download]([http://developer.android.com/studio/index.html](http://developer.android.com/studio/index.html))
 - API: 21이상
 - **openCV의 사용을 위한 NDK, CMake 설치**<br>
   NDK Version   : 20.0.5594570<br>
