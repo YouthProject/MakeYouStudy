@@ -332,8 +332,8 @@ Android용 Facebook SDK 다운로드는 생략 하고 순서대로 진행한다.
 
 
 
-## 파이어베이스 Builder.gradle 
-
+## 파이어베이스 공통으로 사용하는  Builder.gradle 
+ 
 ``implementation 'com.google.firebase:firebase-auth:19.3.1'``
 >[FirebaseAuth](https://firebase.google.com/docs/auth/android/start)
 
@@ -342,6 +342,7 @@ Android용 Facebook SDK 다운로드는 생략 하고 순서대로 진행한다.
 
 ``implementation 'com.google.firebase:firebase-firestore:21.2.1'``
 >[Firebase cloudestore ](https://firebase.google.com/docs/firestore/quickstart)
+
 
 
 ## 파이어베이스  Authentication
@@ -366,6 +367,16 @@ FirebaseUser currentUser = mAuth.getCurrentUser();
 
 
 ## 파이어베이스 realtime database
+
+
+#### 데이터베이스 권한 설정
+
+데이터를 읽고 ,쓰기 위해서 권한을 설정 해야 한다.
+
+ime 규칙](https://user-images.githubusercontent.com/62867182/85529224-cdce3d00-b647-11ea-8c57-702a5b766ab0.PNG)
+
+
+
 
 #### 데이터베이스에 쓰기
 `getInstance()`를 사용하여 데이터베이스의 인스턴스를 검색하고, 쓰려는 위치를 참조한다.
@@ -425,6 +436,15 @@ private  void writeNewUser(String userId,  String name,  String email)  {
 <br>
 
 ## Firebase Storage
+
+
+##Storage 권한 설정
+
+ 데이터를 Storage에 읽고, 쓰기 위해서 권한은 설정
+ 
+![storage 규칙](https://user-images.githubusercontent.com/62867182/85529766-5d73eb80-b648-11ea-8d3d-2dfb1fd38c81.PNG)
+
+
 
 스토리지 버킷에 액세스하는 첫 단계는 `FirebaseStorage`의 인스턴스를 만드는 것이다.
 ```java 
