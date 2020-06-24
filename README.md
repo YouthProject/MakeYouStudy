@@ -4,7 +4,7 @@
 
 
 #  목차
-* ### [다운받기 전 필요한 부분]()
+* ### [다운받기 전 필요한 부분](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EB%8B%A4%EC%9A%B4%EB%B0%9B%EA%B8%B0-%EC%A0%84-%ED%95%84%EC%9A%94%ED%95%9C-%EB%B6%80%EB%B6%84-1)
 	 ### : OpenCV를 사용하기 위한 필수 설치 사항
  
 ### 1. 소개
@@ -14,41 +14,44 @@
 - [앱 사용방법](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%95%B1-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95)
 
 ### 2. 사전 설정 및 환경 구축
-- [Firebase](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%ED%8C%8C%EC%9D%B4%EC%96%B4-%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EC%97%B0%EB%8F%99-)
+- [Firebase](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#firebase)
 
 
 ### 3. 기능 구현
 - [각 액티비티기능 설명](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B0%81-%EC%95%A1%ED%8B%B0%EB%B9%84%ED%8B%B0-%EA%B8%B0%EB%8A%A5-%EC%84%A4%EB%AA%85)
-- [권한 허용 알림]()
-- [로딩과 메인화면]()
-- [Random wise saying](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#random-wise-saying)
-- [로그인/비밀번호 찾기/ 회원가입]()
-- [프로필(설정)]()
+- [권한 허용 알림](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EA%B6%8C%ED%95%9C-%ED%97%88%EC%9A%A9-%EC%95%8C%EB%A6%BC)
+- [로딩과 메인화면]
+> [로딩화면](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A1%9C%EB%94%A9-%ED%99%94%EB%A9%B4)
+> [메인화면](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A9%94%EC%9D%B8-%ED%99%94%EB%A9%B4)
+- [Random wise saying](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#random-wise-saying)
+- [로그인/비밀번호 찾기/ 회원가입]
+> [로그인](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%A1%9C%EA%B7%B8%EC%9D%B8)
+> [비밀번호 찾기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%EB%B9%84%EB%B0%80%EB%B2%88%ED%98%B8-%EC%B0%BE%EA%B8%B0)
+> [회원가입](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%ED%9A%8C%EC%9B%90-%EA%B0%80%EC%9E%85)
+- [프로필(설정)](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#%ED%94%84%EB%A1%9C%ED%95%84-%EC%84%A4%EC%A0%95)
 - [Calendar](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#calendar)
 - [Timetable](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#timetable)
 - [Diary](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#diary)
-- [Attendance Check]()
-- [Attendance Rate]()
+- [Attendance Check](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#attendance-check)
+- [Attendance Rate](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain#attendance-rate)
  
  
 ###  4. 차별성
->[차별성](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%B0%A8%EB%B3%84%EC%84%B1)
+>[차별성](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#4-%EC%B0%A8%EB%B3%84%EC%84%B1-1)
 
 ### 5. 실용성
->[실용성](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%A4%EC%9A%A9%EC%84%B1)  
+>[실용성](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#5-%EC%8B%A4%EC%9A%A9%EC%84%B1-1)  
 
 ### 6. 시장성
 
-> [시장성](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%9C%EC%9E%A5%EC%84%B1)
+> [시장성](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#6-%EC%8B%9C%EC%9E%A5%EC%84%B1-1)
 
 ###  7. 수익화 방안  
-> [수익화방안](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#5-%EC%88%98%EC%9D%B5%ED%99%94-%EB%B0%A9%EC%95%88-1)
+> [수익화방안](https://github.com/JJinTae/MakeYouStudy#7-%EC%88%98%EC%9D%B5%ED%99%94-%EB%B0%A9%EC%95%88-1)
 ### 8. 기대효과
-> [기대효과](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#6-%EA%B8%B0%EB%8C%80%ED%9A%A8%EA%B3%BC-1)
+> [기대효과](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#7-%EC%88%98%EC%9D%B5%ED%99%94-%EB%B0%A9%EC%95%88-1)
 ### 9. 결론
-> [결론](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#7-%EA%B2%B0%EB%A1%A0-1
-)
-
+> [결론](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#9-%EA%B2%B0%EB%A1%A0-1)
 
 
 
