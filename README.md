@@ -19,7 +19,8 @@
 
 ### 3. 기능 구현
 - [각 액티비티기능 설명](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B0%81-%EC%95%A1%ED%8B%B0%EB%B9%84%ED%8B%B0-%EA%B8%B0%EB%8A%A5-%EC%84%A4%EB%AA%85)
-- [권한 허용 알림 및 로그인](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B6%8C%ED%95%9C-%ED%97%88%EC%9A%A9-%EC%95%8C%EB%A6%BC-%EB%B0%8F-%EB%A1%9C%EA%B7%B8%EC%9D%B8)
+- [권한 허용 알림]()
+- [로그인]()
 - [로딩과 메인화면]()
 - [Random wise saying](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#random-wise-saying)
 - [로그인/비밀번호 찾기/ 회원가입]()
