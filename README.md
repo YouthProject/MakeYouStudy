@@ -440,7 +440,9 @@ private  void writeNewUser(String userId,  String name,  String email)  {
 ## Firebase Storage
 
 
-##Storage 권한 설정
+
+##  Storage 권한설정
+
 
  데이터를 Storage에 읽고, 쓰기 위해서 권한은 설정
  
