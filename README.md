@@ -23,7 +23,7 @@
 - [로딩과 메인화면]()
 - [Random wise saying](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#random-wise-saying)
 - [로그인/비밀번호 찾기/ 회원가입]()
-- [프로필 및 설정]()
+- [프로필(설정)]()
 - [Calendar](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#calendar)
 - [Timetable](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#timetable)
 - [Diary](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#diary)
