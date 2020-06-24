@@ -42,7 +42,7 @@ CMake에서 3.10.2.4988404 버전을 선택하여 Apply를 클릭한다.
 
 ### 2. 사전 설정 및 환경 구축
 - Firebase 
-- Github
+
 
 ### 3. 기능 구현
 - 각 액티비티기능 설명
@@ -371,7 +371,6 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 }).addOnSuccessListener(new  OnSuccessListener<UploadTask.TaskSnapshot>()  {  @Override  public  void onSuccess(UploadTask.TaskSnapshot taskSnapshot)  {  // taskSnapshot.getMetadata() contains file metadata such as size, content-type, etc.  // ...  }  
 });
 ```
-##  Github
 
 #  3. 기능구현
 > [3. 기능구현](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md)
