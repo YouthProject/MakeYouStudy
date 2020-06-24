@@ -415,6 +415,8 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 - 다른 공부어플과 다르게 공부 출석체크라는 차별화 둔 기능이 있기에 사람들의 호기심을 불러일으켜 사람들에 관심을 끌 수 있다.
 
 #  5. 수익화 방안 
+ " 광고 "
+<br>
 
 수익화는 어플을 유지하고 보수하기위해 필수적이다. 그래서 우리 Make YOU Study는 앱 제품 내부에 광고를 게재하여 수익을 얻을 것이다.
 
