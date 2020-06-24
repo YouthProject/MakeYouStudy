@@ -528,7 +528,6 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 ![앱스토어 등록](https://user-images.githubusercontent.com/62635984/85518966-c99c2280-b63b-11ea-8197-69a1cb1741df.png)
 
 
-## 시
 
 # 6. 시장성
 
