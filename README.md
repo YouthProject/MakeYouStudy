@@ -578,3 +578,19 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 - 자기계발의 효과를 극대화 할 수 있다.
 
 # 9. 결론 
+
+공부에 대한 의지는 항상 충분하지만, 의지와는 다르게 스마트폰, 침대와 같은 유혹들에 빠져 공부를 시작하지 못하는 경우가 많다.<br>
+이러한 문제를 개선해주기 위해 Make You Study는 다짐에서 실천까지 갈 수 있도록 큰 도움을 줄 출석체크 기능을 제공한다. <br>
+중요한 기능을 담당하고 있는 출석체크의 경우, 안정성과 완성도를 높이고자 OpenCV를 적용한 기능을 구현하였다.<br>
+OpenCV에서 제공하는 많은 기능들 중, 가장 안정적이고 Make You Study에 가장 잘 어울리는 것을 찾고자 여러 Test를 거쳤다. <br>
+그 중 가장 오랜시간을 투자하였던 ORB Feature Matching이 성공은 했지만 같은 사진을 살짝만 다르게 촬영하여도 일치율이 좋지 않았다.<br>
+결론적으로 여러 Test 끝에 일치율이 가장 안정적이게 나오는 Color Histogram를 이용한 Image 비교로 결정하였다. <br>
+처음에 진행하였던 Keypoints를 잡아 matching하는 ORB Feature Matching을 활용하지 못한 것이 아쉬움이 남는다. <br>
+하지만 그만큼 이 어플리케이션은 지속적인 개발을 통해 폭 넓은 가능성이 발전될 것으로 기대된다.<br>
+
+
+
+
+
+
+
