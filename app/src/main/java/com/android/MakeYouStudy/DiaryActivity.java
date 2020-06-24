@@ -132,7 +132,7 @@ public class DiaryActivity extends AppCompatActivity {
                         }, 1000);
 
                         //edit_title과 edit_contents가 비었을시 DB에 삽입 불가
-                        if(edit_title.getText().toString().getBytes().length<=0 && edit_contents.getText().toString().getBytes().length<=0)
+                        if(edit_title.getText().toString().getBytes().length<=0 || edit_contents.getText().toString().getBytes().length<=0)
                         {
 
                         }else {
@@ -159,7 +159,7 @@ public class DiaryActivity extends AppCompatActivity {
                         @Override
                         public void onClick(View v) {
                             //edit_title과 edit_contents의 바이트가 0이상이면 ClickListener 실행
-                            if (edit_title.getText().toString().getBytes().length >= 0 && edit_contents.getText().toString().getBytes().length >= 0) {
+                            if (edit_title.getText().toString().getBytes().length >= 0 || edit_contents.getText().toString().getBytes().length >= 0) {
                                 list_diary = (ListView) view.findViewById(R.id.list_diary);
                                 data = showDB();
                                 Log.d("TEST", data.toString());
