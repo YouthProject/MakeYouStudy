@@ -157,7 +157,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     // alarm overlay permission check 알람이 시작될 때 Activity를 띄워줌
     private void checkOverlayPermission(){
         AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("백그라운드 재생 권한").setMessage("백그라운드에서 Make You Study의 타임테이블 알람을 울리기 위해서 권한을 허용해 주셔야 합니다.");
+        builder.setTitle("다른 앱 위에 쓰기 권한").setMessage("Make You Study의 알람 화면을 띄우기 위해서 권한을 허용해 주셔야 합니다.");
         builder.setPositiveButton("확인", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
@@ -179,7 +179,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         });
         AlertDialog alertDialog = builder.create();
         alertDialog.show();
-
     }
     // Permission check notification
     private void showToast_PermissionDeny() {
