@@ -36,35 +36,35 @@ CMake에서 3.10.2.4988404 버전을 선택하여 Apply를 클릭한다.
 #  목차
 ### 1. 소개
 - 앱소개 > [앱소개 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#1-%EC%86%8C%EA%B0%9C-1)
-- 주제를 선정하게 된 이유 [주제선정이유 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%A3%BC%EC%A0%9C%EB%A5%BC-%EC%84%A0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%9C-%EC%9D%B4%EC%9C%A0)
-- 간략한 기능 소개  [간략기능소개 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EA%B0%84%EB%9E%B5%ED%95%9C-%EA%B8%B0%EB%8A%A5-%EC%84%A4%EB%AA%85)
-- 앱 사용방법  [앱 사용방법 바로가기]()
+- 주제를 선정하게 된 이유 > [주제선정이유 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%A3%BC%EC%A0%9C%EB%A5%BC-%EC%84%A0%EC%A0%95%ED%95%98%EA%B2%8C-%EB%90%9C-%EC%9D%B4%EC%9C%A0)
+- 간략한 기능 소개  > [간략기능소개 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EA%B0%84%EB%9E%B5%ED%95%9C-%EA%B8%B0%EB%8A%A5-%EC%84%A4%EB%AA%85)
+- 앱 사용방법  > [앱 사용방법 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%95%B1-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95)
 
 ### 2. 사전 설정 및 환경 구축
-- Firebase [Firebase 바로가기](Firebasehttps://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%95%B1-%EC%82%AC%EC%9A%A9-%EB%B0%A9%EB%B2%95)
+- Firebase > [Firebase 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%ED%8C%8C%EC%9D%B4%EC%96%B4-%EB%B2%A0%EC%9D%B4%EC%8A%A4-%EC%97%B0%EB%8F%99-)
 
 
 ### 3. 기능 구현
-- 각 액티비티기능 설명  [액티비티 설명 바로가기]()
-- 권한 허용 알림 및 로그인  [권한허용& 로그인기능 바로가기]()
-- Random wise saying  [랜덤 공부명언 바로가기]()
-- Calendar [캘린더 바로가기]()
-- Timetable  [타임테이블 바로가기]()
-- Diary  [다이어리 바로가기]()
-- Attendance Check & Attendance Rate  [출석체크 & 출석률 바로가기]()
+- 각 액티비티기능 설명  > [액티비티 설명 바로가기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B0%81-%EC%95%A1%ED%8B%B0%EB%B9%84%ED%8B%B0-%EA%B8%B0%EB%8A%A5-%EC%84%A4%EB%AA%85)
+- 권한 허용 알림 및 로그인  > [권한허용& 로그인기능 바로가기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#%EA%B6%8C%ED%95%9C-%ED%97%88%EC%9A%A9-%EC%95%8C%EB%A6%BC-%EB%B0%8F-%EB%A1%9C%EA%B7%B8%EC%9D%B8)
+- Random wise saying  > [랜덤 공부명언 바로가기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#random-wise-saying)
+- Calendar > [캘린더 바로가기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#calendar)
+- Timetable  > [타임테이블 바로가기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#timetable)
+- Diary  > [다이어리 바로가기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#diary)
+- Attendance Check & Attendance Rate  > [출석체크 & 출석률 바로가기](https://github.com/kimsumin-creat/MakeYouStudy-Fuction-Explain/blob/master/README.md#attendance-check--attendance-rate)
  
  
 ###  4. 평가요소
-- 차별성  [차별성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%B0%A8%EB%B3%84%EC%84%B1)
-- 실용성  [실용성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%A4%EC%9A%A9%EC%84%B1)  
-- 시장성  [시장성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%9C%EC%9E%A5%EC%84%B15)
+- 차별성  > [차별성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%B0%A8%EB%B3%84%EC%84%B1)
+- 실용성  > [실용성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%A4%EC%9A%A9%EC%84%B1)  
+- 시장성  > [시장성 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EC%8B%9C%EC%9E%A5%EC%84%B15)
 
 ###  5. 수익화 방안  
-[수익화방안 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#5-%EC%88%98%EC%9D%B5%ED%99%94-%EB%B0%A9%EC%95%88-1)
+> [수익화방안 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#5-%EC%88%98%EC%9D%B5%ED%99%94-%EB%B0%A9%EC%95%88-1)
 ### 6. 기대효과
-[기대효과 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#6-%EA%B8%B0%EB%8C%80%ED%9A%A8%EA%B3%BC-1)
+> [기대효과 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#6-%EA%B8%B0%EB%8C%80%ED%9A%A8%EA%B3%BC-1)
 ### 7. 결론
-[결론 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#7-%EA%B2%B0%EB%A1%A0-1
+> [결론 바로가기](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#7-%EA%B2%B0%EB%A1%A0-1
 )
 
 #  1. 소개
