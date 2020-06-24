@@ -369,7 +369,9 @@ FirebaseUser currentUser = mAuth.getCurrentUser();
 ## 파이어베이스 realtime database
 
 
-#### 데이터베이스 권한 설정
+
+### 데이터베이스 권한 설정
+
 
 데이터를 읽고 ,쓰기 위해서 권한을 설정 해야 한다.
 
