@@ -204,7 +204,7 @@ Make You Study는 출석체크를 통해 책상에 앉아 공부를 시작할 �
 
 
 다음은 Make You Study의 시연영상이다.
-> [Make You Study의 시연영상](링크)
+> [Make You Study의 시연영상](https://youtu.be/fFYOpKca4wU)
 
 <br>
 
