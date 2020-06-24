@@ -318,7 +318,7 @@ Android용 Facebook SDK 다운로드는 생략 하고 순서대로 진행한다.
 
 ![22](https://user-images.githubusercontent.com/62867182/85455646-139fec80-b5d9-11ea-8ad9-88c459a7c2dc.PNG)
  
- 앱 ID와 앱 시크릿 코드는 파이어베이스 페이스북 로그인 활성화에 사용된다. 파이어베이스 페이스북 로그인method에 붙려 넣기를 진행한다.
+ 앱 ID와 앱 시크릿 코드는 파이어베이스 페이스북 로그인 활성화에 사용된다. 파이어베이스 페이스북 로그인method에 붙여 넣기를 진행한다.
 
 <br>
 
