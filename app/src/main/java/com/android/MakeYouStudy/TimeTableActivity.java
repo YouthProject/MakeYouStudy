@@ -212,8 +212,6 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
     public void AddAlarm(String json){
 
         int alarmCount = 0; // Alarm의 requestcode확인을 위한 변수
-        // 시간 설정
-        Calendar calendar = Calendar.getInstance();
         // timetable_checked의 Total값 초기화
         initDaysTotal();
         // json parse
@@ -248,30 +246,33 @@ public class TimeTableActivity extends AppCompatActivity implements View.OnClick
                 // database timetable_checked에 요일별로 total값을 계산해준다.
                 days[obj3.get("day").getAsInt()]++;
 
+                // 시간 설정
+                Calendar calendar = Calendar.getInstance();
                 calendar.set(Calendar.HOUR_OF_DAY, obj4.get("hour").getAsInt());
                 calendar.set(Calendar.MINUTE, obj4.get("minute").getAsInt());
                 calendar.set(Calendar.SECOND, 0);
                 // 현재시간보다 이전이면 계속 알람이 울리는 문제를 해결
-                if (!calendar.before(Calendar.getInstance())){
-                    // Receiver 설정
-                    Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
-                    intent.putExtra("weekday", obj3.get("day").getAsInt());
-                    intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
-                    intent.putExtra("reqCode", i);
-                    pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
-                    // 알람 설정, API 별로 alarmManger.set 함수 구별
-                    if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
-                        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
-                            // API 19이상 API 23미만
-                            alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                        }else{
-                            // API 19미만
-                            alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
-                        }
+                if (calendar.before(Calendar.getInstance())){
+                    calendar.add(Calendar.DATE, 1);
+                }
+                // Receiver 설정
+                Intent intent = new Intent(getApplicationContext(), AlarmReceiver.class);
+                intent.putExtra("weekday", obj3.get("day").getAsInt());
+                intent.putExtra("state", "on"); // state 값이 on 이면 알람시작, off 이면 중지, day는 Receiver에서 구분
+                intent.putExtra("reqCode", i);
+                pendingIntent = PendingIntent.getBroadcast(getApplicationContext(), i, intent, PendingIntent.FLAG_CANCEL_CURRENT);
+                // 알람 설정, API 별로 alarmManger.set 함수 구별
+                if(Build.VERSION.SDK_INT < Build.VERSION_CODES.M){
+                    if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT){
+                        // API 19이상 API 23미만
+                        alarmManager.setExact(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                     }else{
-                        // API 23이상
-                        alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
+                        // API 19미만
+                        alarmManager.set(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                     }
+                }else{
+                    // API 23이상
+                    alarmManager.setExactAndAllowWhileIdle(AlarmManager.RTC_WAKEUP, calendar.getTimeInMillis(), pendingIntent);
                 }
             }
         }

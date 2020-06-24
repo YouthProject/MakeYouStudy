@@ -56,7 +56,7 @@ public class AlarmService extends Service {
 
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, channelId);
                 Notification notification = builder.setOngoing(true)
-                        .setSmallIcon(R.mipmap.ic_launcher)
+                        .setSmallIcon(R.mipmap.ic_launcher_mys_foreground)
                         .setContentIntent(pendingIntent) // display overlay permission을 허용하지 않았을 때를 대비
                         .build();
 

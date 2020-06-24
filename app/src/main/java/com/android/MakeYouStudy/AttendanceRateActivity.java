@@ -126,6 +126,7 @@ public class AttendanceRateActivity extends AppCompatActivity {
                     yLAxis.setDrawLabels(false);
                     yLAxis.setDrawAxisLine(false);
                     yLAxis.setAxisMaximum(100f);
+                    yLAxis.setAxisMinimum(0f);
 
                     // X축 설정
                     xAxis.setPosition(XAxis.XAxisPosition.BOTTOM_INSIDE); // x값 표시 위치
