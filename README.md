@@ -60,7 +60,9 @@
 - 안드로이드 스튜디오 3.4.0 이상의 버전
 >[Android Studio Download] ([http://developer.android.com/studio/index.html](http://developer.android.com/studio/index.html))
 - API: 21이상
-- **openCV의 사용을 위한 NDK, CMake 설치**
+- **openCV의 사용을 위한 NDK, CMake 설치**<br>
+  NDK Version   : 20.0.5594570<br>
+  CMake Version : 3.10.2.4988404
 
 
 ## 필수 설치 사항
@@ -546,11 +548,12 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 수익화는 어플을 유지하고 보수하기위해 필수적이다. 그래서 우리 Make You Study는 앱 제품 내부에 광고를 게재하여 수익을 얻을 것이다.
 
 
-우선, 앱마켓에 등록을 하고 무료로 배포한다. 그 후, 캘린더 하단에 배너광고를 넣을 것이다.
+우선, 앱마켓에 등록을 하고 무료로 배포한다. 그 후, 앱 하단에 배너광고를 넣을 것이다.
 
 내부광고는 보급 수량이 광고수익모델의 성패를 좌우하므로 대량보급이 되어야 한다.
 
-우리 Make You Study는 공부어플로써 공부를 하는 넓은 수요층을 가질 수 있기 때문에 앱마켓에서 무료로 대량 배포한다. 초기진입장벽을 제거하여 보다 많은 사용자들에게 사용할 기회를 주고 많은 보급 수량으로 내부광고수익을 갖는다.
+우리 Make You Study는 공부어플로써 공부를 하는 넓은 수요층을 가질 수 있기 때문에 앱마켓에서 무료로 대량 배포한다.<br>
+초기진입장벽을 제거하여 보다 많은 사용자들에게 사용할 기회를 주고 많은 보급 수량으로 내부광고수익을 갖는다.
 
 아래 그림은 수익화 예시 그림이다.
 
