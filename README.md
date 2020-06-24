@@ -377,7 +377,7 @@ FirebaseUser currentUser = mAuth.getCurrentUser();
 ### 데이터베이스 권한 설정
 
 
-데이터를 읽고 ,쓰기 위해서 권한을 설정 해야 한다.
+데이터를 읽고 ,쓰기 위해서 권한을 설정 
 
 ![realtime 규칙](https://user-images.githubusercontent.com/62867182/85529224-cdce3d00-b647-11ea-8c57-702a5b766ab0.PNG)
 
@@ -448,7 +448,7 @@ private  void writeNewUser(String userId,  String name,  String email)  {
 ##  Storage 권한설정
 
 
- 데이터를 Storage에 읽고, 쓰기 위해서 권한은 설정
+ 데이터를 Storage에 읽고, 쓰기 위해서 권한을 설정
  
 ![storage 규칙](https://user-images.githubusercontent.com/62867182/85529766-5d73eb80-b648-11ea-8d3d-2dfb1fd38c81.PNG)
 
