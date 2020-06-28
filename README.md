@@ -520,13 +520,12 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 사람들은 초등학생부터 성인이 되고 난 후에도 자신의 미래 혹은 자기계발을 하기 위해 끊임없이 공부한다. 하지만 사람들은 스스로 다짐하고 실천으로 옮길려고 해도 공부하는 습관을 기르기는 생각보다 어렵다.
 이 어플리케이션은 출석체크, 공부 명언, Calendar, Timetable, Diary 등 다양한 기능들을 통해서 습관을 기르고 계획적으로 공부를 할 수 있어 공부를 하는 사람들에게 유용하게 자주 쓰일 것이다.
 
-또한 실용성을 입증하기위해서 앱스토어에 MakeYouStudy를 등록하였다. 등록한 후 사람들이 유용하게 자주 쓰인다는 것을 어플의 다운로드 수로 입증할 예정이였다.
+또한 실용성을 입증하기위해서 앱스토어에 MakeYouStudy를 등록하였다. 등록한 후 사람들이 유용하게 자주 쓰인다는 것을 어플의 다운로드 수로 입증할 예정이다.
 
-하지만 현재 "코로나19" 로 인하여 앱스토어에 등록하는 시간이 길어지고 있어 이부분은 보여주지 못하였다.
-아래는 앱스토어에 등록을 요청한 상태임을 알려주는 사진이다.
+다음은 MakeYouStudy의 PlayStore 링크이다.
+> [](https://play.google.com/store/apps/details?id=com.youth.MakeYouStudy)
 
-![앱스토어 등록](https://user-images.githubusercontent.com/62635984/85518966-c99c2280-b63b-11ea-8197-69a1cb1741df.png)
-
+![mysplaystore](https://user-images.githubusercontent.com/46085058/85948166-4c014b00-b98a-11ea-8aa1-0e72eed8fde7.PNG)
 
 
 # 6. 시장성
