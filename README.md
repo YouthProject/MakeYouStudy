@@ -523,7 +523,7 @@ uploadTask.addOnFailureListener(new  OnFailureListener()  {  @Override  public  
 또한 실용성을 입증하기위해서 앱스토어에 MakeYouStudy를 등록하였다. 등록한 후 사람들이 유용하게 자주 쓰인다는 것을 어플의 다운로드 수로 입증할 예정이다.
 
 다음은 MakeYouStudy의 PlayStore 링크이다.
-> [](https://play.google.com/store/apps/details?id=com.youth.MakeYouStudy)
+> [MakeYouStudy-PlayStore](https://play.google.com/store/apps/details?id=com.youth.MakeYouStudy)
 
 ![mysplaystore](https://user-images.githubusercontent.com/46085058/85948166-4c014b00-b98a-11ea-8aa1-0e72eed8fde7.PNG)
 
