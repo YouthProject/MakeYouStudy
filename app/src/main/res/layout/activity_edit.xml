@@ -25,21 +25,21 @@
 
         <EditText
             android:id="@+id/subject_edit"
-            android:layout_width="390dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="Subject" />
 
         <EditText
             android:id="@+id/classroom_edit"
-            android:layout_width="390dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="Classroom" />
 
         <EditText
             android:id="@+id/professor_edit"
-            android:layout_width="390dp"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_gravity="center"
             android:hint="Memo" />

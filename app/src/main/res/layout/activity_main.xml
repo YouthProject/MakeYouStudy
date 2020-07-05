@@ -9,23 +9,26 @@
     android:background="#F7E3C3">
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="60dp"
+        android:layout_height="55dp"
         android:orientation="horizontal">
 
         <ImageView
             android:id="@+id/result"
-            android:layout_width="355dp"
-            android:layout_height="match_parent"
-            android:background="@drawable/app_name" />
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
+            android:background="@drawable/app_name"
+            android:layout_weight="1" />
 
         <Button
 
             android:id="@+id/buttonProfile"
-            android:layout_width="55dp"
-            android:layout_height="55dp"
+            android:layout_width="wrap_content"
+            android:layout_height="50dp"
             android:background="@drawable/ic_profile"
-            android:text="" />
+            android:text=""
+            android:layout_weight="6"/>
     </LinearLayout>
+
 
     <ImageView
         android:id="@+id/good"
@@ -35,7 +38,7 @@
         />
 
     <LinearLayout
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="100dp"
         android:orientation="horizontal"
         android:layout_gravity="center"
@@ -43,33 +46,37 @@
 
         <Button
             android:id="@+id/buttonCalendar"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
-            android:background="@drawable/ic_calendar2" />
+            android:background="@drawable/ic_calendar2"
+            android:layout_weight="1"/>
 
         <Button
             android:id="@+id/buttonTimeTable"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
             android:background="@drawable/ic_timetable"
+            android:layout_weight="1"
             />
 
         <Button
             android:id="@+id/buttonDiary"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
             android:background="@drawable/ic_diary"
+            android:layout_weight="1"
             />
 
         <Button
             android:id="@+id/buttonAttendance"
-            android:layout_width="100dp"
+            android:layout_width="wrap_content"
             android:layout_height="match_parent"
             android:text=""
             android:background="@drawable/ic_rate"
+            android:layout_weight="1"
             />
 
     </LinearLayout>
