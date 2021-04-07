@@ -122,7 +122,7 @@ public class SignUpActivity extends AppCompatActivity  {
                             Intent intent=new Intent(getApplicationContext(),MainActivity.class);
                             startActivity(intent);
                             String cu = firebaseAuth.getUid();
-                            userinfo userdata = new userinfo(email, password);
+                            userinfo userdata = new userinfo(email);
                             mDatabase.child("users").child(cu).setValue(userdata);
                             finish();
                         } else {
