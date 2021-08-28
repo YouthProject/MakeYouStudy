@@ -3,6 +3,10 @@
 ![MYS로고](https://user-images.githubusercontent.com/62635984/85444064-ea795f00-b5cc-11ea-817e-ebf4610dc6f9.png)
 
 
+>🏆 교내 프라임 경진대회 **최우수상** 수상 🏆
+
+<br>
+
 #  목차
 * ### [다운받기 전 필요한 부분](https://github.com/JJinTae/MakeYouStudy/blob/master/README.md#%EB%8B%A4%EC%9A%B4%EB%B0%9B%EA%B8%B0-%EC%A0%84-%ED%95%84%EC%9A%94%ED%95%9C-%EB%B6%80%EB%B6%84-1)
 	 ### : OpenCV를 사용하기 위한 필수 설치 사항
